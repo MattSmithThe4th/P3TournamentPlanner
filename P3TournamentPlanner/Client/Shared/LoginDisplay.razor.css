@@ -6,15 +6,20 @@
     --Penta_Lilla: #9869B0;
 }
 
-a {
-    display: block;
+.navbar a {
+    font-size: 18px;
+    display: flex;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 14px;
     text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #bbb;
+    transition: background-color 0.4s ease;
 }
 
 /* Change the link color to #111 (black) on hover */
 a:hover {
-    background-color: #4E166A;
+    background-color: #9869B0;
 }
