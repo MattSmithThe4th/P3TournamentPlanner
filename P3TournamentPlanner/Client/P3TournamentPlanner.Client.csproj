@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Shared\P3TournamentPlanner.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\NewFolder\" />
+  </ItemGroup>
+
 </Project>
