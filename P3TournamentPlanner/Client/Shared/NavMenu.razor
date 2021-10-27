@@ -1,4 +1,26 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿<div class="navbar">
+    <a href="">Home</a>
+    <div class="dropdown">
+        <button class="dropbtn">Ligaer</button>
+        <div class="dropdown-content">
+            <a href="ligaer">CS:GO</a>
+        </div>
+    </div>
+    <a href="hold">Hold</a>
+    <LoginDisplay>
+    </LoginDisplay>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Gamle Navbar
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">P3TournamentPlanner</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -24,14 +46,8 @@
         </li>
     </ul>
 </div>
+-->
 
-@code {
-    private bool collapseNavMenu = true;
+@code{
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
 }
