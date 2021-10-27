@@ -5,7 +5,27 @@ namespace P3TournamentPlanner.Shared {
         public string name;
         public List<Player> playerList;
         public int teamSkillRating;
+        public ClubManager Manager;
+
+        //stillings ting
         public int placement;
-        public ClubManager clubManager;
+        public int matchesPlayed;
+        public int matchesWon;
+        public int matchesDraw;
+        public int matchesLost;
+        public int points;
+
+
+
+        public Team(string name, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int points) {
+            this.name = name;
+
+            this.placement = placement;
+            this.matchesPlayed = matchesPlayed;
+            this.matchesWon = matchesWon;
+            this.matchesDraw = matchesDraw;
+            this.matchesLost = matchesLost;
+            this.points = points;
+        }
     }
 }
