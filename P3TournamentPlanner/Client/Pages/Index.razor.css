@@ -7,6 +7,11 @@
     display: flex;
 }
 
+.main-container img {
+    width: 400px;
+    border-radius: 20px;
+}
+
 .container{
     margin: 0 2em;
 }
@@ -17,6 +22,7 @@
 }
 
 .container h3 {
+    display: block;
     margin-top: 3em;
     padding: 0;
 }
@@ -25,6 +31,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center; 
+}
+
+.img-div-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
 }
 
 h1 {
@@ -32,6 +46,19 @@ h1 {
     padding: 0;
 }
 
-img {
-    border-radius: 20px;
+@media only screen and (max-width: 1111px) {
+    .main-container {
+        margin-top: 7em;
+        flex-direction: column-reverse;
+    }
+
+    .container {
+        margin: 2em 0;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .img-div-2 {
+        display: none;
+    }
 }
