@@ -14,6 +14,8 @@ namespace P3TournamentPlanner.Server.Controllers {
         [HttpGet]
         public List<Team> Get(string league, int division) {
             Console.WriteLine("Get Recieved!");
+            Console.WriteLine("league: " + league);
+            Console.WriteLine("division: " + division);
             List<Team> teamList = new List<Team>();
             //Læs parametre få at finde liga/division
             //Aflæs alle hold i denne division fra databasen
@@ -24,6 +26,11 @@ namespace P3TournamentPlanner.Server.Controllers {
             teamList.Add(new Team("Team 3", 3, 5, 0, 1, 5, 1));
 
             // --------------- End --------------------
+
+            foreach (Team t in teamList) {
+                Console.WriteLine(t.name);
+            }
+
             return teamList;
         }
 
