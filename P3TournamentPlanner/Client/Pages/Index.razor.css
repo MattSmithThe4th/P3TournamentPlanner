@@ -27,6 +27,23 @@
     padding: 0;
 }
 
+.btn-link {
+    margin: auto;
+    color: white;
+    background-color: var(--main-lilla);
+    transform: translateY(-400%);
+    margin: auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: solid 1px white;
+    font-size: 20px;
+}
+
+.btn-link:hover {
+    cursor: pointer;
+    background-color: var(--penta-lilla);
+}
+
 .img-div {
     display: flex;
     flex-direction: column;
@@ -41,9 +58,11 @@
     text-align: center;
 }
 
-h1 {
+.img-div h1 {
     margin: 0;
     padding: 0;
+    transform: translateY(-500%);
+    font-size: 35px;
 }
 
 @media only screen and (max-width: 1111px) {

@@ -5,11 +5,11 @@
 }
 
 :root {
-    --Main_Lilla: 642882;
-    --Second_Lilla: 4E166A;
-    --Trio_Lilla: 36054F;
-    --Quad_Lilla: 794195;
-    --Penta_Lilla: 9869B0;
+    --main-lilla: #642882;
+    --second-lilla: #4E166A;
+    --trio-lilla: #36054F;
+    --quad-lilla: #794195;
+    --penta-lilla: #9869B0;
 }
 
 html, body {
@@ -64,13 +64,18 @@ a, .btn-link {
 }
 
 .img-div {
+
+}
+
+.img-div:before {
+    content: "";
     background-image: url("../images/NordjyskligaCover2.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     height: 500px;
     border-radius: 20px;
-    background-color: hsla(0, 0%, 100%, 0.5);
+    opacity: .5;
 }
 
 /* For mobile phones: */
