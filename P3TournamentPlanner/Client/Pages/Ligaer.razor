@@ -1,6 +1,7 @@
 ﻿@using P3TournamentPlanner.Shared;
 @using System;
 @using System.Collections.Generic;
+@inject HttpClient Http
 @page "/ligaer"
 <h3>Ligaer</h3>
 <section class="main">
@@ -9,7 +10,7 @@
         <p id="text_1">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
     </div>
 </section>
-<button @onclick="Add">Add</button>
+<!--<button @onclick="Add">Add</button>-->
 <section class="table_container">
     <div class="table_menu">
         <button>Stilling</button>
@@ -36,18 +37,18 @@
             </tr>
         </thead>
         <tbody>
-            @foreach( Team team in teams)
+            @foreach (Team team in teams)
             {
-            <tr>
-                <td>1</td>
-                <td>@team.Navn</td>
-                <td>10</td>
-                <td>10</td>
-                <td>10</td>
-                <td>10</td>
-                <td>10</td>
-                <td>10</td>
-            </tr>
+                <tr>
+                    <td>1</td>
+                    <td>@team.name</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                </tr>
             }
         </tbody>
     </table>
@@ -56,17 +57,12 @@
 
 
 
-@code {      
+@code {
     List<Team> teams = new List<Team>();
 
-    public void Add()
+    protected override async Task OnInitializedAsync()
     {
-        Team _team1 = new Team("Hold 1");
-        Team _team2 = new Team("Hold 2");
-        Team _team3 = new Team("Hold 3");
-
-        teams.Add(_team1);
-        teams.Add(_team2);
-        teams.Add(_team3);
+        Console.WriteLine("Get Send");
+        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling");
     }
 }
