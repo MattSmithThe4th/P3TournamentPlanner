@@ -5,7 +5,7 @@ namespace P3TournamentPlanner.Shared {
         public string name;
         public List<Player> playerList;
         public int teamSkillRating;
-        public ClubManager Manager;
+        public ClubManager manager;
 
         //stillings ting
         public int placement;

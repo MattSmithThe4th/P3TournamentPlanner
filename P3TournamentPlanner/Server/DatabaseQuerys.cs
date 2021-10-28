@@ -1,8 +1,9 @@
 ﻿using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace P3TournamentPlanner.Server {
     public class DatabaseQuerys {
-        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TourneyTest;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=GeneralDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public void RunQuery(string query)
         {
             using(SqlConnection connection = new SqlConnection(connectionString))
@@ -14,7 +15,7 @@ namespace P3TournamentPlanner.Server {
             }
         }
 
-        public T SelectQuery<T>(string query)
+        public T SelectQuery<T>(string query, string col)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -25,7 +26,7 @@ namespace P3TournamentPlanner.Server {
                 {
                     while(reader.Read())
                     {
-                        T eksempel = (T)reader["playerName"];
+                        T eksempel = (T)reader[col];
                         return eksempel;
                     }   
                 }
@@ -35,6 +36,24 @@ namespace P3TournamentPlanner.Server {
                 }
             }
             return default(T);
+        }
+
+        public DataTable PullTable(string quary) {
+
+            DataTable table = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(quary, connection);
+                connection.Open();
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(table);
+                connection.Close();
+                da.Dispose();
+                return table;
+            }
+
         }
     }
 }
