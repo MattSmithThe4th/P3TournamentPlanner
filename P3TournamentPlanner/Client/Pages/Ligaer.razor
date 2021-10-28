@@ -13,6 +13,7 @@
 <!--<button @onclick="Add">Add</button>-->
 <section class="table_container">
     <div class="table_menu">
+        <button @onclick="@test">Dette er en knap</button>
         <button>Stilling</button>
         <button>Kampe</button>
         <button>Resultater</button>
@@ -37,18 +38,25 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Team team in teams)
+            @if (teams == null)
             {
-                <tr>
-                    <td>1</td>
-                    <td>@team.name</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                </tr>
+                <p>Loading</p>
+            }
+            else
+            {
+                @foreach (Team team in teams)
+                {
+                    <tr>
+                        <td>1</td>
+                        <td>@team.name</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -64,5 +72,14 @@
     {
         Console.WriteLine("Get Send");
         teams = await Http.GetFromJsonAsync<List<Team>>("Stilling");
+        Console.WriteLine(teams);
+    }
+
+    public void test()
+    {
+        foreach(Team t in teams)
+        {
+            Console.WriteLine(t.name);
+        }
     }
 }

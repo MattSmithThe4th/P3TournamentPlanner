@@ -3,25 +3,26 @@ using System.Collections.Generic;
 
 namespace P3TournamentPlanner.Shared {
     public class Team {
-        public string name;
-        public List<Player> playerList;
-        public int teamSkillRating;
-        public ClubManager manager;
+        public string name { get; set; }
+        public List<Player> playerList { get; set; }
+        public int teamSkillRating { get; set; }
+        public ClubManager manager { get; set; }
 
         //stillings ting
-        public int placement;
-        public int matchesPlayed;
-        public int matchesWon;
-        public int matchesDraw;
-        public int matchesLost;
-        public int points;
+        public int placement { get; set; }
+        public int matchesPlayed { get; set; }
+        public int matchesWon { get; set; }
+        public int matchesDraw { get; set; }
+        public int matchesLost { get; set; }
+        public int points { get; set; }
 
         public Team(string name)
         {
             this.name = name;
         }
 
-        public Team(string name, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int points) {
+        public Team(string name, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int points)
+        {
             this.name = name;
 
             this.placement = placement;
@@ -31,6 +32,5 @@ namespace P3TournamentPlanner.Shared {
             this.matchesLost = matchesLost;
             this.points = points;
         }
-        public string Navn { get; set; }
     }
 }

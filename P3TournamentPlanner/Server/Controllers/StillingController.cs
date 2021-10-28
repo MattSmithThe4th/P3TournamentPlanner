@@ -13,10 +13,12 @@ namespace P3TournamentPlanner.Server.Controllers {
     public class StillingController : ControllerBase {
 
         [HttpGet]
-        public List<Team> Get(string league, int division) {
-            Console.WriteLine("Get Recieved!");
-            Console.WriteLine("league: " + league);
-            Console.WriteLine("division: " + division);
+        public List<Team> Get() {
+            //Console.WriteLine("Get Recieved!");
+            //Console.WriteLine("league: " + league);
+            //Console.WriteLine("division: " + division);
+
+            //string league, int division
 
             DatabaseQuerys db = new DatabaseQuerys();
 
