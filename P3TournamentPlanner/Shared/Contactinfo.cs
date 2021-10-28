@@ -8,7 +8,7 @@ namespace P3TournamentPlanner.Shared {
     public class Contactinfo {
         
         public string name;
-        public string tlfnr;
+        public string tlfNr;
         public string club;
         
     }
