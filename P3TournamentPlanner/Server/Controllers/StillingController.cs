@@ -14,7 +14,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
         [HttpGet]
         public List<Team> Get() {
-            //Console.WriteLine("Get Recieved!");
+            Console.WriteLine("Get Recieved!");
             //Console.WriteLine("league: " + league);
             //Console.WriteLine("division: " + division);
 
