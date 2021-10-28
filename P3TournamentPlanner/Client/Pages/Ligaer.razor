@@ -1,4 +1,7 @@
-﻿@page "/ligaer"
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@page "/ligaer"
 <h3>Ligaer</h3>
 <section class="main">
     <div id="container_1">
@@ -6,6 +9,7 @@
         <p id="text_1">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
     </div>
 </section>
+<button @onclick="Add">Add</button>
 <section class="table_container">
     <div class="table_menu">
         <button>Stilling</button>
@@ -19,72 +23,50 @@
         </select>
     </div>
     <table class="Stilling" style="width:100%">
-        <tr>
-            <th>#</th>
-            <th>Hold</th>
-            <th>K</th>
-            <th>V</th>
-            <th>U</th>
-            <th>T</th>
-            <th>Diff</th>
-            <th>Points</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Hold1</td>
-            <td>10</td>
-            <th>9</th>
-            <th>0</th>
-            <th>1</th>
-            <th>20</th>
-            <th>18</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Hold2</td>
-            <td>10</td>
-            <th>9</th>
-            <th>0</th>
-            <th>1</th>
-            <th>20</th>
-            <th>18</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Hold3</td>
-            <td>10</td>
-            <th>9</th>
-            <th>0</th>
-            <th>1</th>
-            <th>20</th>
-            <th>18</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Hold4</td>
-            <td>10</td>
-            <th>9</th>
-            <th>0</th>
-            <th>1</th>
-            <th>20</th>
-            <th>18</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Hold5</td>
-            <td>10</td>
-            <th>9</th>
-            <th>0</th>
-            <th>1</th>
-            <th>20</th>
-            <th>18</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Hold</th>
+                <th>K</th>
+                <th>V</th>
+                <th>U</th>
+                <th>T</th>
+                <th>Diff</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach( Team team in teams)
+            {
+            <tr>
+                <td>1</td>
+                <td>@team.Navn</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+            </tr>
+            }
+        </tbody>
     </table>
 </section>
 
 
 
 
-@code {
+@code {      
+    List<Team> teams = new List<Team>();
 
+    public void Add()
+    {
+        Team _team1 = new Team("Hold 1");
+        Team _team2 = new Team("Hold 2");
+        Team _team3 = new Team("Hold 3");
+
+        teams.Add(_team1);
+        teams.Add(_team2);
+        teams.Add(_team3);
+    }
 }
