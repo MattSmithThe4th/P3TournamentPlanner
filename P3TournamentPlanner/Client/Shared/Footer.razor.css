@@ -1,0 +1,49 @@
+﻿:root {
+    --Main_Lilla: #642882;
+    --Second_Lilla: #4E166A;
+    --Trio_Lilla: #36054F;
+    --Quad_Lilla: #794195;
+    --Penta_Lilla: #9869B0;
+}
+
+.footer {
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.icon-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.frame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5em;
+}
+
+.icon-list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    list-style-type: none;
+}
+
+.icon {
+    margin: 0 5em 0 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 900px) {
+    .footer {
+        flex-direction: column;
+    }
+}

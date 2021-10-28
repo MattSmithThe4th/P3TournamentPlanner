@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace P3TournamentPlanner.Shared {
     public class Team {
@@ -27,5 +28,6 @@ namespace P3TournamentPlanner.Shared {
             this.matchesLost = matchesLost;
             this.points = points;
         }
+        public string Navn { get; set; }
     }
 }
