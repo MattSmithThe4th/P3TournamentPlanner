@@ -1,62 +1,86 @@
-.navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
+.navbar {
+    justify-content: flex-start;
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
 }
 
-.top-row {
-    height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+.link-1st {
+    border-left: 1px solid #bbb;
 }
 
-.navbar-brand {
-    font-size: 1.1rem;
-}
-
-.oi {
-    width: 2rem;
-    font-size: 1.1rem;
-    vertical-align: text-top;
-    top: -2px;
-}
-
-.nav-item {
-    font-size: 0.9rem;
-    padding-bottom: 0.5rem;
-}
-
-    .nav-item:first-of-type {
-        padding-top: 1rem;
-    }
-
-    .nav-item:last-of-type {
-        padding-bottom: 1rem;
-    }
-
-    .nav-item ::deep a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
-
-.nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.25);
+.link {
+    font-size: 18px;
+    display: flex;
     color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #bbb;
 }
 
-.nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+    border-right: 1px solid #bbb;
+}
+
+.dropdown .dropbtn {
+    font-size: 18px;
+    border: none;
+    outline: none;
     color: white;
+    padding: 14px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+
 }
 
-@media (min-width: 641px) {
-    .navbar-toggler {
-        display: none;
-    }
+.navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: var(--penta-lilla);
+    transition: background-color 0.4s ease;
+}
 
-    .collapse {
-        /* Never collapse the sidebar for wide screens */
-        display: block;
-    }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--main-lilla);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    border: none;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--penta-lilla);
+    transition: background-color 0.4s ease;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+img {
+    margin: 0;
+    padding: 0;
 }
