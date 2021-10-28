@@ -16,7 +16,10 @@ namespace P3TournamentPlanner.Shared {
         public int matchesLost;
         public int points;
 
-
+        public Team(string name)
+        {
+            this.name = name;
+        }
 
         public Team(string name, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int points) {
             this.name = name;
