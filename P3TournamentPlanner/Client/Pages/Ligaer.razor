@@ -13,7 +13,6 @@
 <!--<button @onclick="Add">Add</button>-->
 <section class="table_container">
     <div class="table_menu">
-        <button @onclick="@test">Dette er en knap</button>
         <button>Stilling</button>
         <button>Kampe</button>
         <button>Resultater</button>
@@ -74,13 +73,5 @@
         teams = await Http.GetFromJsonAsync<List<Team>>("Stilling");
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
-    }
-
-    public void test()
-    {
-        foreach(Team t in teams)
-        {
-            Console.WriteLine(t.name);
-        }
     }
 }
