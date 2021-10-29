@@ -3,10 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P3TournamentPlanner.Server", "Server\P3TournamentPlanner.Server.csproj", "{1606D0FB-56D2-46E8-94DC-730F17086BF8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P3TournamentPlanner.Client", "Client\P3TournamentPlanner.Client.csproj", "{0F404A3C-E5D6-4C97-9E9F-716A198BAEED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P3TournamentPlanner.Shared", "Shared\P3TournamentPlanner.Shared.csproj", "{22394F64-6F91-449C-A5BC-EC70C6F94CE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1606D0FB-56D2-46E8-94DC-730F17086BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1606D0FB-56D2-46E8-94DC-730F17086BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1606D0FB-56D2-46E8-94DC-730F17086BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1606D0FB-56D2-46E8-94DC-730F17086BF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F404A3C-E5D6-4C97-9E9F-716A198BAEED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F404A3C-E5D6-4C97-9E9F-716A198BAEED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F404A3C-E5D6-4C97-9E9F-716A198BAEED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F404A3C-E5D6-4C97-9E9F-716A198BAEED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22394F64-6F91-449C-A5BC-EC70C6F94CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22394F64-6F91-449C-A5BC-EC70C6F94CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22394F64-6F91-449C-A5BC-EC70C6F94CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22394F64-6F91-449C-A5BC-EC70C6F94CE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
