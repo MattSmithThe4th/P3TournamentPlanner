@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using P3TournamentPlanner.Shared;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("[controller]")]
@@ -13,10 +14,10 @@ namespace P3TournamentPlanner.Server.Controllers {
     public class StillingController : ControllerBase {
 
         [HttpGet]
-        public List<Team> Get() {
+        public List<Team> Get(string league, int division) {
             Console.WriteLine("Get Recieved!");
-            //Console.WriteLine("league: " + league);
-            //Console.WriteLine("division: " + division);
+            Console.WriteLine("league: " + league);
+            Console.WriteLine("division: " + division);
 
             //string league, int division
 
@@ -60,15 +61,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             foreach (Team t in teamList) {
                 Console.WriteLine(t.name);
             }
-
             return teamList;
         }
-
-
-
-
-
-
-
     }
 }

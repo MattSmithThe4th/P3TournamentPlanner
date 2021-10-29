@@ -1,6 +1,8 @@
 ﻿@using P3TournamentPlanner.Shared;
 @using System;
 @using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@attribute [AllowAnonymous]
 @inject HttpClient Http
 @page "/ligaer"
 <h3>Ligaer</h3>
