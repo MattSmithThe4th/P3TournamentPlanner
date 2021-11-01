@@ -1,0 +1,73 @@
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+    <div id="DivisionSelect">
+        <InputSelect id="divisioner" @bind-Value="division">
+            <option value="1">Division1</option>
+            <option value="2">Division2</option>
+            <option value="3">Division3</option>
+            <option value="4">Division4</option>
+        </InputSelect>
+    </div>
+
+<table class="Stilling" style="width:100%">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Hold</th>
+            <th>K</th>
+            <th>V</th>
+            <th>U</th>
+            <th>T</th>
+            <th>Diff</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (teams == null)
+        {
+            <p>Loading</p>
+        }
+        else
+        {
+            @foreach (Team team in teams)
+            {
+                <tr>
+                    <td>@team.placement</td>
+                    <td>@team.name</td>
+                    <td>@team.matchesPlayed</td>
+                    <td>@team.matchesWon</td>
+                    <td>@team.matchesDraw</td>
+                    <td>@team.matchesLost</td>
+                    <td>-----</td>
+                    <td>@team.points</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<button>test</button>
+
+@code {
+    List<Team> teams = new List<Team>();
+    int division = 1;
+    string testLeague = "testLeague";
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        HttpClient Client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+
+        Client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league"+ testLeague + "&division=" + division);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(teams);
+    }
+    
+
+
+}
