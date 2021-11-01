@@ -13,6 +13,9 @@ namespace P3TournamentPlanner.Server.Controllers {
     [ApiController]
     public class StillingController : ControllerBase {
 
+        //Runs when a get request is send to /Stilling. It creates a list of teams in the given league and division,
+        //based on data in the database. This list is then send as response, as a json.
+        //[AllowAnonymous]
         [HttpGet]
         public List<Team> Get(string league, int division) {
             Console.WriteLine("Get Recieved!");

@@ -58,6 +58,8 @@ namespace P3TournamentPlanner.Server
                     policy => policy.RequireRole("ClubManager"));
             });
 
+            services.AddHttpClient("ServerAPI.NoAuthenticationClient");
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
