@@ -1,10 +1,11 @@
-﻿
+﻿@using P3TournamentPlanner.Shared; 
+@using System;
 @using System.Collections.Generic;
 @inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
 @page "/hold"
 <h3>Hold</h3>
 
-<button class="btn btn-primary" @onclick="test1">Click me</button>
 <table class="tableStyling">
     <tr>
         <th>Navn</th>
@@ -42,22 +43,18 @@
     Team team3 = new Team("Team3", "Address3", "Contact3", "Divison3");
     List<Team> teams = new List<Team>();
 
-
-
-    string lol = "1";
-    private void test1()
+    protected override async Task OnInitializedAsync()
     {
         teams.Add(team1);
         teams.Add(team2);
         teams.Add(team3);
-    }
-    /*
-    protected override async Task OnInitializedAsync()
-    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
         Console.WriteLine("Get Send");
         teams = await Http.GetFromJsonAsync<List<Team>>("Stilling");
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
     }
-    */
+
 }
