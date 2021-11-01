@@ -67,6 +67,12 @@ a, .btn-link {
 
 }
 
+tableStyling {
+    font-size: 0.9em;
+    font-family: sans-serif;
+    width: 100%;
+}
+
 .img-div:before {
     content: "";
     background-image: url("../images/NordjyskligaCover2.jpg");
