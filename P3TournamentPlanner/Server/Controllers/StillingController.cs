@@ -50,7 +50,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             //strArr = db.SelectQuery<string>("select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = 1337", "teamName");
 
-            dt = db.PullTable("select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = " + division);
+            dt = db.PullTable("select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = " + division + " and leagueID = '" + league + "'");
 
             foreach(DataRow r in dt.Rows)
             {
