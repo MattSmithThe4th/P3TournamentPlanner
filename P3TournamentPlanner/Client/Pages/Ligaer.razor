@@ -22,24 +22,3 @@
     </div>
     <StillingTable />
 </section>
-
-
-
-
-@code {
-        List<Team> teams = new List<Team>();
-        int division = 4;
-        string liga = "lml";
-
-    protected override async Task OnInitializedAsync()
-    {
-        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
-        client.BaseAddress = new Uri("https://localhost:44341/");
-
-        Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("Stilling?league="+ liga + "&division=" + division);
-        Console.WriteLine("På den anden side");
-        Console.WriteLine(teams);
-    }
-
-}

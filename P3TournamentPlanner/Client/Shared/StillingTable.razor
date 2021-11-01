@@ -63,7 +63,7 @@
         Client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league"+ testLeague + "&division=" + division);
+        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league="+ testLeague + "&division=" + division);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
     }
