@@ -1,0 +1,142 @@
+﻿@using System.Collections.Generic;
+@inject HttpClient Http
+@page "/holdkampe"
+
+
+<h2>@team.TeamName - @team.TeamNumber</h2>
+
+<p>Klub: @team.TeamName</p> 
+<p>Kontaktperson: @team.ContactPerson - @team.ContactNumber</p> 
+<p>Klublokale: @team.ClubRoom - @team.ClubAddress , @team.ClubCityNumber</p> 
+
+<hr />
+<br />
+
+<table class="trainerTable">
+    <tr>
+        <th>Træner</th>
+        <th>Email</th>
+        <th>Telefon</th>
+        <th>Discord</th>
+    </tr>
+    @foreach (Trainer trainer in trainers)
+    {
+        <tr>
+            <td>@trainer.FirstName @trainer.LastName</td>
+            <td>@trainer.Email</td>
+            <td>@trainer.Phone</td>
+            <td>@trainer.Discord</td>
+        </tr>
+    }
+</table>
+
+<br />
+
+<table class="membersTable">
+    <tr>
+        <th>Navn</th>
+        <th>Username</th>
+        <th>SteamID</th>
+        <th>Rank</th>
+    </tr>
+    @foreach (TeamMember member in teammembers)
+    {
+        <tr>
+            <td>@member.FirstName @member.LastName</td>
+            <td>@member.Username</td>
+            <td>@member.SteamID</td>
+            <td>@member.Rank</td>
+        </tr>
+    }
+</table>
+
+<br />
+<hr />
+
+
+@code {
+    public class Team {
+        public string TeamName { get; set; }
+        public string TeamNumber { get; set; }
+        public string ContactPerson { get; set; }
+        public string ContactNumber { get; set; }
+        public string ClubRoom { get; set; }
+        public string ClubAddress{ get; set; }
+        public string ClubCityNumber { get; set; }
+        public Team(string teamName, string teamNumber, string contactPerson, string contactNumber, string clubRoom, string clubAddress, 
+            string clubCityNumber)
+        {
+            TeamName = teamName;
+            TeamNumber = teamNumber;
+            ContactNumber = contactNumber;
+            ContactPerson = contactPerson;
+            ClubRoom = clubRoom;
+            ClubAddress = clubAddress;
+            ClubCityNumber = clubCityNumber;
+        }
+    }
+
+    public class TeamMember {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Username { get; set; }
+        public string SteamID { get; set; }
+        public string Rank { get; set; }
+        public TeamMember(string firstName, string lastName, string username, string steamID, string rank)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Username = username;
+            SteamID = steamID;
+            Rank = rank;
+        }
+    }
+
+    public class Trainer {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Discord { get; set; }
+        public Trainer(string firstName, string lastName, string email, string phone, string discord)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Phone = phone;
+            Discord = discord;
+        }
+    }
+
+    List<TeamMember> teammembers = new List<TeamMember>();
+    List<Trainer> trainers = new List<Trainer>();
+    Team team;
+
+    void TeamInfo(){
+        team = new Team("Hobro Vikings", "Hold 1", "Kontaktperson", "12345678", "Hobro Idrætscenter", "Amerikavej 22", "9500");
+    }
+
+    void test(){
+        for (int i = 0; i < 6; i++)
+        {
+            teammembers.Add(new TeamMember($"Name{i}", $"LastName{i}", $"UN{i}", $"Steam{i}", $"Rank{i}"));
+        }
+    }
+
+    void test2(){
+        trainers.Add(new Trainer("Name", "LastName", "TestManager@gmail.com", "12345678", "DiscordName"));
+    }
+
+    protected override void OnInitialized(){
+        TeamInfo();
+        test();
+        test2();
+    }
+}
+
+
+
+
+
+
+
