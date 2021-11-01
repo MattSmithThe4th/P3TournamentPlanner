@@ -2,11 +2,11 @@
 @using System;
 @using System.Collections.Generic;
 @using Microsoft.AspNetCore.Authorization;
-@attribute [AllowAnonymous]
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inherits LayoutComponentBase
 @page "/ligaer"
+
 <h3>Ligaer</h3>
 <section class="main">
     <div id="container_1">
@@ -19,6 +19,72 @@
         <button>Stilling</button>
         <button>Kampe</button>
         <button>Resultater</button>
+
+        <div id="DivisionSelect">
+            <EditForm>
+                <InputSelect id="divisioner" @bind-Value="division" class="input-select">
+                    <option value="1">Division1</option>
+                    <option value="2">Division2</option>
+                    <option value="3">Division3</option>
+                    <option value="4">Division4</option>
+                </InputSelect>
+            </EditForm>
+        </div>
+
+        <table class="Stilling" style="width:100%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Hold</th>
+                    <th>K</th>
+                    <th>V</th>
+                    <th>U</th>
+                    <th>T</th>
+                    <th>Diff</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (teams == null)
+                {
+                    <p>Loading</p>
+                }
+                else
+                {
+                    @foreach (Team team in teams)
+                    {
+                        <tr>
+                            <td>@team.placement</td>
+                            <td>@team.name</td>
+                            <td>@team.matchesPlayed</td>
+                            <td>@team.matchesWon</td>
+                            <td>@team.matchesDraw</td>
+                            <td>@team.matchesLost</td>
+                            <td>-----</td>
+                            <td>@team.points</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
     </div>
-    <StillingTable />
 </section>
+
+@code {
+    List<Team> teams = new List<Team>();
+    int division = 1;
+    string testLeague = "testLeague";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        HttpClient Client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+
+        Client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league=" + testLeague + "&division=" + division);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(teams);
+    }
+}
