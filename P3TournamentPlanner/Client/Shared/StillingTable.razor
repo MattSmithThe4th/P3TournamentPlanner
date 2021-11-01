@@ -58,14 +58,16 @@
     
     protected override async Task OnInitializedAsync()
     {
-        //HttpClient Client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        HttpClient Client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
 
-        //Client.BaseAddress = new Uri("https://localhost:44341/");
+        Client.BaseAddress = new Uri("https://localhost:44341/");
 
-        //Console.WriteLine("Get Send");
-        //teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league"+ testLeague + "&division=" + division);
-        //Console.WriteLine("På den anden side");
-        //Console.WriteLine(teams);
+        Console.WriteLine("Get Send");
+        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league"+ testLeague + "&division=" + division);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(teams);
     }
     
+
+
 }
