@@ -1,8 +1,4 @@
-﻿body {
-    font: normal medium/1.4 sans-serif;
-}
-
-table {
+﻿table {
     border-collapse: collapse;
     width: 100%;
 }
@@ -17,7 +13,7 @@ tbody tr:nth-child(odd) {
     background: var(--light-cray);
 }
 
-.table_menu button, select {
+.table_menu select {
     background-color: var(--main-lilla);
     border: none;
     color: white;
