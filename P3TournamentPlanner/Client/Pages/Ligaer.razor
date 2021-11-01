@@ -1,6 +1,77 @@
-﻿@page "/ligaer"
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@inject HttpClient Http
+@page "/ligaer"
 <h3>Ligaer</h3>
+<section class="main">
+    <div id="container_1">
+        <h1 id="Headline"> Nordjyst Liga CS:GO </h1>
+        <p id="text_1">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+    </div>
+</section>
+<!--<button @onclick="Add">Add</button>-->
+<section class="table_container">
+    <div class="table_menu">
+        <button>Stilling</button>
+        <button>Kampe</button>
+        <button>Resultater</button>
+        <select name="division" id="divisioner">
+            <option value="Division1">Division1</option>
+            <option value="Division2">Division2</option>
+            <option value="Division3">Division3</option>
+            <option value="Division4">Division4</option>
+        </select>
+    </div>
+    <table class="Stilling" style="width:100%">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Hold</th>
+                <th>K</th>
+                <th>V</th>
+                <th>U</th>
+                <th>T</th>
+                <th>Diff</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (teams == null)
+            {
+                <p>Loading</p>
+            }
+            else
+            {
+                @foreach (Team team in teams)
+                {
+                    <tr>
+                        <td>1</td>
+                        <td>@team.name</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</section>
+
+
+
 
 @code {
+    List<Team> teams = new List<Team>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("Get Send");
+        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling");
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(teams);
+    }
 }
