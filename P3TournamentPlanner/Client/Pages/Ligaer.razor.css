@@ -47,3 +47,9 @@ tbody tr:nth-child(odd) {
     text-align: center;
     border-color: #fff transparent transparent transparent;
 }
+
+.DivisionSelect input.input-select {
+    font-size: large;
+    position: absolute;
+    height: 100px;
+}

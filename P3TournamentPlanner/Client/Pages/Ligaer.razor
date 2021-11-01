@@ -19,17 +19,13 @@
         <button>Stilling</button>
         <button>Kampe</button>
         <button>Resultater</button>
-
-        <div id="DivisionSelect">
-            <EditForm>
-                <InputSelect id="divisioner" @bind-Value="division" class="input-select">
-                    <option value="1">Division1</option>
-                    <option value="2">Division2</option>
-                    <option value="3">Division3</option>
-                    <option value="4">Division4</option>
-                </InputSelect>
-            </EditForm>
-        </div>
+        <select id="divisioner" class="input-select">
+            <option value="1">Division1</option>
+            <option value="2">Division2</option>
+            <option value="3">Division3</option>
+            <option value="4">Division4</option>
+        </select>
+        
 
         <table class="Stilling" style="width:100%">
             <thead>
@@ -83,7 +79,7 @@
         Client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league=" + testLeague + "&division=" + division);
+        teams = await Client.GetFromJsonAsync<List<Team>>("Stilling?league=" + testLeague + "&division=" + division);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
     }
