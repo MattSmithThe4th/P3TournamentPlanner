@@ -1,0 +1,52 @@
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@inject HttpClient Http
+<table class="Stilling" style="width:100%">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Hold</th>
+            <th>K</th>
+            <th>V</th>
+            <th>U</th>
+            <th>T</th>
+            <th>Diff</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (teams == null)
+        {
+            <p>Loading</p>
+        }
+        else
+        {
+            @foreach (Team team in teams)
+            {
+                <tr>
+                    <td>1</td>
+                    <td>@team.name</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    List<Team> teams = new List<Team>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("Get Send");
+        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling");
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(teams);
+    }
+}
