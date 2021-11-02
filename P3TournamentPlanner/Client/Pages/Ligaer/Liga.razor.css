@@ -30,8 +30,4 @@
     float: right;
     border-color: #fff transparent transparent transparent;
     cursor: pointer;
-} 
-
-.slt-option:hover{
-    background-color: var(--penta-lilla);
 }

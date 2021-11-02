@@ -15,7 +15,7 @@
         <button id="stilling-btn" @onclick="ShowStilling">Stilling</button>
         <button id="kampe-btn" @onclick="ShowKampe">Kampe</button>
         <button id="resultater-btn" @onclick="ShowResultater">Resultater</button>
-        <select id="divisioner" class="input-select" @onchange="ChangeDivision">
+        <select id="divisioner" class="input-select decorated" @onchange="ChangeDivision">
             @if (ID == 0)
             {
                 <option class="slt-option" selected value="0">Vælg division</option>
