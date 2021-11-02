@@ -36,35 +36,34 @@
                 }
             }
         </select>
-        @if (display == "stilling")
-        {
-            <style>
-                #stilling-btn {
-                    background-color: var(--penta-lilla)
-                }
-            </style>
-            <StillingTable ID="ID" />
-        }
-        else if (display == "kampe")
-        {
-            <style>
-                #kampe-btn {
-                    background-color: var(--penta-lilla)
-                }
-            </style>
-            <MatchList />
-        }
-        else
-        {
-            <style>
-                #resultater-btn {
-                    background-color: var(--penta-lilla)
-                }
-            </style>
-            <ResultList />
-        }
-
     </div>
+    @if (display == "stilling")
+    {
+        <style>
+            #stilling-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <StillingTable ID="ID" />
+    }
+    else if (display == "kampe")
+    {
+        <style>
+            #kampe-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <MatchList />
+    }
+    else
+    {
+        <style>
+            #resultater-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <ResultList />
+    }
 </section>
 
 @code {

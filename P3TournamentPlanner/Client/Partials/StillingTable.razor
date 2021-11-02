@@ -4,17 +4,17 @@
 @using Microsoft.AspNetCore.Authorization;
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
-<table class="Stilling" style="width:100%">
+<table class="Stilling">
     <thead>
         <tr>
-            <th>#</th>
-            <th>Hold</th>
-            <th>K</th>
-            <th>V</th>
-            <th>U</th>
-            <th>T</th>
-            <th>Diff</th>
-            <th>Points</th>
+            <th class="placement">#</th>
+            <th class="team">Hold</th>
+            <th class="number">K</th>
+            <th class="number">V</th>
+            <th class="number">U</th>
+            <th class="number">T</th>
+            <th class="number">Diff</th>
+            <th class="points">Points</th>
         </tr>
     </thead>
     <tbody>
@@ -44,14 +44,14 @@
         @for (int i = 1; i < 5; i++)
         {
             <tr>
-                <td>@ID</td>
-                <td>Team @ID</td>
-                <td>@ID</td>
-                <td>@ID</td>
-                <td>@ID</td>
-                <td>@ID</td>
-                <td>-----</td>
-                <td>@ID</td>
+                <td class="placement">@ID</td>
+                <td class="team">Hobro Vikings - hold @ID</td>
+                <td class="number">@ID</td>
+                <td class="number">@ID</td>
+                <td class="number">@ID</td>
+                <td class="number">@ID</td>
+                <td class="number">-----</td>
+                <td class="points">@ID</td>
             </tr>
         }
     </tbody>
