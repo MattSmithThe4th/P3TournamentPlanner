@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Pages\LigaerResultater - Copy.razor.css">
+    <None Update="Pages\Ligaer\LigaerResultater - Copy.razor.css">
       <DependentUpon>LigaerKampe.razor.css</DependentUpon>
     </None>
   </ItemGroup>
