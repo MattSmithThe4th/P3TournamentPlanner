@@ -1,0 +1,28 @@
+﻿table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 0.25rem;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #3e3e3e;
+}
+
+tr:hover {
+    cursor: pointer;
+    background-color: #4e4e4e;
+}
+
+tbody tr:nth-child(odd):hover {
+    background-color: #4e4e4e;
+}
+
+thead tr:hover {
+    background-color: #2d2d2d;
+    cursor: default;
+}

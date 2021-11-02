@@ -7,21 +7,25 @@
 <h3>Hold</h3>
 
 <table class="tableStyling">
-    <tr>
-        <th>Navn</th>
-        <th>Adresse</th>
-        <th>Kontakt</th>
-        <th>Division</th>
-    </tr>
-    @foreach (Team team in teams)
-    {
+    <thead>
         <tr>
-            <td>@team.Name</td>
-            <td>@team.Address</td>
-            <td>@team.Contact</td>
-            <td>@team.Division</td>
+            <th>Navn</th>
+            <th>Adresse</th>
+            <th>Kontakt</th>
+            <th>Division</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (Team team in teams)
+        {
+            <tr>
+                <td>@team.Name</td>
+                <td>@team.Address</td>
+                <td>@team.Contact</td>
+                <td>@team.Division</td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 @code {

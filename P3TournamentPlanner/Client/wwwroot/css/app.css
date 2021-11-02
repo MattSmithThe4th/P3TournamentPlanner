@@ -83,27 +83,6 @@ a, .btn-link {
 
 }
 
-tableStyling {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-
-td, th {
-    border: 1px solid #999;
-    padding: 0.5rem;
-    text-align: left;
-}
-td {
-    height: 100px;
-    width: 100px;
-}
-
-tr:nth-child(even) {
-    background-color: mediumpurple;
-    color: white;
-}
-
 .img-div:before {
     content: "";
     background-image: url("../images/NordjyskligaCover2.jpg");
