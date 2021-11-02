@@ -2,7 +2,7 @@
 @using System;
 @using System.Collections.Generic;
 @using Microsoft.AspNetCore.Authorization;
-@attribute [AllowAnonymous]
+@attribute [Authorize(Roles = "Administrator")]
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @page "/ligaer"
@@ -68,9 +68,9 @@
 
 
 @code {
-        List<Team> teams = new List<Team>();
-        int division = 4;
-        string liga = "lml";
+    List<Team> teams = new List<Team>();
+    int division = 4;
+    string liga = "lml";
 
     protected override async Task OnInitializedAsync()
     {
@@ -78,7 +78,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("Stilling?league="+ liga + "&division=" + division);
+        teams = await client.GetFromJsonAsync<List<Team>>("Stilling?league=" + liga + "&division=" + division);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
     }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using P3TournamentPlanner.Shared;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("[controller]")]
@@ -21,6 +22,16 @@ namespace P3TournamentPlanner.Server.Controllers {
             Console.WriteLine("Get Recieved!");
             Console.WriteLine("league: " + league);
             Console.WriteLine("division: " + division);
+
+            Console.WriteLine("pre claim!");
+            ClaimsPrincipal principal = HttpContext.User as ClaimsPrincipal;
+            if (null != principal)
+            {
+                foreach (Claim claim in principal.Claims)
+                {
+                    Console.WriteLine("CLAIM TYPE: " + claim.Type + "; CLAIM VALUE: " + claim.Value);
+                }
+            }
 
             //string league, int division
 
