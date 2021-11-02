@@ -1,0 +1,43 @@
+﻿.team-div {
+    margin: 0 0 1em 0;
+    background-color: #808080;
+    display: flex;
+    justify-content: space-evenly;  
+}
+
+.info-div {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.date-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item-div {
+    font-size: 1.2em;
+    width: 270px;
+    text-align: center;
+}
+
+.item-div p {
+    margin: 0;
+}
+
+#adresse {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#adresse p {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+#kamp-id {
+    margin-top: 2em;
+}
