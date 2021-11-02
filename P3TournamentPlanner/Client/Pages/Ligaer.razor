@@ -21,10 +21,17 @@
         <button>Kampe</button>
         <button>Resultater</button>
         <select id="divisioner" class="input-select" @onchange="ChangeDivision">
-            <option value="1">Division1</option>
-            <option value="2">Division2</option>
-            <option value="3">Division3</option>
-            <option value="4">Division4</option>
+            @for (int i = 1; i < 4; i++)
+            {
+                @if (i == ID)
+                {
+                    <option selected value="@i">Division @i</option>
+                }
+                else
+                {
+                    <option value="@i">Division @i</option>
+                }
+            }
         </select>
 
         <table class="Stilling" style="width:100%">
