@@ -1,115 +1,22 @@
-﻿@using P3TournamentPlanner.Shared;
-@using System;
-@using System.Collections.Generic;
-@using Microsoft.AspNetCore.Authorization;
-@inject HttpClient Http
-@inject IHttpClientFactory ClientFactory
+﻿@page "/ligaer"
 @inject NavigationManager NavigationManager
-@inherits LayoutComponentBase
-@page "/csgo/stilling/{id:int}"
-
-<h3>Ligaer</h3>
-<section class="main">
-    <div id="container_1">
-        <h1 id="Headline"> Nordjyst Liga CS:GO </h1>
-        <p id="text_1">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-    </div>
-</section>
-<section class="table_container">
-    <div class="table_menu">
-        <button @onclick="ShowStilling">Stilling</button>
-        <button @onclick="ShowKampe">Kampe</button>
-        <button @onclick="ShowResultater">Resultater</button>
-        <select id="divisioner" class="input-select" @onchange="ChangeDivision">
-            @for (int i = 1; i < 4; i++)
-            {
-                @if (i == ID)
-                {
-                    <option selected value="@i">Division @i</option>
-                }
-                else
-                {
-                    <option value="@i">Division @i</option>
-                }
-            }
-        </select>
-
-        <table class="Stilling" style="width:100%">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Hold</th>
-                    <th>K</th>
-                    <th>V</th>
-                    <th>U</th>
-                    <th>T</th>
-                    <th>Diff</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (teams == null)
-                {
-                    <p>Loading</p>
-                }
-                else
-                {
-                    @foreach (Team team in teams)
-                    {
-                        <tr>
-                            <td>@team.placement</td>
-                            <td>@team.name</td>
-                            <td>@team.matchesPlayed</td>
-                            <td>@team.matchesWon</td>
-                            <td>@team.matchesDraw</td>
-                            <td>@team.matchesLost</td>
-                            <td>-----</td>
-                            <td>@team.points</td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+<h1>Ligaer</h1>
+<p id="explainer">Oversigt over de forskellige ligaer</p>
+<section class="liga-section">
+    <div class="liga-container">
+        <h3>CS:GO</h3>
+        <div class="liga-div">
+            <p>Dette er en liga for alle som spiller cs:go</p>
+            <div class="wrapper">
+                <button value="csgo" class="btn-primary" @onclick="ShowCSGOLeague">Se mere</button>
+            </div>
+        </div>
     </div>
 </section>
 
 @code {
-    [Parameter]
-    public int ID { get; set; }
-
-    List<Team> teams = new List<Team>();
-    string testLeague = "testLeague";
-
-    protected override async Task OnInitializedAsync()
+    public void ShowCSGOLeague()
     {
-        HttpClient Client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
-
-        Client.BaseAddress = new Uri("https://localhost:44341/");
-
-        Console.WriteLine("Get Send");
-        teams = await Client.GetFromJsonAsync<List<Team>>("Stilling?league=" + testLeague + "&division=" + ID);
-        Console.WriteLine("På den anden side");
-        Console.WriteLine(teams);
-    }
-
-    public void ChangeDivision(ChangeEventArgs e)
-    {
-        ID = Convert.ToInt32(e.Value);
-        NavigationManager.NavigateTo($"/csgo/stilling/{ID}", true);
-    }
-
-    public void ShowResultater()
-    {
-        NavigationManager.NavigateTo($"/csgo/resultater/{ID}", true);
-    }
-
-    public void ShowStilling()
-    {
-        NavigationManager.NavigateTo($"/csgo/stilling/{ID}", true);
-    }
-
-    public void ShowKampe()
-    {
-        NavigationManager.NavigateTo($"/csgo/kampe/{ID}", true);
+        NavigationManager.NavigateTo("/ligaer/csgo/0");
     }
 }

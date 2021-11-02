@@ -1,0 +1,99 @@
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@page "/ligaer/csgo/{id:int}"
+
+<section class="main">
+    <div id="container_1">
+        <h1 id="Headline"> Nordjyst Liga CS:GO </h1>
+        <p id="text_1">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+    </div>
+</section>
+<section class="table_container">
+    <div class="table_menu">
+        <button id="stilling-btn" @onclick="ShowStilling">Stilling</button>
+        <button id="kampe-btn" @onclick="ShowKampe">Kampe</button>
+        <button id="resultater-btn" @onclick="ShowResultater">Resultater</button>
+        <select id="divisioner" class="input-select" @onchange="ChangeDivision">
+            @if (ID == 0)
+            {
+                <option class="slt-option" selected value="0">Vælg division</option>
+            }
+            else
+            {
+                <option class="slt-option" value="0">Vælg division</option>
+            }
+            @for (int i = 1; i < 4; i++)
+            {
+                @if (i == ID)
+                {
+                    <option class="slt-option" selected value="@i">Division @i</option>
+                }
+                else
+                {
+                    <option class="slt-option" value="@i">Division @i</option>
+                }
+            }
+        </select>
+        @if (display == "stilling")
+        {
+            <style>
+                #stilling-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+            <StillingTable ID="ID" />
+        }
+        else if (display == "kampe")
+        {
+            <style>
+                #kampe-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+            <MatchList />
+        }
+        else
+        {
+            <style>
+                #resultater-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+            <ResultList />
+        }
+
+    </div>
+</section>
+
+@code {
+    [Parameter]
+    public int ID { get; set; }
+
+    public string display = "stilling";
+
+    public void ChangeDivision(ChangeEventArgs e)
+    {
+        ID = Convert.ToInt32(e.Value);
+        StateHasChanged();
+    }
+
+    public void ShowStilling()
+    {
+        display = "stilling";
+        StateHasChanged();
+    }
+
+    public void ShowKampe()
+    {
+        display = "kampe";
+        StateHasChanged();
+    }
+
+    public void ShowResultater()
+    {
+        display = "resulater";
+        StateHasChanged();
+    }
+}

@@ -24,10 +24,4 @@
     <ProjectReference Include="..\Shared\P3TournamentPlanner.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Pages\Ligaer\LigaerResultater - Copy.razor.css">
-      <DependentUpon>LigaerKampe.razor.css</DependentUpon>
-    </None>
-  </ItemGroup>
-
 </Project>
