@@ -19,6 +19,10 @@
     margin: 0 auto;
 }
 
+.main-main {
+    min-height: 60vh;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
