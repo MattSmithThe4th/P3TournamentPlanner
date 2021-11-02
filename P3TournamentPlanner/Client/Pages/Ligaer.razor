@@ -2,7 +2,7 @@
 @using System;
 @using System.Collections.Generic;
 @using Microsoft.AspNetCore.Authorization;
-@attribute [Authorize(Roles = "Administrator")]
+@*@attribute [Authorize(Roles = "Administrator")]*@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @page "/ligaer"
@@ -69,8 +69,8 @@
 
 @code {
     List<Team> teams = new List<Team>();
-    int division = 4;
-    string liga = "lml";
+    int division = 1;
+    string liga = "testLeague";
 
     protected override async Task OnInitializedAsync()
     {
