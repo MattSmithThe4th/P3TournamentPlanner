@@ -20,4 +20,10 @@
     <Folder Include="Pages\Partials\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Pages\LigaerResultater - Copy.razor.css">
+      <DependentUpon>LigaerKampe.razor.css</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>
