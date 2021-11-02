@@ -1,17 +1,9 @@
 ﻿@using P3TournamentPlanner.Shared;
 @using System;
 @using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
-    <div id="DivisionSelect">
-        <InputSelect id="divisioner" @bind-Value="division">
-            <option value="1">Division1</option>
-            <option value="2">Division2</option>
-            <option value="3">Division3</option>
-            <option value="4">Division4</option>
-        </InputSelect>
-    </div>
-
 <table class="Stilling" style="width:100%">
     <thead>
         <tr>
@@ -26,6 +18,7 @@
         </tr>
     </thead>
     <tbody>
+        <!--
         @if (teams == null)
         {
             <p>Loading</p>
@@ -46,16 +39,36 @@
                 </tr>
             }
         }
+        -->
+
+        @for (int i = 1; i < 5; i++)
+        {
+            <tr>
+                <td>@ID</td>
+                <td>Team @ID</td>
+                <td>@ID</td>
+                <td>@ID</td>
+                <td>@ID</td>
+                <td>@ID</td>
+                <td>-----</td>
+                <td>@ID</td>
+            </tr>
+        }
     </tbody>
 </table>
-<button>test</button>
-
 @code {
+    [Parameter]
+    public int ID { get; set; }
+
     List<Team> teams = new List<Team>();
-    int division = 1;
     string testLeague = "testLeague";
 
-    
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(ID);
+    }
+
+    /*
     protected override async Task OnInitializedAsync()
     {
         HttpClient Client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
@@ -63,11 +76,8 @@
         Client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league="+ testLeague + "&division=" + division);
+        teams = await Client.GetFromJsonAsync<List<Team>>("Stilling?league=" + testLeague + "&division=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
-    }
-    
-
-
+    }*/
 }
