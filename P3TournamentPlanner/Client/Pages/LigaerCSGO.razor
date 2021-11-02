@@ -4,8 +4,9 @@
 @using Microsoft.AspNetCore.Authorization;
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
+@inject NavigationManager NavigationManager
 @inherits LayoutComponentBase
-@page "/ligaer"
+@page "/csgo/stilling/{id:int}"
 
 <h3>Ligaer</h3>
 <section class="main">
@@ -19,13 +20,12 @@
         <button>Stilling</button>
         <button>Kampe</button>
         <button>Resultater</button>
-        <select id="divisioner" class="input-select">
+        <select id="divisioner" class="input-select" @onchange="ChangeDivision">
             <option value="1">Division1</option>
             <option value="2">Division2</option>
             <option value="3">Division3</option>
             <option value="4">Division4</option>
         </select>
-        
 
         <table class="Stilling" style="width:100%">
             <thead>
@@ -67,10 +67,11 @@
 </section>
 
 @code {
-    List<Team> teams = new List<Team>();
-    int division = 1;
-    string testLeague = "testLeague";
+    [Parameter]
+    public int ID { get; set; }
 
+    List<Team> teams = new List<Team>();
+    string testLeague = "testLeague";
 
     protected override async Task OnInitializedAsync()
     {
@@ -79,8 +80,14 @@
         Client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await Client.GetFromJsonAsync<List<Team>>("Stilling?league=" + testLeague + "&division=" + division);
+        teams = await Client.GetFromJsonAsync<List<Team>>("Stilling?league=" + testLeague + "&division=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
+    }
+
+    public void ChangeDivision(ChangeEventArgs e)
+    {
+        ID = Convert.ToInt32(e.Value);
+        NavigationManager.NavigateTo($"/csgo/stilling/{ID}", true);
     }
 }
