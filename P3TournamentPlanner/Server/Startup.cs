@@ -33,9 +33,13 @@ namespace P3TournamentPlanner.Server
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-
+            /*
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            */
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
@@ -45,6 +49,16 @@ namespace P3TournamentPlanner.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddAuthorization(options => {
+                options.AddPolicy("RequireAdminRole",
+                    policy => policy.RequireRole("Administrator"));
+
+                options.AddPolicy("RequireManagerRole",
+                    policy => policy.RequireRole("ClubManager"));
+            });
+
+            services.AddHttpClient("ServerAPI.NoAuthenticationClient");
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -69,6 +83,7 @@ namespace P3TournamentPlanner.Server
 
             services.ConfigureApplicationCookie(options =>
             {
+                /*
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
@@ -76,7 +91,14 @@ namespace P3TournamentPlanner.Server
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
+                */
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
+            //uncomment hvis vi skal bruge email confirmation
+            //services.AddSingleton<IEmailSender, EmailSender>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,3 +136,11 @@ namespace P3TournamentPlanner.Server
         }
     }
 }
+
+
+
+
+//[AllowAnonymous]
+//public IActionResult Shutdown() {
+//    return View();
+//}

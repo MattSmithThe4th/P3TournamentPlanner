@@ -6,17 +6,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using P3TournamentPlanner.Shared;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("[controller]")]
     [ApiController]
     public class StillingController : ControllerBase {
 
+        //Runs when a get request is send to /Stilling. It creates a list of teams in the given league and division,
+        //based on data in the database. This list is then send as response, as a json.
+        //[AllowAnonymous]
         [HttpGet]
-        public List<Team> Get() {
+        public List<Team> Get(string league, int division) {
             Console.WriteLine("Get Recieved!");
-            //Console.WriteLine("league: " + league);
-            //Console.WriteLine("division: " + division);
+            Console.WriteLine("league: " + league);
+            Console.WriteLine("division: " + division);
 
             //string league, int division
 
@@ -46,7 +50,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             //strArr = db.SelectQuery<string>("select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = 1337", "teamName");
 
-            dt = db.PullTable("select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = 1337");
+            dt = db.PullTable("select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = " + division + " and leagueID = '" + league + "'");
 
             foreach(DataRow r in dt.Rows)
             {
@@ -60,15 +64,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             foreach (Team t in teamList) {
                 Console.WriteLine(t.name);
             }
-
             return teamList;
         }
-
-
-
-
-
-
-
     }
 }

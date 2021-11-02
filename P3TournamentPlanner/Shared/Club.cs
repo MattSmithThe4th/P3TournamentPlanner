@@ -6,6 +6,5 @@ namespace P3TournamentPlanner.Shared {
         public List<Player> players;
         public List<ClubManager> clubManagers;
         public string adress;
-    
     }
 }
