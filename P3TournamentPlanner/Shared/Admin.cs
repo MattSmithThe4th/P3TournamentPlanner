@@ -1,5 +1,5 @@
 ﻿namespace P3TournamentPlanner.Shared {
-    public class Admin {
+    public class SiteAdmin {
         //Login
         public Contactinfo contactinfo;
 

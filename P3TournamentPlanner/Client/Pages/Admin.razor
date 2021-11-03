@@ -1,19 +1,18 @@
-﻿@page "/admin"
+﻿@using P3TournamentPlanner.Shared;
+@page "/admin"
 <h3>Admin</h3>
 <div class="form-div">
-    <form>
-        <div>
-            <label for="name">Name:</label>
-            <input id="name" type="text"/>
-        </div>
-    </form>
+    <EditForm Model="admins" OnValidSubmit="Test">
+        <label for="navn">Navn:</label>
+        <InputText id="navn" name="navn" @bind-Value="admins.contactinfo.name"></InputText>
+    </EditForm>
 </div>
 
 @code {
-    public class Test
+    SiteAdmin admins = new SiteAdmin();
+    
+    public void Test()
     {
 
     }
-
-    private Test _test = new Test();
 }
