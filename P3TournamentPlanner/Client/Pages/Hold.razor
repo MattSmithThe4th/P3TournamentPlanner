@@ -10,7 +10,6 @@
     <thead>
         <tr>
             <th>Navn</th>
-            <th>Adresse</th>
             <th>Kontakt</th>
             <th>Division</th>
         </tr>
@@ -19,44 +18,24 @@
         @foreach (Team team in teams)
         {
             <tr>
-                <td>@team.Name</td>
-                <td>@team.Address</td>
-                <td>@team.Contact</td>
-                <td>@team.Division</td>
+                <td>@team.name</td>
+                <td>@team.contact</td>
+                <td>@team.divisionID</td>
             </tr>
         }
     </tbody>
 </table>
 
 @code {
-    public class Team {
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string Contact { get; set; }
-        public string Division { get; set; }
-        public Team(string name, string address, string contact, string division)
-        {
-            Name = name;
-            Address = address;
-            Contact = contact;
-            Division = division;
-        }
-    }
-    Team team1 = new Team("Team1", "Address1", "Contact1", "Divison1");
-    Team team2 = new Team("Team2", "Address2", "Contact2", "Divison2");
-    Team team3 = new Team("Team3", "Address3", "Contact3", "Divison3");
     List<Team> teams = new List<Team>();
 
     protected override async Task OnInitializedAsync()
     {
-        teams.Add(team1);
-        teams.Add(team2);
-        teams.Add(team3);
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling");
+        teams = await client.GetFromJsonAsync<List<Team>>("TeamInformation");
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
     }
