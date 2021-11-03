@@ -24,24 +24,9 @@ a, .btn-link {
 }
 
 .btn-primary {
-    background-color: var(--main-lilla);
-    border: none;
-    color: white;
-    padding: 10px 25px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.btn-primary:hover {
-    background-color: var(--quad-lilla);
-    cursor: pointer;
-}
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .content {

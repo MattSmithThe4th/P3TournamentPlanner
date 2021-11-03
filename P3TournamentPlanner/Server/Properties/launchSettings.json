@@ -1,6 +1,6 @@
 {
   "iisSettings": {
-    "windowsAuthentication": true,
+    "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:28334",
@@ -35,13 +35,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "distributionName": ""
-    },
-    "Chrome": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "Key": "Value"
-      }
     }
   }
 }

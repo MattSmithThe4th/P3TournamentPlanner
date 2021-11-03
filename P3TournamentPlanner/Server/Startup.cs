@@ -33,13 +33,11 @@ namespace P3TournamentPlanner.Server
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-
-            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddRoles<IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            /*
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            */
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -81,8 +79,6 @@ namespace P3TournamentPlanner.Server
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
-
-                options.SignIn.RequireConfirmedEmail = false;
             });
 
             services.ConfigureApplicationCookie(options =>

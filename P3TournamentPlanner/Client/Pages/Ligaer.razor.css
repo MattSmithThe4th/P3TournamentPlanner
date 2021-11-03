@@ -2,7 +2,22 @@
     font: normal medium/1.4 sans-serif;
 }
 
-.table_menu button {
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 0.25rem;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+tbody tr:nth-child(odd) {
+    background: var(--light-cray);
+}
+
+.table_menu button{
     background-color: var(--main-lilla);
     border: none;
     color: white;
@@ -10,24 +25,31 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 18px;
-}
-
-.table_menu button:hover {
-    background-color: var(--penta-lilla);
-    cursor: pointer;
+    font-size: 16px;
 }
 
 .input-select {
     background-color: var(--main-lilla);
     border: none;
     color: white;
-    padding: 9px 25px;
+    padding: 10px 25px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 18px;
+    font-size: 16px;
+}
+
+.input-select {
     float: right;
+}
+
+.input-select {
+    text-align: center;
     border-color: #fff transparent transparent transparent;
-    cursor: pointer;
+}
+
+.DivisionSelect input.input-select {
+    font-size: large;
+    position: absolute;
+    height: 100px;
 }
