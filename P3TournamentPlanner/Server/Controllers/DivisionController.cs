@@ -10,10 +10,11 @@ namespace P3TournamentPlanner.Server.Controllers {
     [Route("[controller]")]
     [ApiController]
     public class DivisionController : ControllerBase {
-        public List<Division> Get() {
+        public List<Division> Get(int id) {
             Console.WriteLine("Get Recieved!");
             //Console.WriteLine("league: " + league);
             //Console.WriteLine("division: " + division);
+
 
             DatabaseQuerys db = new DatabaseQuerys();
 
@@ -24,7 +25,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             DivisionFormat df = new DivisionFormat();
 
             
-            dt = db.PullTable("select divisionID, leagueID, divisionFormat from DivisionsDB where divisionID = 1");
+            dt = db.PullTable($"select divisionID, leagueID, divisionFormat from DivisionsDB where divisionID = {id}");
             
             foreach (DataRow r in dt.Rows) {
                 df.format = r[2].ToString();
