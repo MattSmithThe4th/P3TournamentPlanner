@@ -34,7 +34,6 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             foreach(League l in leagueList) {
                 Console.WriteLine(l.name);
-                Console.WriteLine("");
             }
 
             return leagueList;
