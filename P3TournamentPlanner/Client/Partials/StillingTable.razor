@@ -76,27 +76,26 @@
         Console.WriteLine(teams);
     }
 
+    // <------- DETTE ER TIL HVIS MAN VIL ROLE AUTH EN SIDE!!!! SKAL BRUGES ANDRE STEDER!!!! --------->
+    //try
+    //{
+    //    isAuth = await Http.GetFromJsonAsync<bool>("Authentication?role=" + role);
 
-        // <------- DETTE ER TIL HVIS MAN VIL ROLE AUTH EN SIDE!!!! SKAL BRUGES ANDRE STEDER!!!! --------->
-        //try
-        //{
-        //    isAuth = await Http.GetFromJsonAsync<bool>("Authentication?role=" + role);
-
-        //    if (isAuth)
-        //    {
-        //        Console.WriteLine("Get Send");
-        //        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league=" + liga + "&division=" + ID);
-        //        Console.WriteLine("På den anden side");
-        //    }
-        //    else
-        //    {
-        //        //Her skal vi redirect til error page :)
-        //        Console.WriteLine("hihi xd");
-        //    }
-        //}
-        //catch (AccessTokenNotAvailableException exception)
-        //{
-        //    Console.WriteLine("Upsie doopsie!");
-        //    exception.Redirect();
-        //}
+    //    if (isAuth)
+    //    {
+    //        Console.WriteLine("Get Send");
+    //        teams = await Http.GetFromJsonAsync<List<Team>>("Stilling?league=" + liga + "&division=" + ID);
+    //        Console.WriteLine("På den anden side");
+    //    }
+    //    else
+    //    {
+    //        //Her skal vi redirect til error page :)
+    //        Console.WriteLine("hihi xd");
+    //    }
+    //}
+    //catch (AccessTokenNotAvailableException exception)
+    //{
+    //    Console.WriteLine("Upsie doopsie!");
+    //    exception.Redirect();
+    //}
 }
