@@ -1,9 +1,9 @@
 ﻿@using System.Collections.Generic;
 @inject HttpClient Http
-@page "/holdkampe"
+@page "/holdkampe/{teamname?}"
 
 
-<h2>@team.TeamName - @team.TeamNumber</h2>
+<h2>@teamname</h2>
 
 <p>Klub: @team.TeamName</p> 
 <p>Kontaktperson: @team.ContactPerson - @team.ContactNumber</p> 
@@ -55,6 +55,9 @@
 
 
 @code {
+    [Parameter]
+    public string teamname { get; set; }
+
     public class Team {
         public string TeamName { get; set; }
         public string TeamNumber { get; set; }
@@ -63,7 +66,7 @@
         public string ClubRoom { get; set; }
         public string ClubAddress{ get; set; }
         public string ClubCityNumber { get; set; }
-        public Team(string teamName, string teamNumber, string contactPerson, string contactNumber, string clubRoom, string clubAddress, 
+        public Team(string teamName, string teamNumber, string contactPerson, string contactNumber, string clubRoom, string clubAddress,
             string clubCityNumber)
         {
             TeamName = teamName;
