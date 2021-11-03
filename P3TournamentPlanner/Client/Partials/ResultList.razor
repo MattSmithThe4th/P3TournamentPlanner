@@ -1,0 +1,47 @@
+﻿@inject NavigationManager NavigationManager
+<div id="matchSection" style="width: 100%">
+    <!--@if (Matches == null)
+    {
+        <p> Loading </p>
+    }
+    else
+    {
+        @foreach (Match match in Matches)
+        {
+            <div id="topPart">
+                <h1> @match.teams[0]</h1>
+                <h1> VS </h1>
+                <h1> @match.teams[1] </h1>
+            </div>
+            <div id="lowPart">
+                <h3> @match.startTime</h3>
+                <h3> @match.matchHost.adress</h3>
+            </div>
+        }
+    }-->
+    @for (int i = 1; i < 6; i++)
+    {
+        <div class="match-container" @onclick="ShowMatch">
+            <div id="topPart">
+                <h1>Team @i</h1>
+                <h1>16 - 11</h1>
+                <h1>Team @i+1 </h1>
+            </div>
+            <div id="lowPart">
+                <div id="box">
+                    <h2>02-11-2021</h2>
+                </div>
+                <div id="box">
+                    <h2> Hobro Viking, helenavej 4 9210 SØ</h2>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    public void ShowMatch()
+    {
+        NavigationManager.NavigateTo("/resultat/1");
+    }
+}
