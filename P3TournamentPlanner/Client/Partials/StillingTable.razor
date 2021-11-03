@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Authorization;
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
+@inject NavigationManager NavigationManager
 <table class="Stilling">
     <thead>
         <tr>
@@ -18,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        
+
         @if (teams == null)
         {
             <p>Loading</p>
@@ -27,33 +28,33 @@
         {
             @foreach (Team team in teams)
             {
-                <tr>
-                    <td>@team.placement</td>
-                    <td>@team.name</td>
-                    <td>@team.matchesPlayed</td>
-                    <td>@team.matchesWon</td>
-                    <td>@team.matchesDraw</td>
-                    <td>@team.matchesLost</td>
-                    <td>-----</td>
-                    <td>@team.points</td>
+                <tr @onclick="() => ShowTeam(team.name)">
+                    <td class="placement">@team.placement</td>
+                    <td class="team">@team.name</td>
+                    <td class="number">@team.matchesPlayed</td>
+                    <td class="number">@team.matchesWon</td>
+                    <td class="number">@team.matchesDraw</td>
+                    <td class="number">@team.matchesLost</td>
+                    <td class="number">-----</td>
+                    <td class="points">@team.points</td>
                 </tr>
             }
         }
-        
+
 
         @*@for (int i = 1; i < 5; i++)
-        {
-            <tr>
-                <td class="placement">@ID</td>
-                <td class="team">Hobro Vikings - hold @ID</td>
-                <td class="number">@ID</td>
-                <td class="number">@ID</td>
-                <td class="number">@ID</td>
-                <td class="number">@ID</td>
-                <td class="number">-----</td>
-                <td class="points">@ID</td>
-            </tr>
-        }*@
+            {
+                <tr>
+                    <td class="placement">@ID</td>
+                    <td class="team">Hobro Vikings - hold @ID</td>
+                    <td class="number">@ID</td>
+                    <td class="number">@ID</td>
+                    <td class="number">@ID</td>
+                    <td class="number">@ID</td>
+                    <td class="number">-----</td>
+                    <td class="points">@ID</td>
+                </tr>
+            }*@
     </tbody>
 </table>
 @code {
@@ -98,4 +99,9 @@
     //    Console.WriteLine("Upsie doopsie!");
     //    exception.Redirect();
     //}
+
+    public void ShowTeam(string teamName)
+    {
+        NavigationManager.NavigateTo($"/hold/{teamName}");
+    }
 }

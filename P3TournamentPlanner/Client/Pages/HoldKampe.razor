@@ -1,151 +1,125 @@
 ﻿@using System.Collections.Generic;
 @inject HttpClient Http
-@page "/holdkampe/{teamname?}"
+@page "/hold/{teamname?}"
 
 
-<h2>@teamname</h2>
+<h1>@teamname</h1>
 
-<p>Klub: @team.TeamName</p> 
-<p>Kontaktperson: @team.ContactPerson - @team.ContactNumber</p> 
-<p>Klublokale: @team.ClubRoom - @team.ClubAddress , @team.ClubCityNumber</p> 
+<p>Klub: Hobro Vikings</p> 
+<p>Kontaktperson: Martin Svanholm - 12345678</p> 
+<p>Klublokale: Amerikavej 22, 9500 Hobro</p> 
 
-<hr />
-<br />
+<section class="table_container">
+    <div class="table_menu">
+        <button id="info-btn" @onclick="ShowInfo">Info</button>
+        <button id="kampe-btn" @onclick="ShowKampe">Kampe</button>
+        <button id="resultater-btn" @onclick="ShowResultater">Resultater</button>
+    </div>
+</section>
+@if (display == "kampe")
+{
+    <style>
+        #kampe-btn {
+            background-color: var(--penta-lilla)
+        }
+    </style>
+    <MatchList />
+}
+else if (display == "resultater")
+{
+    <style>
+        #resultater-btn {
+            background-color: var(--penta-lilla)
+        }
+    </style>
+    <ResultList />
+}
+else if (display == "info")
+{
+    <style>
+        #info-btn {
+            background-color: var(--penta-lilla)
+        }
+    </style>
+    <section class="manager-section">
+        <div class="header-div">
+            <h2>Trænere</h2>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Navn</th>
+                        <th>Email</th>
+                        <th>Telefon</th>
+                        <th>Discord</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Julian Aarup Larsen</td>
+                        <td>JulianManager@gmail.com</td>
+                        <td>12345678</td>
+                        <td>Julian</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-<table class="trainerTable">
-    <tr>
-        <th>Træner</th>
-        <th>Email</th>
-        <th>Telefon</th>
-        <th>Discord</th>
-    </tr>
-    @foreach (Trainer trainer in trainers)
-    {
-        <tr>
-            <td>@trainer.FirstName @trainer.LastName</td>
-            <td>@trainer.Email</td>
-            <td>@trainer.Phone</td>
-            <td>@trainer.Discord</td>
-        </tr>
-    }
-</table>
+    <section class="player-section">
+        <div class="header-div">
+            <h2>Spillere</h2>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Navn</th>
+                        <th>In-game navn</th>
+                        <th>STEAM_ID</th>
+                        <th>Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        <tr>
+                            <td>Martin Svanholm</td>
+                            <td>Svanh0lm</td>
+                            <td>STEAM_0:0:11101</td>
+                            <td>Global Elite</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+}
 
-<br />
-
-<table class="membersTable">
-    <tr>
-        <th>Navn</th>
-        <th>Username</th>
-        <th>SteamID</th>
-        <th>Rank</th>
-    </tr>
-    @foreach (TeamMember member in teammembers)
-    {
-        <tr>
-            <td>@member.FirstName @member.LastName</td>
-            <td>@member.Username</td>
-            <td>@member.SteamID</td>
-            <td>@member.Rank</td>
-        </tr>
-    }
-</table>
-
-<br />
-<hr />
 
 
 @code {
     [Parameter]
     public string teamname { get; set; }
 
-    public class Team {
-        public string TeamName { get; set; }
-        public string TeamNumber { get; set; }
-        public string ContactPerson { get; set; }
-        public string ContactNumber { get; set; }
-        public string ClubRoom { get; set; }
-        public string ClubAddress{ get; set; }
-        public string ClubCityNumber { get; set; }
-        public Team(string teamName, string teamNumber, string contactPerson, string contactNumber, string clubRoom, string clubAddress,
-            string clubCityNumber)
-        {
-            TeamName = teamName;
-            TeamNumber = teamNumber;
-            ContactNumber = contactNumber;
-            ContactPerson = contactPerson;
-            ClubRoom = clubRoom;
-            ClubAddress = clubAddress;
-            ClubCityNumber = clubCityNumber;
-        }
+    public string display = "kampe";
+
+    public void ShowInfo()
+    {
+        display = "info";
+        StateHasChanged();
     }
 
-    public class TeamMember {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Username { get; set; }
-        public string SteamID { get; set; }
-        public string Rank { get; set; }
-        public TeamMember(string firstName, string lastName, string username, string steamID, string rank)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Username = username;
-            SteamID = steamID;
-            Rank = rank;
-        }
+    public void ShowKampe()
+    {
+        display = "kampe";
+        StateHasChanged();
     }
 
-    public class Trainer {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string Discord { get; set; }
-        public Trainer(string firstName, string lastName, string email, string phone, string discord)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Phone = phone;
-            Discord = discord;
-        }
-    }
-
-    List<TeamMember> teammembers = new List<TeamMember>();
-    List<Trainer> trainers = new List<Trainer>();
-    Team team;
-
-    void TeamInfo(){
-        team = new Team("Hobro Vikings", "Hold 1", "Kontaktperson", "12345678", "Hobro Idrætscenter", "Amerikavej 22", "9500");
-    }
-
-    /// <summary>
-    /// to be replaced with a connection to backend
-    /// </summary>
-    void test(){
-        for (int i = 0; i < 6; i++)
-        {
-            teammembers.Add(new TeamMember($"Name{i}", $"LastName{i}", $"UN{i}", $"Steam{i}", $"Rank{i}"));
-        }
-    }
-
-    /// <summary>
-    /// to be replaced with a connection to backend
-    /// </summary>
-    void test2(){
-        trainers.Add(new Trainer("Name", "LastName", "TestManager@gmail.com", "12345678", "DiscordName"));
-    }
-
-    protected override void OnInitialized(){
-        TeamInfo();
-        test();
-        test2();
+    public void ShowResultater()
+    {
+        display = "resultater";
+        StateHasChanged();
     }
 }
-
-
-
-
-
-
-

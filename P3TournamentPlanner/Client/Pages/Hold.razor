@@ -3,6 +3,7 @@
 @using System.Collections.Generic;
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
+@inject NavigationManager NavigationManager
 @page "/hold"
 
 <h1>Hold</h1>
@@ -19,7 +20,7 @@
     <tbody>
         @foreach (Team team in teams)
         {
-            <tr @onclick="ShowTeam">
+            <tr @onclick="() => ShowTeam(team.name)">
                 <td>@team.name</td>
                 <td>@team.contact</td>
                 <td>@team.divisionID</td>
@@ -42,8 +43,8 @@
         Console.WriteLine(teams);
     }
 
-    public void ShowTeam()
+    public void ShowTeam(string teamName)
     {
-
+        NavigationManager.NavigateTo($"/hold/{teamName}");
     }
 }
