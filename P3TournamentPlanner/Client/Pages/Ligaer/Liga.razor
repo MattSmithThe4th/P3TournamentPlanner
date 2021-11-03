@@ -2,7 +2,9 @@
 @using System;
 @using System.Collections.Generic;
 @using Microsoft.AspNetCore.Authorization;
-@page "/ligaer/csgo/{id:int}"
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@page "/ligaer/csgo"
 
 <section class="main">
     <div id="container_1">
@@ -16,60 +18,52 @@
         <button id="kampe-btn" @onclick="ShowKampe">Kampe</button>
         <button id="resultater-btn" @onclick="ShowResultater">Resultater</button>
         <select id="divisioner" class="input-select decorated" @onchange="ChangeDivision">
-            @if (ID == 0)
+            @foreach (Division division in divisions)
             {
-                <option class="slt-option" selected value="0">Vælg division</option>
-            }
-            else
-            {
-                <option class="slt-option" value="0">Vælg division</option>
-            }
-            @for (int i = 1; i < 4; i++)
-            {
-                @if (i == ID)
+                @if (division.DivID == ID)
                 {
-                    <option class="slt-option" selected value="@i">Division @i</option>
+                    <option class="slt-option" selected value="@division.DivID">Division @division.DivID</option>
                 }
                 else
                 {
-                    <option class="slt-option" value="@i">Division @i</option>
+                    <option class="slt-option" value="@division.DivID">Division @division.DivID</option>
                 }
             }
         </select>
-        @if (display == "stilling")
-        {
-            <style>
-                #stilling-btn {
-                    background-color: var(--penta-lilla)
-                }
-            </style>
-            <StillingTable ID="ID" />
-        }
-        else if (display == "kampe")
-        {
-            <style>
-                #kampe-btn {
-                    background-color: var(--penta-lilla)
-                }
-            </style>
-            <MatchList />
-        }
-        else
-        {
-            <style>
-                #resultater-btn {
-                    background-color: var(--penta-lilla)
-                }
-            </style>
-            <ResultList />
-        }
-
     </div>
+    @if (display == "stilling")
+    {
+        <style>
+            #stilling-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <StillingTable ID="ID" />
+    }
+    else if (display == "kampe")
+    {
+        <style>
+            #kampe-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <MatchList />
+    }
+    else
+    {
+        <style>
+            #resultater-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <ResultList />
+    }
 </section>
 
 @code {
-    [Parameter]
-    public int ID { get; set; }
+    public int ID = 1;
+
+    List<Division> divisions = new List<Division>();
 
     public string display = "stilling";
 
@@ -95,5 +89,16 @@
     {
         display = "resulater";
         StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        divisions = await client.GetFromJsonAsync<List<Division>>("Division");
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(divisions);
     }
 }
