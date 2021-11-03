@@ -1,12 +1,13 @@
 ﻿table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0 10px;
     width: 100%;
+    font-size: larger;
 }
 
-th, td {
-    padding: 0.25rem;
+td, th {
+    padding: 0.35rem;
     text-align: left;
-    border: 1px solid #ccc;
 }
 
 tbody tr:nth-child(odd) {
@@ -25,4 +26,9 @@ tbody tr:nth-child(odd):hover {
 thead tr:hover {
     background-color: #2d2d2d;
     cursor: default;
+}
+
+tbody tr {
+    margin-top: 5px;
+    background-color: #3e3e3e;
 }
