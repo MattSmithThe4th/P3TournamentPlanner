@@ -65,8 +65,18 @@
     string role = "Administrator";
     bool isAuth;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        teams = await client.GetFromJsonAsync<List<Team>>("Stilling?league=" + liga + "&division=" + ID);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(teams);
+    }
+
+
         // <------- DETTE ER TIL HVIS MAN VIL ROLE AUTH EN SIDE!!!! SKAL BRUGES ANDRE STEDER!!!! --------->
         //try
         //{
@@ -89,14 +99,4 @@
         //    Console.WriteLine("Upsie doopsie!");
         //    exception.Redirect();
         //}
-
-        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
-        client.BaseAddress = new Uri("https://localhost:44341/");
-
-        Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("Stilling?league=" + liga + "&division=" + ID);
-        Console.WriteLine("På den anden side");
-        Console.WriteLine(teams);
-        StateHasChanged();
-    }
 }
