@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace P3TournamentPlanner.Server.Controllers {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Roles = "Administrator")]
     public class StillingController : ControllerBase {
@@ -40,6 +40,10 @@ namespace P3TournamentPlanner.Server.Controllers {
             foreach(DataRow r in dt.Rows)
             {
                 teamList.Add(new Team(r[0].ToString(), (int)r[1], (int)r[2], (int)r[3], (int)r[4], (int)r[5], (int)r[6]));
+            }
+
+            foreach(Team t in teamList) {
+                Console.WriteLine(t.name);
             }
 
             return teamList;
