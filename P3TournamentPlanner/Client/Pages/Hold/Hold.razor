@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>Navn</th>
-            <th>Kontakt</th>
+            <th>Kontakt</th>    
             <th>Division</th>
         </tr>
     </thead>
@@ -46,7 +46,7 @@
 
     public void ShowTeam(Team team)
     {
-        //TeamService.team = team;
+        TeamService.team = team;
         NavigationManager.NavigateTo($"/hold/{team.name}");
     }
 }
