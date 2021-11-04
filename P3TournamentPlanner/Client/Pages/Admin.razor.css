@@ -1,0 +1,42 @@
+﻿
+
+.Containers {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: lightgrey;
+    border-style: solid;
+    border-color: black;
+}
+
+.Containers2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: lightgrey;
+    border-style: solid;
+    border-color: white;
+    background-color: blue;
+}
+
+#Container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: lightgrey;
+    border-style: solid;
+    border-color: white;
+    background-color: blue;
+}
+
+.ny-admin-div {
+    background-color: lightgrey;
+    border-style: solid;
+    border-color: black;
+}
+
+.btn-edit {
+    padding: 15px 25px;
+    width: 20%;
+    background-color: red;
+}
+}
