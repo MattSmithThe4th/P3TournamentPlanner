@@ -63,7 +63,7 @@
     public int ID { get; set; }
 
     List<Team> teams = new List<Team>();
-    string liga = "testLeague";
+    int liga = 1;
     string role = "Administrator";
     bool isAuth;
 
@@ -73,7 +73,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("Stilling?league=" + liga + "&division=" + ID);
+        teams = await client.GetFromJsonAsync<List<Team>>("api/Stilling?league=" + liga + "&division=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
     }
