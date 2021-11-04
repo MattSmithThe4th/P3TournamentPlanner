@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace P3TournamentPlanner.Server.Controllers {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Roles = "Administrator")]
     public class StillingController : ControllerBase {
@@ -18,7 +18,7 @@ namespace P3TournamentPlanner.Server.Controllers {
         //Runs when a get request is send to /Stilling. It creates a list of teams in the given league and division,
         //based on data in the database. This list is then send as response, as a json.
         [HttpGet]
-        public List<Team> Get(string league, int division) {
+        public List<Team> Get(int league, int division) {
             Console.WriteLine("Get Recieved!");
             Console.WriteLine("league: " + league);
             Console.WriteLine("division: " + division);
