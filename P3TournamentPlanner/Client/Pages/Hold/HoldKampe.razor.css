@@ -1,0 +1,53 @@
+﻿.header-div {
+    margin-top: 5vh;
+    display: flex;
+}
+
+.header-div h2 {
+    padding: 8px 75px 8px 35vw;
+    background-color: var(--second-lilla);
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    transform: translateX(-60%);
+}
+
+.table_container {
+    margin-top: 8vh;
+}
+
+.table_menu button {
+    background-color: var(--main-lilla);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.table_menu button:hover {
+    background-color: var(--penta-lilla);
+    cursor: pointer;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    width: 100%;
+    font-size: larger;
+}
+
+td, th {
+    padding: 0.35rem;
+    text-align: left;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #3e3e3e;
+}
+
+tbody tr {
+    margin-top: 5px;
+    background-color: #3e3e3e;
+}

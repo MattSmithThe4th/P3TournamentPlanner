@@ -4,7 +4,7 @@ namespace P3TournamentPlanner.Shared {
     public class League {
         public string name { get; set; }
         public List<Division> divisions { get; set; }
-        public List<Admin> admins { get; set; }
+        public List<SiteAdmin> admins { get; set; }
         public VideoGame game { get; set; }
         public Club test { get; set; }
 

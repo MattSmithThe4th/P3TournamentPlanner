@@ -1,8 +1,4 @@
-﻿body {
-    font: normal medium/1.4 sans-serif;
-}
-
-table {
+﻿.table-style {
     border-collapse: separate;
     border-spacing: 0 10px;
     width: 100%;
@@ -35,18 +31,4 @@ thead tr:hover {
 tbody tr {
     margin-top: 5px;
     background-color: #3e3e3e;
-}
-
-.points {
-    width: 75px;
-    text-align: center;
-}
-
-.number {
-    text-align: center;
-    width: 50px;
-}
-
-.placement {
-    width: 75px;
 }

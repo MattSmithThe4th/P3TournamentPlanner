@@ -7,6 +7,8 @@ namespace P3TournamentPlanner.Shared {
         public List<Player> playerList { get; set; }
         public int teamSkillRating { get; set; }
         public ClubManager manager { get; set; }
+        public string contact { get; set; }
+        public int divisionID { get; set; }
 
         //stillings ting
         public int placement { get; set; }
@@ -60,6 +62,13 @@ namespace P3TournamentPlanner.Shared {
             this.matchesDraw = matchesDraw;
             this.matchesLost = matchesLost;
             this.points = points;
+        }
+
+        public Team(string name, string contact, int divisionID)
+        {
+            this.name = name;
+            this.contact = contact;
+            this.divisionID = divisionID;
         }
     }
 }
