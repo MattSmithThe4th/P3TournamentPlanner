@@ -1,0 +1,24 @@
+﻿@page "/test"
+@using P3TournamentPlanner.Shared
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+
+<h3>Test</h3>
+<button>Klik mig</button>
+@code {
+    List<League> list = new List<League>();
+
+    protected override async Task OnInitializedAsync() {
+
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        list = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
+        Console.WriteLine("På den anden side");
+
+        foreach(League l in list) {
+            Console.WriteLine(l.name);
+        }
+    }
+}

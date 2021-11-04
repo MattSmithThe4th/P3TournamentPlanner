@@ -1,0 +1,33 @@
+﻿body {
+    font: normal medium/1.4 sans-serif;
+}
+
+.table_menu button {
+    background-color: var(--main-lilla);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.table_menu button:hover {
+    background-color: var(--penta-lilla);
+    cursor: pointer;
+}
+
+.input-select {
+    background-color: var(--main-lilla);
+    border: none;
+    color: white;
+    padding: 9px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    float: right;
+    border-color: #fff transparent transparent transparent;
+    cursor: pointer;
+}
