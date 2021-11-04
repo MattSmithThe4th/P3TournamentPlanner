@@ -52,6 +52,8 @@ namespace P3TournamentPlanner.Server
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddScoped<Client.Services.TeamService>();
+
             services.AddAuthorization(options => {
                 options.AddPolicy("RequireAdminRole",
                     policy => policy.RequireRole("Administrator"));

@@ -4,6 +4,7 @@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
+@inject Services.TeamService TeamService
 @page "/hold"
 
 <h1>Hold</h1>
@@ -20,7 +21,7 @@
     <tbody>
         @foreach (Team team in teams)
         {
-            <tr @onclick="() => ShowTeam(team.name)">
+            <tr @onclick="() => ShowTeam(team)">
                 <td>@team.name</td>
                 <td>@team.contact</td>
                 <td>@team.divisionID</td>
@@ -43,8 +44,9 @@
         Console.WriteLine(teams);
     }
 
-    public void ShowTeam(string teamName)
+    public void ShowTeam(Team team)
     {
-        NavigationManager.NavigateTo($"/hold/{teamName}");
+        //TeamService.team = team;
+        NavigationManager.NavigateTo($"/hold/{team.name}");
     }
 }
