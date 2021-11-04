@@ -1,18 +1,34 @@
 ﻿@using P3TournamentPlanner.Shared;
 @page "/admin"
 <h3>Admin</h3>
-<div class="form-div">
-    <EditForm Model="admins" OnValidSubmit="Test">
-        <label for="navn">Navn:</label>
-        <InputText id="navn" name="navn" @bind-Value="admins.contactinfo.name"></InputText>
-    </EditForm>
+<!--<div class="Containers" id="information">
+    <h3>Username</h3>
+    <h3>Password</h3>
+    <h3>Email</h3>
+</div>-->
+
+<div class="ny-admin-div">
+    <form class="dingdonger" action="" method="post">
+        <div id="input-felter">
+            <label >Ny admin</label>
+            <input  id="username" type="text" placeholder="Username her" />
+            <input  id="password" type="text" placeholder="Password her" />
+            <input  id="email" type="text" placeholder="Email her" />
+            <button > Opret ny Admin </button>
+            <b></b>
+        </div>
+    </form>
 </div>
 
-@code {
-    SiteAdmin admins = new SiteAdmin();
-    
-    public void Test()
+<div class="Containers2">
+    @for (int i = 0; i < 5; i++)
     {
-
+        <div id="container">
+            <h3> Admin @i </h3>
+            <h3> eksemplegmail.com</h3>
+            <button class="btn-edit">remove admin</button>
+            <button class="btn-edit">Edit admin</button>
+            <b></b>
+        </div>
     }
-}
+</div>
