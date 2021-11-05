@@ -1,13 +1,13 @@
 ﻿.liga-section {
-    margin-top: 2vh;
+    margin-top: 4vh;
 }
 
-.liga-section h3 {
+.liga-section h2 {
     margin: 0;
 }
 
 .liga-container {
-    border: solid 1px white;
+    background-color: #3e3e3e;
     padding: 10px;
     max-width: 500px;
 }

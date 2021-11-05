@@ -27,10 +27,11 @@
         }
         else
         {
+            i = 1;
             @foreach (Team team in teams)
             {
                 <tr @onclick="() => ShowTeam(team)">
-                    <td class="placement">@team.placement</td>
+                    <td class="placement">@i</td>
                     <td class="team">@team.name</td>
                     <td class="number">@team.matchesPlayed</td>
                     <td class="number">@team.matchesWon</td>
@@ -39,6 +40,7 @@
                     <td class="number">-----</td>
                     <td class="points">@team.points</td>
                 </tr>
+                i++;
             }
         }
 
@@ -62,6 +64,8 @@
     [Parameter]
     public int ID { get; set; }
 
+    public int i = 1;
+
     List<Team> teams = new List<Team>();
     int liga = 1;
     string role = "Administrator";
@@ -76,6 +80,7 @@
         teams = await client.GetFromJsonAsync<List<Team>>("api/Stilling?league=" + liga + "&division=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
+        teams.Sort((x, y) => y.points.CompareTo(x.points));
     }
 
     // <------- DETTE ER TIL HVIS MAN VIL ROLE AUTH EN SIDE!!!! SKAL BRUGES ANDRE STEDER!!!! --------->

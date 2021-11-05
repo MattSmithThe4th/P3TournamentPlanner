@@ -70,25 +70,21 @@
     public void ChangeDivision(ChangeEventArgs e)
     {
         ID = Convert.ToInt32(e.Value);
-        StateHasChanged();
     }
 
     public void ShowStilling()
     {
         display = "stilling";
-        StateHasChanged();
     }
 
     public void ShowKampe()
     {
         display = "kampe";
-        StateHasChanged();
     }
 
     public void ShowResultater()
     {
         display = "resulater";
-        StateHasChanged();
     }
 
     protected override async Task OnInitializedAsync()
