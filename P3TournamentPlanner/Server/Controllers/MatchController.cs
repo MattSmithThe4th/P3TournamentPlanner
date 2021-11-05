@@ -24,8 +24,8 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DataTable matchTable, teamTable;
 
-            matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
-                $"startTime, playedFlag, hostClubID, serverIP from MatchDB where matchID = 1");
+            matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1, team2, team1Score, team2Score, " +
+                $"startTime, playedFlag, hostClubID, serverIP from MatchDB");
 
 
             foreach (DataRow r in matchTable.Rows) {
@@ -33,16 +33,20 @@ namespace P3TournamentPlanner.Server.Controllers {
                     teamTable = db.PullTable($"select teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, " +
                     $"matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag from TeamsDB where teamID = {(int)r[3+i]}");
                     foreach (DataRow row in teamTable.Rows) {
-                        teamList.Add(new Team((int)row[0], (int)row[1], (int)row[2], (int)row[3], row[4].ToString(), (int)row[5], (int)row[6], (int)row[7], (int)row[8], 
-                            (int)row[9], (int)row[10], (int)row[11], (int)row[12], (int)row[13], row[14].ToString(), (int)row[15]));
+                        teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], r[4].ToString(), (int)r[5], (int)r[6], (bool)r[7], (int)r[8], 
+                            (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], r[14].ToString(), (bool)r[15]));
                     }
                     
                 }
              
-                matchList.Add(new Match((int)r[0], (int)r[1], (int)r[2], teamList, r[5] + " - " + r[6], r[7].ToString(), (int)r[8], (int)r[9], r[10].ToString())); //do something with results
+                matchList.Add(new Match((int)r[0], (int)r[1], (int)r[2], teamList, r[7].ToString(), (bool)r[8], (int)r[9], r[10].ToString()));
             }
 
             Console.WriteLine(matchTable);
+
+            foreach (Match t in matchList) {
+                //Console.WriteLine(t.DivID);
+            }
 
             return matchList;
         }

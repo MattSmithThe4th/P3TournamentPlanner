@@ -12,7 +12,7 @@ namespace P3TournamentPlanner.Shared {
         public List<Player> playerList { get; set; }
         public ClubManager manager { get; set; }
         public string managerID { get; set; }
-        public int archiveFlag { get; set; }
+        public bool archiveFlag { get; set; }
 
 
 
@@ -20,7 +20,7 @@ namespace P3TournamentPlanner.Shared {
         //stillings ting
         public int placement { get; set; }
         public int matchesPlayed { get; set; }
-        public int matchPlayed { get; set; }
+        public bool matchPlayed { get; set; }
         public int matchesWon { get; set; }
         public int matchesDraw { get; set; }
         public int matchesLost { get; set; }
@@ -62,8 +62,8 @@ namespace P3TournamentPlanner.Shared {
             this.points = points;
         }
 
-        public Team(int teamID, int clubID, int divisionID, int leagueID, string name, int teamSkillRating, int placement, int matchPlayed, 
-            int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, string managerID, int archiveFlag) {
+        public Team(int teamID, int clubID, int divisionID, int leagueID, string name, int teamSkillRating, int placement, bool matchPlayed, 
+            int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, string managerID, bool archiveFlag) {
             this.teamID = teamID;
             this.clubID = clubID;
             this.divisionID = divisionID;
