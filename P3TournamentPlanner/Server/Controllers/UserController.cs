@@ -18,7 +18,6 @@ namespace P3TournamentPlanner.Server.Controllers {
         public Contactinfo Get(string testID) {
             string id;
             DatabaseQuerys db = new DatabaseQuerys();
-            List<Team> teamList = new List<Team>();
             DataTable dt;
 
             if (testID == null) {
