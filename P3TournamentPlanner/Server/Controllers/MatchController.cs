@@ -25,7 +25,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             DataTable matchTable, teamTable;
 
             matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
-                $"startTime, playedFlag, hostClubID, serverIP from MatchDB where matchID = 1");
+                $"startTime, playedFlag, hostClubID, serverIP from MatchDB");
 
 
             foreach (DataRow r in matchTable.Rows) {
