@@ -32,7 +32,7 @@
             {
                 <tr @onclick="() => ShowTeam(team)">
                     <td class="placement">@i</td>
-                    <td class="team">@team.name</td>
+                    <td class="team">@team.teamName</td>
                     <td class="number">@team.matchesPlayed</td>
                     <td class="number">@team.matchesWon</td>
                     <td class="number">@team.matchesDraw</td>
@@ -109,6 +109,6 @@
     public void ShowTeam(Team team)
     {
         TeamService.team = team;
-        NavigationManager.NavigateTo($"/hold/{team.name}");
+        NavigationManager.NavigateTo($"/hold/{team.teamName}");
     }
 }

@@ -22,7 +22,7 @@
         @foreach (Team team in teams)
         {
             <tr @onclick="() => ShowTeam(team)">
-                <td>@team.name</td>
+                <td>@team.teamName</td>
                 <td>@team.contact</td>
                 <td>@team.divisionID</td>
             </tr>
@@ -47,6 +47,6 @@
     public void ShowTeam(Team team)
     {
         TeamService.team = team;
-        NavigationManager.NavigateTo($"/hold/{team.name}");
+        NavigationManager.NavigateTo($"/hold/{team.teamName}");
     }
 }

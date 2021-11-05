@@ -43,7 +43,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
 
             foreach(Team t in teamList) {
-                Console.WriteLine(t.name);
+                Console.WriteLine(t.teamName);
             }
 
             return teamList;
