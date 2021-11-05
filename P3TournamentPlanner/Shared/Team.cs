@@ -53,7 +53,7 @@ namespace P3TournamentPlanner.Shared {
         }
 
         public Team(string name, string contact, int divisionID)
-        {
+        {                   
             this.name = name;
             this.contact = contact;
             this.divisionID = divisionID;
