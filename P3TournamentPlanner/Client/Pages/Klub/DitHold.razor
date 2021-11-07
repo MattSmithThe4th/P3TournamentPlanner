@@ -1,0 +1,146 @@
+﻿@page "/dithold"
+@inject IJSRuntime JsRuntime
+<h1>Hobro Vikings - hold 1</h1>
+
+<section class="hold-sections">
+    <form>
+        <label for="name">Navn:</label>
+        <input id="name" type="text" />
+        <button type="submit">Gem</button>
+    </form>
+</section>
+
+<section class="manager-section">
+    <div class="header-div">
+        <h2>Trænere</h2>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Email</th>
+                    <th>Telefon</th>
+                    <th>Discord</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Julian Aarup Larsen</td>
+                    <td>JulianManager@gmail.com</td>
+                    <td>12345678</td>
+                    <td>Julian</td>
+                    <td><button @onclick="ShowEditTræner">Rediger</button></td>
+                    <td><button>Slet</button></td>
+                </tr>
+                <tr style="display: @displayTræner">
+                    <td>
+                        <label for="træner-navn">Navn:</label>
+                        <input id="træner-navn" type="text" />
+                    </td>
+                    <td>
+                        <label for="træner-email">Email:</label>
+                        <input id="træner-email" type="text" />
+                    </td>
+                    <td>
+                        <label for="træner-telefon">Telefon:</label>
+                        <input id="træner-telefon" type="text" />
+                    </td>
+                    <td>
+                        <label for="træner-discord">Discord:</label>
+                        <input id="træner-discord" type="text" />
+                    </td>
+
+                    <td><button @onclick="ShowEditTræner">Gem</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <form>
+        <label>Tilføj træner</label>
+        <select>
+            <option>Vælg klub administrator</option>
+            <option>Julian Aarup Larsen</option>
+        </select>
+        <button type="submit">Tilføj</button>
+    </form>
+</section>
+
+<section class="player-section">
+    <div class="header-div">
+        <h2>Spillere</h2>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>In-game navn</th>
+                    <th>STEAM_ID</th>
+                    <th>Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <tr>
+                        <td>Martin Svanholm</td>
+                        <td>Svanh0lm</td>
+                        <td>STEAM_0:0:11101</td>
+                        <td>Global Elite</td>
+                        <td><button @onclick="ShowEditSpiller">Rediger</button></td>
+                        <td><button>Slet</button></td>
+                    </tr>
+                }
+                <tr style="display: @displaySpiller">
+                    <td>
+                        <label for="træner-navn">Navn:</label>
+                        <input id="træner-navn" type="text" />
+                    </td>
+                    <td>
+                        <label for="træner-email">Email:</label>
+                        <input id="træner-email" type="text" />
+                    </td>
+                    <td>
+                        <label for="træner-telefon">Telefon:</label>
+                        <input id="træner-telefon" type="text" />
+                    </td>
+                    <td>
+                        <label for="træner-discord">Discord:</label>
+                        <input id="træner-discord" type="text" />
+                    </td>
+
+                    <td><button @onclick="ShowEditSpiller">Gem</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<button @onclick="Alert">Slet Hold</button>
+
+@code {
+    public string displayTræner = "none";
+    public string displaySpiller = "none";
+
+    public void ShowEditTræner()
+    {
+        if (displayTræner == "none")
+            displayTræner = "table-row";
+        else
+            displayTræner = "none";
+    }
+
+    public void ShowEditSpiller()
+    {
+        if (displaySpiller == "none")
+            displaySpiller = "table-row";
+        else
+            displaySpiller = "none";
+    }
+
+    public async Task Alert()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Er du sikker?");
+    }
+}

@@ -1,0 +1,60 @@
+﻿@page "/dinklub"
+<h1>Din klub</h1>
+<section class="klub-section">
+    <div class="klub-info">
+        <form>
+            <label for="navn">Navn:</label>
+            <input id="navn" type="text" />
+            <label for="adresse">Adresse:</label>
+            <input id="adresse" type="text" />
+            <button type="submit">Gem</button>
+        </form>
+    </div>
+</section>
+<section class="klub-section">
+    <div class="header-div">
+        <h2>Klub administratorer</h2>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Email</th>
+                    <th>Telefon</th>
+                    <th>Discord</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Julian Aarup Larsen</td>
+                    <td>JulianManager@gmail.com</td>
+                    <td>12345678</td>
+                    <td>Julian</td>
+                    <td><button>Rediger</button></td>
+                    <td><button>Slet</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section class="klub-section">
+    <div  id="hold-header" class="header-div">
+        <h2>Dine hold</h2>
+    </div>
+    <div class="hold-div">
+        <h3>Hobro Vikings - hold 1</h3>
+        <h3>League: CS:GO</h3>
+        <h3>Division: Division 1</h3>
+    </div>
+    <div class="hold-div">
+        <h3>Hobro Vikings - hold 1</h3>
+        <h3>League: CS:GO</h3>
+        <h3>Division: Division 1</h3>
+    </div>
+</section>
+
+
+@code {
+
+}
