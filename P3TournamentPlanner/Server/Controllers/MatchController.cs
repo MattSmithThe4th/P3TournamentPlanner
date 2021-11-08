@@ -12,7 +12,7 @@ namespace P3TournamentPlanner.Server.Controllers
     [ApiController]
     public class MatchController : ControllerBase
     {
-        public List<Match> Get()
+        public List<Match> Get(int division)
         {
             Console.WriteLine("Get Recieved!");
 
@@ -22,17 +22,18 @@ namespace P3TournamentPlanner.Server.Controllers
             DatabaseQuerys db = new DatabaseQuerys();
 
             List<Match> matchList = new List<Match>();
-            List<Team> teamList = new List<Team>();
+            
 
 
             DataTable matchTable, teamTable;
 
             matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
-                $"startTime, playedFlag, hostClubID, serverIP from MatchDB");
+                $"startTime, playedFlag, hostClubID, serverIP from MatchDB where divisionID = " + division);
 
 
             foreach (DataRow r in matchTable.Rows)
             {
+                List<Team> teamList = new List<Team>();
                 for (int i = 0; i < 2; i++)
                 {
                     teamTable = db.PullTable($"select teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, " +

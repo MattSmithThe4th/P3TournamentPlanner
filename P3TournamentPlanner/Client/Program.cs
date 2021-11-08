@@ -27,6 +27,7 @@ namespace P3TournamentPlanner.Client
             builder.Services.AddApiAuthorization();
 
             builder.Services.AddScoped<Services.TeamService>();
+            builder.Services.AddScoped<Services.MatchService>();
 
             await builder.Build().RunAsync();
         }

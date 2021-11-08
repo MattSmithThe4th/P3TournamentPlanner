@@ -47,7 +47,7 @@
                 background-color: var(--penta-lilla)
             }
         </style>
-        <MatchList />
+        <MatchList ID="ID" />
     }
     else
     {
@@ -56,7 +56,7 @@
                 background-color: var(--penta-lilla)
             }
         </style>
-        <ResultList />
+        <ResultList ID="ID"/>
     }
 </section>
 
@@ -70,21 +70,25 @@
     public void ChangeDivision(ChangeEventArgs e)
     {
         ID = Convert.ToInt32(e.Value);
+        StateHasChanged();
     }
 
     public void ShowStilling()
     {
         display = "stilling";
+        StateHasChanged();
     }
 
     public void ShowKampe()
     {
         display = "kampe";
+        StateHasChanged();
     }
 
     public void ShowResultater()
     {
         display = "resulater";
+        StateHasChanged();
     }
 
     protected override async Task OnInitializedAsync()

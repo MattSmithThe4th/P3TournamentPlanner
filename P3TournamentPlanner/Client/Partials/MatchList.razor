@@ -1,47 +1,51 @@
-﻿@inject NavigationManager NavigationManager
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@inject Services.MatchService MatchService
 <div id="matchSection" style="width: 100%">
-    <!--@if (Matches == null)
+    @foreach (Match match in matches)
     {
-        <p> Loading </p>
-    }
-    else
-    {
-        @foreach (Match match in Matches)
+        @if (match.playedFlag == 0)
         {
-            <div id="topPart">
-                <h1> @match.teams[0]</h1>
-                <h1> VS </h1>
-                <h1> @match.teams[1] </h1>
-            </div>
-            <div id="lowPart">
-                <h3> @match.startTime</h3>
-                <h3> @match.matchHost.adress</h3>
+            <div class="match-container" @onclick="() => ShowMatch(match)">
+                <div id="topPart">
+                    <h1> @match.teams[0].teamName</h1>
+                    <h1> VS </h1>
+                    <h1> @match.teams[1].teamName</h1>
+                </div>
+                <div id="lowPart">
+                    <h3> @match.startTime</h3>
+                    <h3> @match.clubHostID</h3>
+                </div>
             </div>
         }
-    }-->
-    @for (int i = 1; i < 6; i++)
-    {
-        <div class="match-container" @onclick="ShowMatch">
-            <div id="topPart">
-                <h1>Team @i</h1>
-                <h1>VS</h1>
-                <h1>Team @i+1 </h1>
-            </div>
-            <div id="lowPart">
-                <div id="box">
-                    <h2>02-11-2021</h2>
-                </div>
-                <div id="box">
-                    <h2> Hobro Viking, helenavej 4 9210 SØ</h2>
-                </div>
-            </div>
-        </div>
     }
 </div>
 
 @code {
-    public void ShowMatch()
+    [Parameter]
+    public int ID { get; set; }
+
+    List<Match> matches = new List<Match>();
+
+    protected override async Task OnParametersSetAsync()
     {
-        NavigationManager.NavigateTo("/kamp/1");
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        matches = await client.GetFromJsonAsync<List<Match>>("Match?division=" + ID);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(matches);
+    }
+
+    public void ShowMatch(Match match)
+    {
+        MatchService.match = match;
+        NavigationManager.NavigateTo($"/kamp/{match.matchID}");
     }
 }
