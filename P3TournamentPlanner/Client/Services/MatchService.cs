@@ -9,5 +9,6 @@ namespace P3TournamentPlanner.Client.Services
     public class MatchService
     {
         public Match match { get; set; }
+        public string adress { get; set; }
     }
 }

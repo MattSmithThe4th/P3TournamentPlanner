@@ -19,7 +19,15 @@
                 </div>
                 <div id="lowPart">
                     <h3> @match.startTime</h3>
-                    <h3> @match.clubHostID</h3>
+                    <h3>
+                        @foreach (Club club in clubs)
+                        {
+                            @if (club.clubID == match.clubHostID.ToString())
+                            {
+                                @club.address
+                            }
+                        }
+                    </h3>
                 </div>
             </div>
         }
@@ -31,6 +39,7 @@
     public int ID { get; set; }
 
     List<Match> matches = new List<Match>();
+    List<Club> clubs = new List<Club>();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -41,6 +50,11 @@
         matches = await client.GetFromJsonAsync<List<Match>>("Match?division=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(matches);
+
+        Console.WriteLine("Get Send");
+        clubs = await client.GetFromJsonAsync<List<Club>>("Klub");
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(clubs);
     }
 
     public void ShowMatch(Match match)
