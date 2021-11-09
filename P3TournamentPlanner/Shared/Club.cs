@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace P3TournamentPlanner.Shared {
     public class Club {
@@ -21,5 +22,11 @@ namespace P3TournamentPlanner.Shared {
             this.name = name;
             this.address = address;
         }
-    }
+
+        //Midlertidig
+        public string ImageToBase64(string imgPath) {
+            byte[] imageBytes = System.IO.File.ReadAllBytes(imgPath);
+            string base64String = Convert.ToBase64String(imageBytes);
+            return base64String;
+        }
 }

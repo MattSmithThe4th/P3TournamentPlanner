@@ -5,7 +5,7 @@ using P3TournamentPlanner.Shared;
 using System.Data;
 
 namespace P3TournamentPlanner.Server.Controllers {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class TeamInformationController : ControllerBase {
 

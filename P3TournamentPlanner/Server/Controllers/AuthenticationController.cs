@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace P3TournamentPlanner.Server.Controllers {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase {
         [HttpGet]

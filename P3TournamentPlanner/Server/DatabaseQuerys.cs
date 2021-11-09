@@ -55,5 +55,14 @@ namespace P3TournamentPlanner.Server {
             }
 
         }
+
+        public void InsertToTable(string quary) {
+            using(SqlConnection connection = new SqlConnection(connectionString)) {
+                SqlCommand cmd = new SqlCommand(quary, connection);
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
     }
 }
