@@ -1,20 +1,22 @@
 ﻿namespace P3TournamentPlanner.Shared {
     public class Player {
-        public int clubID { get; set; }
-        public int teamID { get; set; }
+        //public int clubID { get; set; }
+        //public int teamID { get; set; }
         public string IRLName { get; set; }
         public string IGName { get; set; }
         public string steamID { get; set; }
-        public string cssgoRank { get; set; }
-        public int playerSkllRating;
+        public string CSGORank { get; set; }
+        public int playerSkllRating { get; set; }
 
-        public Player(int clubID, int teamID, string IRLName, string IGName, string steamID, string cssgoRank) {
-            this.clubID = clubID;
-            this.teamID = teamID;
+        public Player(string IRLName, string IGName, string steamID, string CSGORank, int playerSkllRating) {
             this.IRLName = IRLName;
             this.IGName = IGName;
             this.steamID = steamID;
-            this.cssgoRank = cssgoRank;
+            this.CSGORank = CSGORank;
+            this.playerSkllRating = playerSkllRating;
+        }
+
+        public Player() {
         }
     }
 }

@@ -29,13 +29,13 @@ namespace P3TournamentPlanner.Server.Controllers {
             
             foreach (DataRow r in dt.Rows) {
                 df.format = r[2].ToString();
-                divList.Add(new Division((int)r[0], r[1].ToString(), df));
+                divList.Add(new Division((int)r[0], df));
             }
 
             Console.WriteLine(dt);
 
             foreach (Division t in divList) {
-                Console.WriteLine(t.DivID);
+                Console.WriteLine(t.divisionID);
             }
 
             return divList;
