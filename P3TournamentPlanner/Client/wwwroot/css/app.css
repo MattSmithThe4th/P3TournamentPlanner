@@ -94,6 +94,17 @@ a, .btn-link {
     opacity: .5;
 }
 
+.match-container {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+}
+
+.match-container:hover {
+    background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url("../images/NordjyskligaCover2.jpg"); 
+}
+
 /* For mobile phones: */
 [class*="col-"] {
     width: 100%;
