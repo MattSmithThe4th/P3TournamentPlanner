@@ -39,7 +39,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("TeamInformation");
+        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation");
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
     }

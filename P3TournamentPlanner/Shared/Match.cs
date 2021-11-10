@@ -13,6 +13,11 @@ namespace P3TournamentPlanner.Shared {
         public string serverIP { get; set; }
         public string map { get; set; }
 
+        public Match()
+        {
+
+        }
+
         public Match(int matchID, List<Team> teams, string startTime, int playedFlag, string results, int clubHostID, string serverIP, string map) {
             this.matchID = matchID;
             this.teams = teams;

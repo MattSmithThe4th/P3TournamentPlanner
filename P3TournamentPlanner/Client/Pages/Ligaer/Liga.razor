@@ -97,7 +97,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        divisions = await client.GetFromJsonAsync<List<Division>>("Division");
+        divisions = await client.GetFromJsonAsync<List<Division>>("api/Division");
         Console.WriteLine("På den anden side");
         Console.WriteLine(divisions);
     }
