@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace P3TournamentPlanner.Server.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class MatchController : ControllerBase
     {
@@ -16,6 +16,7 @@ namespace P3TournamentPlanner.Server.Controllers
         public List<Match> Get(int division)
         {
             Console.WriteLine("Get Recieved!");
+            Console.WriteLine(division);
 
 
             DatabaseQuerys db = new DatabaseQuerys();
@@ -24,10 +25,10 @@ namespace P3TournamentPlanner.Server.Controllers
             
 
 
-            DataTable matchTable, teamTable;
+            DataTable matchTable, teamTable, contactTable;
 
             matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
-                $"startTime, playedFlag, hostClubID, serverIP from MatchDB where divisionID = " + division);
+                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where divisionID = " + division);
 
 
             foreach (DataRow r in matchTable.Rows)
@@ -36,11 +37,17 @@ namespace P3TournamentPlanner.Server.Controllers
                 for (int i = 0; i < 2; i++)
                 {
                     teamTable = db.PullTable($"select teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, " +
-                    $"matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag from TeamsDB where teamID = {(int)r[3 + i]}");
+                    $"matchesLost, roundsLost, roundsWon, points, managerID, archiveFlag from TeamsDB where teamID = {(int)r[3 + i]}");
                     foreach (DataRow row in teamTable.Rows)
                     {
-                        teamList.Add(new Team((int)row[0], (int)row[1], (int)row[2], (int)row[3], row[4].ToString(), (int)row[5], (int)row[6], (int)row[7], (int)row[8],
-                            (int)row[9], (int)row[10], (int)row[11], (int)row[12], (int)row[13], row[14].ToString(), (int)row[15]));
+                        contactTable = db.PullTable($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID='{row[14]}'");
+
+                        Contactinfo contactInfo = new Contactinfo((string)contactTable.Rows[0][0], (string)contactTable.Rows[0][1], (string)contactTable.Rows[0][2], (string)contactTable.Rows[0][3]);
+                        ClubManager manager = new ClubManager(contactInfo, (string)row[14]);
+                        teamList.Add(new Team((int)row[0], (int)row[2], (string)row[4], (int)row[5], (int)row[6], (int)row[7], (int)row[8], (int)row[9], (int)row[10], (int)row[11], (int)row[12], (int)row[13], manager, Convert.ToBoolean(row[15])));
+
+                        //teamList.Add(new Team((int)row[0], (int)row[1], (int)row[2], (int)row[3], row[4].ToString(), (int)row[5], (int)row[6], (int)row[7], (int)row[8],
+                        //    (int)row[9], (int)row[10], (int)row[11], (int)row[12], (int)row[13], row[14].ToString(), (int)row[15]));
                     }
 
                 }
