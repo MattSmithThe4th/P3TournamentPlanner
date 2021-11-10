@@ -12,11 +12,10 @@ namespace P3TournamentPlanner.Server.Controllers
     [ApiController]
     public class MatchController : ControllerBase
     {
+        [HttpGet]
         public List<Match> Get(int division)
         {
             Console.WriteLine("Get Recieved!");
-
-            //Console.WriteLine("Match ID: " + matchID.GetValueOrDefault());
 
 
             DatabaseQuerys db = new DatabaseQuerys();
@@ -46,12 +45,30 @@ namespace P3TournamentPlanner.Server.Controllers
 
                 }
 
-                matchList.Add(new Match((int)r[0], (int)r[1], (int)r[2], teamList, r[5] + " - " + r[6], r[7].ToString(), (int)r[8], (int)r[9], r[10].ToString())); //do something with results
+                matchList.Add(new Match((int)r[0], (int)r[1], (int)r[2], teamList, (int)r[5], (int)r[6], r[7].ToString(), (int)r[8], (int)r[9], r[10].ToString())); //do something with results
             }
 
             Console.WriteLine(matchTable);
 
             return matchList;
         }
+
+        [HttpPost]
+        public void Post(Match match) {
+            Console.WriteLine("Post Recieved!");
+
+            string command = $"insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
+                $"values({match.divisionID}, {match.leagueID}, {match.teams[0]}, {match.teams[1]}, {match.resultTeam1}, {match.resultTeam2}, {match.startTime}, {match.playedFlag}, {match.clubHostID}, {match.serverIP})";
+
+        }
+
+        //[HttpPut]
+        //public Match Put(Match match) {
+        //    Console.WriteLine("Put Recieved!");
+
+        //    string command = $"update MatchDB set divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) values(2, 1, 2, 4, 16, 10, 'Dette er Start time', 1, 2, 'Dette er server IP')";
+
+        //    return match;
+        //}
     }
 }
