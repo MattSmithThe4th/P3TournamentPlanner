@@ -3,15 +3,20 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin-top: 10px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    border: solid 1px white;
+    border-radius: 5px;
 }
 
 .match-container-background {
-    background-color: rgba(0,0,0,0.5);
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 5px;
 }
 
 .match-container-background:hover {
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.4);
 }
 
 #topPart {
@@ -22,7 +27,14 @@
 }
 
 .match-header {
-    width: 30vw;
+    text-align: center;
+    width: 20vw;
+    justify-content: center;
+}
+
+#center {
+    justify-content: center;
+    width: 8vw;
 }
 
 #lowPart {
@@ -30,8 +42,10 @@
     justify-content: center;
 }
 
-#center {
-    
+#lowPart h3 {
+    text-align: center;
+    width: 20vw;
+    justify-content: center;
 }
 
 #box {

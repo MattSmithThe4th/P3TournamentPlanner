@@ -15,9 +15,9 @@
                  style="background-image: url(/images/maps/@match.map)">
                 <div class="match-container-background" @onclick="() => ShowMatch(match)">
                     <div id="topPart">
-                        <h1> @match.teams[0].teamName</h1>
-                        <h1> @match.results </h1>
-                        <h1> @match.teams[1].teamName</h1>
+                        <h1 class="match-header"> @match.teams[0].teamName</h1>
+                        <h1 class="match-header" id="center"> @match.results </h1>
+                        <h1 class="match-header"> @match.teams[1].teamName</h1>
                     </div>
                     <div id="lowPart">
                         <h3> @match.startTime</h3>

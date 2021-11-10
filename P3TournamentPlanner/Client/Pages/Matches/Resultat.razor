@@ -1,32 +1,24 @@
 ﻿@page "/resultat/{id:int}"
 @inject Services.MatchService MatchService
 @using P3TournamentPlanner.Shared;
-<section class="kamp-section">
-    <style>
-        .kamp-section {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/maps/@MatchService.match.map);
-        }
-
-        .kamp-section:hover {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/images/maps/@MatchService.match.map);
-        }
-    </style>
-    <h1 id="kamp-id">Kamp id: @ID</h1>
-    <div class="team-div">
-        <h1>@MatchService.match.teams[0].teamName</h1>
-        <h1>@MatchService.match.results</h1>
-        <h1>@MatchService.match.teams[1].teamName</h1>
-    </div>
-    <div class="info-div">
-        <div class="item-div date-div"><time datetime="2021-02-11">@MatchService.match.startTime</time></div>
-        <div class="item-div" id="center">
-            <button>Download Demo</button>
+<section class="kamp-section" style="background-image: url(/images/maps/@MatchService.match.map)">
+    <section class="kamp-background">
+        <div class="team-div">
+            <h1 class="header">@MatchService.match.teams[0].teamName</h1>
+            <h1 class="header" id="center">@MatchService.match.results</h1>
+            <h1 class="header">@MatchService.match.teams[1].teamName</h1>
         </div>
-        <div class="item-div" id="adresse">
-            <p>Hobro Vikings</p>
-            <p>Amerikavej 22, 9500 Hobro</p>
+        <div class="info-div">
+            <div class="item-div date-div"><time datetime="2021-02-11">@MatchService.match.startTime</time></div>
+            <div class="item-div" id="center">
+                <button>Download Demo</button>
+            </div>
+            <div class="item-div" id="adresse">
+                <p>Hobro Vikings</p>
+                <p>Amerikavej 22, 9500 Hobro</p>
+            </div>
         </div>
-    </div>
+    </section>
 </section>
 @code {
     [Parameter]

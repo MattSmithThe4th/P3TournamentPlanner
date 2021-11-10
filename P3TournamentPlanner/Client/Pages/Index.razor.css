@@ -3,7 +3,8 @@
 }
 
 .main-container {
-    margin-top: 7em;
+    margin-top: 2em;
+    margin-bottom: 2em;
     display: flex;
 }
 
