@@ -2,6 +2,15 @@
 @inject Services.MatchService MatchService
 @using P3TournamentPlanner.Shared;
 <section class="kamp-section">
+    <style>
+        .kamp-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/images/maps/@MatchService.match.map);
+        }
+
+        .kamp-section:hover {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/images/maps/@MatchService.match.map);
+        }
+    </style>
     <h1 id="kamp-id">Kamp id: @ID</h1>
     <div class="team-div">
         <h1>@MatchService.match.teams[0].teamName</h1>

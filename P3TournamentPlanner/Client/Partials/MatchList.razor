@@ -11,28 +11,25 @@
     {
         @if (match.playedFlag == 0)
         {
-            <div class="match-container" @onclick="() => ShowMatch(match)">
-                <style>
-                    .match-container {
-                        background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(/images/@MapSti);
-                    }
-                </style>
-                <div id="topPart">
-                    <h1> @match.teams[0].teamName</h1>
-                    <h1> VS </h1>
-                    <h1> @match.teams[1].teamName</h1>
-                </div>
-                <div id="lowPart">
-                    <h3> @match.startTime</h3>
-                    <h3>
-                        @foreach (Club club in clubs)
-                        {
-                            @if (club.clubID == match.clubHostID.ToString())
+            <div class="match-container">
+                <div class="match-container-background" @onclick="() => ShowMatch(match)">
+                    <div id="topPart">
+                        <h1 class="match-header"> @match.teams[0].teamName</h1>
+                        <h1 class="match-header" id="center"> VS </h1>
+                        <h1 class="match-header"> @match.teams[1].teamName</h1>
+                    </div>
+                    <div id="lowPart">
+                        <h3> @match.startTime</h3>
+                        <h3>
+                            @foreach (Club club in clubs)
                             {
-                                @club.address
+                                @if (club.clubID == match.clubHostID.ToString())
+                                {
+                                    @club.address
+                                }
                             }
-                        }
-                    </h3>
+                        </h3>
+                    </div>
                 </div>
             </div>
         }
@@ -43,7 +40,7 @@
     [Parameter]
     public int ID { get; set; }
 
-    public string MapSti = "NordjyskligaCover2.jpg";
+    public string MapSti = "mirage.jpg";
 
     List<Match> matches = new List<Match>();
     List<Club> clubs = new List<Club>();
