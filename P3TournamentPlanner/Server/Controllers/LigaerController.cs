@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,9 @@ namespace P3TournamentPlanner.Server.Controllers {
             DataTable dt;
 
             //Pulls from database, to .NET datatable
-            dt = db.PullTable("select * from LeagueDB");
+            SqlCommand command = new SqlCommand("select * from LeagueDB");
+            dt = db.PullTable(command);
+            //dt = db.PullTable("select * from LeagueDB");
 
             //Creates teamList, based on said data
             //INDEHOLDE MIDLERTIDIG FIX MED GAME, SOM VI SKAL FIXE SENERE :)

@@ -8,6 +8,7 @@ using P3TournamentPlanner.Shared;
 using System.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
@@ -33,7 +34,9 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
 
             Console.WriteLine($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID = '{id}'");
-            dt = db.PullTable($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID = '{id}'");
+            SqlCommand command = new SqlCommand($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID=@userID");
+            command.Parameters.Add(new SqlParameter("userID", id));
+            dt = db.PullTable(command);
 
             return new Contactinfo(dt.Rows[0][0].ToString(), dt.Rows[0][1].ToString(), dt.Rows[0][2].ToString(), dt.Rows[0][3].ToString());
         }
