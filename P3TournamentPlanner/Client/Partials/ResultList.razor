@@ -54,12 +54,12 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        matches = await client.GetFromJsonAsync<List<Match>>("Match?division=" + ID);
+        matches = await client.GetFromJsonAsync<List<Match>>("api/match?division=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(matches);
 
         Console.WriteLine("Get Send");
-        clubs = await client.GetFromJsonAsync<List<Club>>("Klub");
+        clubs = await client.GetFromJsonAsync<List<Club>>("api/Klub");
         Console.WriteLine("På den anden side");
         Console.WriteLine(clubs);
     }

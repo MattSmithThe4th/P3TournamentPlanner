@@ -20,13 +20,13 @@
         <select id="divisioner" class="input-select decorated" @onchange="ChangeDivision">
             @foreach (Division division in divisions)
             {
-                @if (division.DivID == ID)
+                @if (division.divisionID == ID)
                 {
-                    <option class="slt-option" selected value="@division.DivID">Division @division.DivID</option>
+                    <option class="slt-option" selected value="@division.divisionID">Division @division.divisionID</option>
                 }
                 else
                 {
-                    <option class="slt-option" value="@division.DivID">Division @division.DivID</option>
+                    <option class="slt-option" value="@division.divisionID">Division @division.divisionID</option>
                 }
             }
         </select>
@@ -97,7 +97,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        divisions = await client.GetFromJsonAsync<List<Division>>("Division");
+        divisions = await client.GetFromJsonAsync<List<Division>>("api/Division");
         Console.WriteLine("På den anden side");
         Console.WriteLine(divisions);
     }

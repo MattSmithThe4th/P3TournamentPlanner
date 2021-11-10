@@ -4,9 +4,13 @@
 @inject IHttpClientFactory ClientFactory
 
 <h3>Test</h3>
+<p id="test">dinmor</p>
 <button>Klik mig</button>
+
+<img src="data:image/png;base64, @DO.base64">
+
 @code {
-    List<League> list = new List<League>();
+    DebugObject DO = new DebugObject();
 
     protected override async Task OnInitializedAsync() {
 
@@ -14,11 +18,8 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        list = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
+        DO = await client.GetFromJsonAsync<DebugObject>("api/Debug");
         Console.WriteLine("På den anden side");
 
-        foreach(League l in list) {
-            Console.WriteLine(l.name);
-        }
     }
 }
