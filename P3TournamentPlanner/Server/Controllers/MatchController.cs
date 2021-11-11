@@ -64,18 +64,26 @@ namespace P3TournamentPlanner.Server.Controllers
         public void Post(Match match) {
             Console.WriteLine("Post Recieved!");
 
-            string command = $"insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
-                $"values({match.divisionID}, {match.leagueID}, {match.teams[0]}, {match.teams[1]}, {match.resultTeam1}, {match.resultTeam2}, {match.startTime}, {match.playedFlag}, {match.clubHostID}, {match.serverIP})";
+            DatabaseQuerys db = new DatabaseQuerys();
 
+            string command = $"insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
+                $"values({match.divisionID}, {match.leagueID}, {match.teams[0]}, {match.teams[1]}, {match.resultTeam1}, {match.resultTeam2}, {match.startTime}, " +
+                $"{match.playedFlag}, {match.clubHostID}, {match.serverIP})";
+
+            db.InsertToTable(command);
         }
 
-        //[HttpPut]
-        //public Match Put(Match match) {
-        //    Console.WriteLine("Put Recieved!");
+        [HttpPut]
+        public void Put(Match match) {
+            Console.WriteLine("Put Recieved!");
 
-        //    string command = $"update MatchDB set divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) values(2, 1, 2, 4, 16, 10, 'Dette er Start time', 1, 2, 'Dette er server IP')";
+            DatabaseQuerys db = new DatabaseQuerys();
 
-        //    return match;
-        //}
+            string command = $"update MatchDB set divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
+                $"values({match.divisionID}, {match.leagueID}, {match.teams[0]}, {match.teams[1]}, {match.resultTeam1}, {match.resultTeam2}, {match.startTime}, " +
+                $"{match.playedFlag}, {match.clubHostID}, {match.serverIP}))";
+
+            db.InsertToTable(command);
+        }
     }
 }
