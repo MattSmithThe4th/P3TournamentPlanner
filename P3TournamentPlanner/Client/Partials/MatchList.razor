@@ -66,6 +66,31 @@
     }
 </div>
 
+<form>
+    <label>matchID</label>
+    <input type="number" @bind-value="matchPost.matchID" />
+
+    <label>Played</label>
+    <input type="number" @bind-value="matchPost.playedFlag" />
+
+    <label>Start time</label>
+    <input type="text" @bind-value="matchPost.startTime" />
+
+    <label>Result</label>
+    <input type="text" @bind-value="matchPost.results" />
+
+    <label>Host</label>
+    <input type="number" @bind-value="matchPost.clubHostID" />
+
+    <label>Server</label>
+    <input type="text" @bind-value="matchPost.serverIP" />
+
+    <label>Map</label>
+    <input type="text" @bind-value="matchPost.map" />
+
+    <button type="button" @onclick="PostMatch">Gem</button>
+</form>
+
 @code {
     [Parameter]
     public int ID { get; set; }
@@ -74,6 +99,8 @@
 
     List<Match> matches = new List<Match>();
     List<Club> clubs = new List<Club>();
+
+    Match matchPost = new Match();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -95,5 +122,16 @@
     {
         MatchService.match = match;
         NavigationManager.NavigateTo($"/kamp/{match.matchID}");
+    }
+
+    public void PostMatch()
+    {
+        Console.WriteLine(matchPost.matchID);
+        Console.WriteLine(matchPost.playedFlag);
+        Console.WriteLine(matchPost.startTime);
+        Console.WriteLine(matchPost.results);
+        Console.WriteLine(matchPost.clubHostID);
+        Console.WriteLine(matchPost.serverIP);
+        Console.WriteLine(matchPost.map);
     }
 }
