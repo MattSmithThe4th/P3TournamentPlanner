@@ -15,6 +15,7 @@ namespace P3TournamentPlanner.Server.Controllers {
     [ApiController]
     [Authorize]
     public class UserController : ControllerBase {
+        //GET
         [HttpGet]
         public Contactinfo Get(string testID) {
             string id;
@@ -40,5 +41,19 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             return new Contactinfo(dt.Rows[0][0].ToString(), dt.Rows[0][1].ToString(), dt.Rows[0][2].ToString(), dt.Rows[0][3].ToString());
         }
+
+        //POST
+
+        //[HttpPost]
+        //public void Post(Contactinfo ci, string userIDString) {
+        //    DatabaseQuerys db = new DatabaseQuerys();
+            
+        //    if (userIDString == null) {
+        //        userIDString = HttpContext.User.FindFirstValue("sub");
+        //    }
+            
+        //    SqlCommand command = new SqlCommand($"use GeneralDatabase insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ({userIDString}, {ci.name}, {ci.tlfNr}, {ci.discordID}, {ci.email})");
+        //    db.InsertToTable(command);
+        //}
     }
 }
