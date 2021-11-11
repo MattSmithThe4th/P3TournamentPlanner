@@ -8,7 +8,6 @@ using P3TournamentPlanner.Shared;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using Microsoft.Data.SqlClient;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
@@ -35,10 +34,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             //// --------------- End --------------------
 
             //Pulls from database, to .NET datatable
-            SqlCommand command = new SqlCommand($"select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = @division and leagueID = @league");
-            command.Parameters.Add(new SqlParameter("division", division));
-            command.Parameters.Add(new SqlParameter("league", league));
-            dt = db.PullTable(command);
+            dt = db.PullTable("select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = " + division + " and leagueID = '" + league + "'");
 
             //Creates teamList, based on said data
             foreach(DataRow r in dt.Rows)

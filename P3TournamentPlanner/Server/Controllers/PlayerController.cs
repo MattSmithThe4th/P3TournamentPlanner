@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
@@ -24,11 +23,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             List<Player> playerList = new List<Player>();
             DataTable dt;
 
-            SqlCommand command = new SqlCommand("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID=@teamID and clubID=@clubID");
-            command.Parameters.Add(new SqlParameter("teamID", teamID));
-            command.Parameters.Add(new SqlParameter("clubID", clubID));
-
-            dt = db.PullTable(command);
+            dt = db.PullTable("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID=" + teamID + " and clubID=" + clubID);
 
             //0teamID, 1clubID, 2IRLName, 3IGName, 4steamID, 5csgoRank
 
