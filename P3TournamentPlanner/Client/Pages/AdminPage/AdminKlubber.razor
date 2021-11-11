@@ -24,14 +24,10 @@
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < 5; i++)
+            @foreach (Club club in clubs)
             {
                 <tr>
-                    <td class="tableElements"> Klubnavn </td>
-                    <td> Træner </td>
-                    <td> Eksemple@gmail.com </td>
-                    <td> 10 </td>
-                    <td> <button> Edit</button></td>
+                    <td>@club.name</td>
                 </tr>
             }
         </tbody>
