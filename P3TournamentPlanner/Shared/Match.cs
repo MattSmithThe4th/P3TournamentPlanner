@@ -19,9 +19,11 @@ namespace P3TournamentPlanner.Shared {
         {
 
         }
-        public Match(int matchID, int divisionID, int leagueID, List<Team> teams, int resultTeam1, int resultTeam2, string startTime, int playedFlag, int clubHostID, string serverIP)
+        public Match(int matchID, int divisionID, int leagueID, List<Team> teams, int resultTeam1, int resultTeam2, string startTime, int playedFlag, int clubHostID, string serverIP, string map)
         {
             this.matchID = matchID;
+            this.divisionID = divisionID;
+            this.leagueID = leagueID;
             this.teams = teams;
             this.resultTeam1 = resultTeam1;
             this.resultTeam2 = resultTeam2;

@@ -52,7 +52,7 @@ namespace P3TournamentPlanner.Server.Controllers
 
                 }
 
-                matchList.Add(new Match((int)r[0], (int)r[1], (int)r[2], teamList, (int)r[5], (int)r[6], r[7].ToString(), (int)r[8], (int)r[9], r[10].ToString())); //do something with results
+                matchList.Add(new Match((int)r[0], (int)r[1], (int)r[2], teamList, (int)r[5], (int)r[6], r[7].ToString(), (int)r[8], (int)r[9], r[10].ToString(), r[11].ToString())); //do something with results
             }
 
             Console.WriteLine(matchTable);
