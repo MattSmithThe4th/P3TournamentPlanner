@@ -1,0 +1,22 @@
+﻿.table{
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    width: 100%;
+    font-size: larger;
+}
+
+td, th {
+    padding: 0.35rem;
+    text-align: left;
+}
+
+tbody tr:hover {
+    background-color: #3d3d3d;
+    cursor: pointer;
+}
+
+tbody tr {
+    margin-top: 5px;
+    background-color: grey;
+    /*background-color: #2d2d2d;/**/
+}

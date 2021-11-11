@@ -11,6 +11,7 @@ namespace P3TournamentPlanner.Shared {
         //Måske
         public int leageID { get; set; }
         public bool archiveFlag { get; set; }
+        public int teamAmount { get; set; }
 
 
 
@@ -27,6 +28,14 @@ namespace P3TournamentPlanner.Shared {
         public League(string name, VideoGame game) {
             this.name = name;
             this.game = game;
+        }
+
+        public League(string name, SiteAdmin admin, VideoGame game, int leageID, bool archiveFlag, int teamAmount) : this(name) {
+            this.admin = admin;
+            this.game = game;
+            this.leageID = leageID;
+            this.archiveFlag = archiveFlag;
+            this.teamAmount = teamAmount;
         }
     }
 }
