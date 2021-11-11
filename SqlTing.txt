@@ -11,8 +11,6 @@ create table ContactInfoDB(userID varchar(64), contactName varchar(64), tlfNumbe
 create table MatchDB(matchID int primary key identity, divisionID int, leagueID int, team1ID int, team2ID int, team1Score int, team2Score int, startTime varchar(64), playedFlag int, hostClubID int, serverIP varchar(64), map varchar(64))
 create table serverDB(serverIP varchar(64), divisionID int, leagueID int, inUse int, matchID int)
 
-select * from ClubDB
-
 --Creating ServerDB
 insert into serverDB(serverIP, divisionID, leagueID, inUse, matchID) values ('Server IP 1', 1, 1, 0, null);
 insert into serverDB(serverIP, divisionID, leagueID, inUse, matchID) values ('Server IP 2', 2, 1, 0, null);
