@@ -1,0 +1,47 @@
+﻿@using P3TournamentPlanner.Shared
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@page "/admin/ligaerID"
+
+<header><h1> CS:GO </h1></header>
+<body>
+    <EditForm Model="league" OnSubmit="HandleSubmit">
+        <div>
+            <label>Navn:</label>
+            <InputText @bind-Value="league.name" placeholder="navn på liga"></InputText>
+        </div>
+        <div>
+            <label>Dato:</label>
+            <InputText placeholder="start dato"></InputText>
+            <InputText @bind-Value="league.endDate" placeholder="start dato"></InputText>
+        </div>
+    </EditForm>
+
+
+
+
+</body>
+
+
+
+
+@code{
+    List<League> ligas = new List<League>();
+
+    League league = new League();
+
+    async Task HandleSubmit()
+    {
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        ligas = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
+        Console.WriteLine("På den anden side");
+    }
+}
