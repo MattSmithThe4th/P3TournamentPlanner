@@ -74,14 +74,14 @@ namespace P3TournamentPlanner.Server.Controllers
         }
 
         [HttpPut]
-        public void Put(Match match) {
+        public void Put(Match match, int matchID) {
             Console.WriteLine("Put Recieved!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"update MatchDB set divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
-                $"values({match.divisionID}, {match.leagueID}, {match.teams[0]}, {match.teams[1]}, {match.resultTeam1}, {match.resultTeam2}, {match.startTime}, " +
-                $"{match.playedFlag}, {match.clubHostID}, {match.serverIP}))";
+            string command = $"update MatchDB set divisionID = {match.divisionID}, leagueID = {match.leagueID}, team1ID = {match.teams[0]}, team2ID = {match.teams[1]}, " +
+                $"team1Score = {match.resultTeam1}, team2Score = {match.resultTeam2}, startTime = {match.startTime}, " +
+                $"playedFlag = {match.playedFlag}, hostClubID = {match.clubHostID}, serverIP = {match.serverIP} where matchID = {matchID})";
 
             db.InsertToTable(command);
         }
