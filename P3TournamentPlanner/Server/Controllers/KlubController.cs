@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,10 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DataTable dt;
 
-            dt = db.PullTable($"select clubID, clubName, clubAddress from ClubDB");
+            SqlCommand command = new SqlCommand($"select clubID, clubName, clubAddress from ClubDB");
+            dt = db.PullTable(command);
+
+            //dt = db.PullTable($"select clubID, clubName, clubAddress from ClubDB");
 
             foreach (DataRow r in dt.Rows) {
                 clubList.Add(new Club((int)r[0], r[1].ToString(), r[2].ToString()));
