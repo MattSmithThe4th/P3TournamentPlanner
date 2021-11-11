@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using P3TournamentPlanner.Shared;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,27 @@ namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class KlubController : ControllerBase {
+        [HttpGet("klub")]
+        public Club Get(int clubID)
+        {
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            Club club = new Club();
+
+            DataTable dt;
+
+            dt = db.PullTable($"select clubID, clubName, clubAddress from ClubDB where clubID = " + clubID);
+
+            foreach (DataRow r in dt.Rows)
+            {
+                club.clubID = (int)r[0];
+                club.name = r[1].ToString();
+                club.address = r[2].ToString();
+            }
+
+            return club;
+        }
+
         [HttpGet]
         public List<Club> Get() {
             Console.WriteLine("Get Recieved!");
@@ -31,26 +54,6 @@ namespace P3TournamentPlanner.Server.Controllers {
             return clubList;
         }
 
-        [HttpGet ("api/Iklub")]
-        public Club Get(int clubID)
-        {
-            DatabaseQuerys db = new DatabaseQuerys();
-
-            Club club = new Club();
-
-            DataTable dt;
-
-            dt = db.PullTable($"select clubName, clubAddress from ClubDB where clubID = " + clubID);
-
-            foreach (DataRow r in dt.Rows)
-            {
-                club.name = r[0].ToString();
-                club.address = r[1].ToString();
-            }
-
-            return club;
-        }
-
         [HttpPost]
         public List<Club> Post(Club club) {
             Console.WriteLine("Post Recieved!");
@@ -65,12 +68,12 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpPut]
-        public void Put(Club club, int clubID) {
+        public void Put(Club club) {
             Console.WriteLine("Put Recieved!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"update clubDB set clubID = {club.clubID}, clubName = {club.name}, clubAddress = {club.address} where clubID = {clubID}";
+            string command = $"update clubDB set clubName = '{club.name}', clubAddress = '{club.address}' where clubID = {club.clubID}";
 
             db.InsertToTable(command);
         }
