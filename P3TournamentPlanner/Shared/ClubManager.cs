@@ -18,5 +18,8 @@
             this.contactinfo = contactinfo;
             this.userID = userID;
         }
+
+        public ClubManager() {
+        }
     }
 }

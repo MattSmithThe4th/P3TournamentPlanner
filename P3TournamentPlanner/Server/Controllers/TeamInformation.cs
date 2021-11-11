@@ -40,7 +40,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
                 Contactinfo contactInfo = new Contactinfo((string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
                 ClubManager manager = new ClubManager(contactInfo, (string)r[14]);
-                teamList.Add(new Team((int)r[0], (int)r[2], (string)r[4], (int)r[5], (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], manager, Convert.ToBoolean(r[15])));
+                teamList.Add(new Team((int)r[0], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], manager, Convert.ToBoolean(r[15])));
 
                 Console.WriteLine("HEREEE:--->" + (string)r[4]);
             }
