@@ -21,9 +21,8 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             dt = db.PullTable($"select clubID, clubName, clubAddress from ClubDB");
 
-
             foreach (DataRow r in dt.Rows) {
-                clubList.Add(new Club(r[0].ToString(), r[1].ToString(), r[2].ToString()));
+                clubList.Add(new Club((int)r[0], r[1].ToString(), r[2].ToString()));
             }
 
             Console.WriteLine(clubList);
@@ -32,14 +31,16 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpPost]
-        public void Post(Club club) {
+        public List<Club> Post(Club club) {
             Console.WriteLine("Post Recieved!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"insert into clubDB(clubID, clubName, clubAddress) values({club.clubID}, {club.name}, {club.address})";
+            string command = $"insert into ClubDB(clubName, clubAddress) values('{club.name}', '{club.address}')";
 
             db.InsertToTable(command);
+
+            return Get();
         }
 
         [HttpPut]

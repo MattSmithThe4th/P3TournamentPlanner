@@ -16,7 +16,7 @@
                 <div class="match-container-background" @onclick="() => ShowMatch(match)">
                     <div id="topPart">
                         <h1 class="match-header"> @match.teams[0].teamName</h1>
-                        <h1 class="match-header" id="center"> @match.results </h1>
+                        <h1 class="match-header" id="center"> vs </h1>
                         <h1 class="match-header"> @match.teams[1].teamName</h1>
                     </div>
                     <div id="lowPart">
@@ -24,7 +24,7 @@
                         <h3>
                             @foreach (Club club in clubs)
                             {
-                                @if (club.clubID == match.clubHostID.ToString())
+                                @if (club.clubID == match.clubHostID)
                                 {
                                     @club.address
                                 }
