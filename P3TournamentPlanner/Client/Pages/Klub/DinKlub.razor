@@ -1,4 +1,15 @@
-﻿@page "/dinklub"
+﻿@page "/dinklub/{id:int}"
+@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@using System.Linq;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using System.Threading.Tasks;
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+
 <h1>Din klub</h1>
 <section class="klub-section">
     <div class="klub-info">
@@ -39,7 +50,7 @@
     </div>
 </section>
 <section class="klub-section">
-    <div  id="hold-header" class="header-div">
+    <div id="hold-header" class="header-div">
         <h2>Dine hold</h2>
     </div>
     <div class="hold-div">
@@ -56,5 +67,19 @@
 
 
 @code {
+    [Parameter]
+    public int id { get; set; }
 
+    public Club club = new Club();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        club = await client.GetFromJsonAsync<Club>("api/Iklub?clubID=" + id);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(club);
+    }
 }

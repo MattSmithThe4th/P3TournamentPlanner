@@ -10,6 +10,7 @@ namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class KlubController : ControllerBase {
+        [HttpGet]
         public List<Club> Get() {
             Console.WriteLine("Get Recieved!");
 
@@ -28,6 +29,26 @@ namespace P3TournamentPlanner.Server.Controllers {
             Console.WriteLine(clubList);
 
             return clubList;
+        }
+
+        [HttpGet ("api/Iklub")]
+        public Club Get(int clubID)
+        {
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            Club club = new Club();
+
+            DataTable dt;
+
+            dt = db.PullTable($"select clubName, clubAddress from ClubDB where clubID = " + clubID);
+
+            foreach (DataRow r in dt.Rows)
+            {
+                club.name = r[0].ToString();
+                club.address = r[1].ToString();
+            }
+
+            return club;
         }
 
         [HttpPost]
