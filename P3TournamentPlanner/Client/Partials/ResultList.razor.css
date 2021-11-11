@@ -1,11 +1,23 @@
 ﻿.match-container {
-    background-color: #3e3e3e;
     margin-top: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    border: solid 1px white;
+    border-radius: 5px;
 }
 
-.match-container:hover {
+.match-container-background {
     cursor: pointer;
-    background-color: #4e4e4e;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 5px;
+}
+
+.match-container-background:hover {
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.4);
 }
 
 #topPart {
@@ -15,9 +27,26 @@
     position: relative;
 }
 
+.match-header {
+    text-align: center;
+    width: 20vw;
+    justify-content: center;
+}
+
+#center {
+    justify-content: center;
+    width: 8vw;
+}
+
 #lowPart {
     display: flex;
     justify-content: space-evenly;
+}
+
+#lowPart h3 {
+    text-align: center;
+    width: 20vw;
+    justify-content: center;
 }
 
 #box {
