@@ -5,15 +5,36 @@
 
 <header><h1> CS:GO </h1></header>
 <body>
+    
     <EditForm Model="league" OnSubmit="HandleSubmit">
-        <div>
-            <label>Navn:</label>
-            <InputText @bind-Value="league.name" placeholder="navn på liga"></InputText>
+        <div class="#1">
+            <div>
+                <label>Navn:</label>
+                <InputText @bind-Value="league.name" placeholder="navn på liga"></InputText>
+            </div>
+
+            <div>
+                <label>Dato:</label>
+                <div>
+                    <InputText placeholder="start dato"></InputText>
+                    <InputText placeholder="start dato"></InputText>
+                </div>
+            </div>
+
+            <div>
+                <label>Spil:</label>
+                <InputSelect @bind-Value="@game.name">
+                    <option value="Select"> Select </option>
+                    <option value="Select"> CS:GO </option>
+                </InputSelect>
+            </div>
         </div>
-        <div>
-            <label>Dato:</label>
-            <InputText placeholder="start dato"></InputText>
-            <InputText @bind-Value="league.endDate" placeholder="start dato"></InputText>
+        <div class="#2">
+            <div>
+                <label>Navn:</label>
+                <InputText @bind-Value="league.name" placeholder="navn på liga"></InputText>
+            </div>
+            <button> GEM </button>
         </div>
     </EditForm>
 
@@ -29,6 +50,7 @@
     List<League> ligas = new List<League>();
 
     League league = new League();
+    VideoGame game = new VideoGame();
 
     async Task HandleSubmit()
     {
