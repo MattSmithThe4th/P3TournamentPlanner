@@ -1,6 +1,12 @@
 ﻿@using P3TournamentPlanner.Shared;
-@page "/admin/klubber"
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@using P3TournamentPlanner.Shared;
 <h3>Admin</h3>
+<button>Lav ny klub</button>
 <!--<div class="Containers" id="information">
     <h3>Username</h3>
     <h3>Password</h3>
@@ -20,15 +26,29 @@
         <tbody>
             @for (int i = 0; i < 5; i++)
             {
-            <tr>
-                <td class="tableElements"> Klubnavn </td>
-                <td> Træner </td>
-                <td> Eksemple@gmail.com </td>
-                <td> 10 </td>
-                <td> <button> Edit</button></td>
-            </tr>
+                <tr>
+                    <td class="tableElements"> Klubnavn </td>
+                    <td> Træner </td>
+                    <td> Eksemple@gmail.com </td>
+                    <td> 10 </td>
+                    <td> <button> Edit</button></td>
+                </tr>
             }
-        </tbody>    
+        </tbody>
     </table>
 </div>
 
+@code {
+    public List<Club> clubs = new List<Club>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        clubs = await client.GetFromJsonAsync<List<Club>>("api/Klub");
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(clubs);
+    }
+}

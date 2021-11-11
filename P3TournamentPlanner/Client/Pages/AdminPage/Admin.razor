@@ -10,11 +10,11 @@
 <div class="ny-admin-div">
     <form class="dingdonger" action="" method="post">
         <div id="input-felter">
-            <label >Ny admin</label>
-            <input  id="username" type="text" placeholder="Username her" />
-            <input  id="password" type="text" placeholder="Password her" />
-            <input  id="email" type="text" placeholder="Email her" />
-            <button > Opret ny Admin </button>
+            <label>Ny admin</label>
+            <input id="username" type="text" placeholder="Username her" />
+            <input id="password" type="text" placeholder="Password her" />
+            <input id="email" type="text" placeholder="Email her" />
+            <button> Opret ny Admin </button>
             <b></b>
         </div>
     </form>
@@ -32,3 +32,40 @@
         </div>
     }
 </div>
+
+<section class="table_container">
+    <section class="table_container_background">
+        <div class="table_menu">
+            <button id="stilling-btn" @onclick='() => ChangeDisplay("ligaer")'>Ligaer</button>
+            <button id="kampe-btn" @onclick='() => ChangeDisplay("klubber")'>Klubber</button>
+        </div>
+        @if (Display == "ligaer")
+        {
+            <style>
+                #stilling-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+
+        }
+        else if (Display == "klubber")
+        {
+            <style>
+                #kampe-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+            <AdminKlubber />
+        }
+    </section>
+</section>
+
+@code {
+    string Display = "ligaer";
+
+    public void ChangeDisplay(string display)
+    {
+        Display = display;
+        StateHasChanged();
+    }
+}
