@@ -54,8 +54,6 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         //PUT
-        //Jeg har ingen fucking ide om det her virker, men det burde???? 
-        //WIP!!!! Indtil vidre updaterer den kun i TeamsDB... Den skal helst også in og ændre manager info
         [HttpPut]
         public void Put(Team team) {
             Console.WriteLine("Put Got!");
