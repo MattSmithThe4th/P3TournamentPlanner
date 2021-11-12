@@ -8,7 +8,8 @@ namespace P3TournamentPlanner.Shared {
         public List<Team> teams { get; set; }
         public string startTime { get; set; }
         public int playedFlag { get; set; }
-        public string results { get; set; }
+        public int team1Score { get; set; }
+        public int team2Score { get; set; }
         public int clubHostID { get; set; }
         public string serverIP { get; set; }
         public string map { get; set; }
@@ -18,12 +19,14 @@ namespace P3TournamentPlanner.Shared {
 
         }
 
-        public Match(int matchID, List<Team> teams, string startTime, int playedFlag, string results, int clubHostID, string serverIP, string map) {
+        public Match(int matchID, List<Team> teams, string startTime, int playedFlag, int team1Score, int team2Score, int clubHostID, string serverIP, string map)
+        {
             this.matchID = matchID;
             this.teams = teams;
             this.startTime = startTime;
             this.playedFlag = playedFlag;
-            this.results = results;
+            this.team1Score = team1Score;
+            this.team2Score = team2Score;
             this.clubHostID = clubHostID;
             this.serverIP = serverIP;
             this.map = map;

@@ -71,7 +71,7 @@ namespace P3TournamentPlanner.Server.Controllers
 
                 //"0matchID, 1divisionID, 2leagueID, 3team1ID, 4team2ID, 5team1Score, 6team2Score, 7startTime, 8playedFlag, 9hostClubID, 10serverIP, 11map"
 
-                matchList.Add(new Match((int)r[0], teamList, (string)r[7], (int)r[8], r[5] + " - " + r[6], (int)r[9], (string)r[10], (string)r[11]));
+                matchList.Add(new Match((int)r[0], teamList, (string)r[7], (int)r[8], (int)r[5], (int)r[6], (int)r[9], (string)r[10], (string)r[11]));
                 //matchList.Add(new Match((int)r[0], (int)r[1], (int)r[2], teamList, r[5] + " - " + r[6], r[7].ToString(), (int)r[8], (int)r[9], r[10].ToString())); //do something with results
             }
 

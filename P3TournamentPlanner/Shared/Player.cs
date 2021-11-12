@@ -1,7 +1,7 @@
 ﻿namespace P3TournamentPlanner.Shared {
     public class Player {
-        //public int clubID { get; set; }
-        //public int teamID { get; set; }
+        public int clubID { get; set; }
+        public int teamID { get; set; }
         public string IRLName { get; set; }
         public string IGName { get; set; }
         public string steamID { get; set; }
