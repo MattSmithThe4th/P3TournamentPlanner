@@ -9,10 +9,38 @@ namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class TeamInformationController : ControllerBase {
+        [HttpGet ("klubhold")]
+        public List<Team> Get(int clubID)
+        {
+            Console.WriteLine("Get Received!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            List<Team> teamList = new List<Team>();
+
+            DataTable dt;
+            DataTable dt2;
+
+            SqlCommand command = new SqlCommand("select teamID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag from TeamsDB where clubID = @clubID");
+            command.Parameters.Add(new SqlParameter("clubID", clubID));
+            dt = db.PullTable(command);
+
+            foreach (DataRow r in dt.Rows)
+            {
+                command = new SqlCommand($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID=@userID");
+                command.Parameters.Add(new SqlParameter("userID", r[14]));
+                dt2 = db.PullTable(command);
+
+                Contactinfo contactInfo = new Contactinfo((string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
+                ClubManager manager = new ClubManager(contactInfo, (string)r[14]);
+                teamList.Add(new Team((int)r[0], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], manager, Convert.ToBoolean(r[15])));
+            }
+            return teamList;
+        }
 
         [HttpGet]
         public List<Team> Get() {
-            Console.WriteLine("Get Received!----------------------------------------------------------------------------->");
+            Console.WriteLine("Get Received!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
@@ -44,15 +72,6 @@ namespace P3TournamentPlanner.Server.Controllers {
 
                 Console.WriteLine("HEREEE:--->" + (string)r[4]);
             }
-            foreach(Team team in teamList) {
-                Console.WriteLine("Under mig:");
-                Console.WriteLine(team.teamName);
-            }
-            Console.WriteLine(teamList);
-
-            //Construct dem som objecter, og send listen afsted
-
-            Console.WriteLine("RETURNING SHITE!!!!!");
 
             return teamList;
         }
