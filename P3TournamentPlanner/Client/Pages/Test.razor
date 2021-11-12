@@ -5,32 +5,21 @@
 
 <h3>Test</h3>
 <p id="test">dinmor</p>
-<button @onclick="TestFunc">Klik mig</button>
+<button>Klik mig</button>
 
-@*<img src="data:image/png;base64, @DO.base64">*@
+<img src="data:image/png;base64, @DO.base64">
 
 @code {
     DebugObject DO = new DebugObject();
-    Team testTeam = new Team(3, 1, 1, "dinmorgay", 69, 69, 69, 69, 69, 69, 69, 69, 69, new ClubManager(new Contactinfo(), "dinMANAGERgay"), false);
 
     protected override async Task OnInitializedAsync() {
 
-        //HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
-        //client.BaseAddress = new Uri("https://localhost:44341/");
-
-        //Console.WriteLine("Get Send");
-        //DO = await client.GetFromJsonAsync<DebugObject>("api/Debug");
-        //Console.WriteLine("På den anden side");
-
-    }
-
-    private async void TestFunc() {
-        Console.WriteLine("DIN MODER");
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        var res = await client.PutAsJsonAsync<Team>("api/Stilling", testTeam);
+        Console.WriteLine("Get Send");
+        DO = await client.GetFromJsonAsync<DebugObject>("api/Debug");
+        Console.WriteLine("På den anden side");
 
-        Console.WriteLine(res);
     }
 }

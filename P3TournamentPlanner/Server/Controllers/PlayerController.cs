@@ -23,11 +23,15 @@ namespace P3TournamentPlanner.Server.Controllers {
             List<Player> playerList = new List<Player>();
             DataTable dt;
 
+<<<<<<< HEAD
             SqlCommand command = new SqlCommand("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID=@teamID and clubID=@clubID");
             command.Parameters.Add(new SqlParameter("teamID", teamID));
             command.Parameters.Add(new SqlParameter("clubID", clubID));
 
             dt = db.PullTable(command);
+=======
+            dt = db.PullTable("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID=" + teamID + " and clubID=" + clubID);
+>>>>>>> parent of b48c458 (Merge branch 'backend-ting' into PreMain)
 
             //0teamID, 1clubID, 2IRLName, 3IGName, 4steamID, 5csgoRank
 

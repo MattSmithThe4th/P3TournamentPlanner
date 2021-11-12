@@ -5,7 +5,6 @@ namespace P3TournamentPlanner.Shared {
     public class Team {
         public int teamID { get; set; } 
         public int divisionID { get; set; }
-        public int leagueID { get; set; }
         public string teamName { get; set; } 
         public int teamSkillRating { get; set; } 
         public ClubManager manager { get; set; } 
@@ -72,10 +71,9 @@ namespace P3TournamentPlanner.Shared {
         }
 
         // teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag
-        public Team(int teamID, int divisionID, int leagueID, string teamName, int teamSkillRating, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, ClubManager manager, bool archiveFlag) {
+        public Team(int teamID, int divisionID, string teamName, int teamSkillRating, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, ClubManager manager, bool archiveFlag) {
             this.teamID = teamID;
             this.divisionID = divisionID;
-            this.leagueID = leagueID;
             this.teamName = teamName;
             this.teamSkillRating = teamSkillRating;
             this.manager = manager;

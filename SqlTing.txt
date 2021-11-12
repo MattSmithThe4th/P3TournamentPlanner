@@ -11,6 +11,8 @@ create table ContactInfoDB(userID varchar(64), contactName varchar(64), tlfNumbe
 create table MatchDB(matchID int primary key identity, divisionID int, leagueID int, team1ID int, team2ID int, team1Score int, team2Score int, startTime varchar(64), playedFlag int, hostClubID int, serverIP varchar(64), map varchar(64))
 create table serverDB(serverIP varchar(64), divisionID int, leagueID int, inUse int, matchID int)
 
+select * from ClubDB
+
 --Creating ServerDB
 insert into serverDB(serverIP, divisionID, leagueID, inUse, matchID) values ('Server IP 1', 1, 1, 0, null);
 insert into serverDB(serverIP, divisionID, leagueID, inUse, matchID) values ('Server IP 2', 2, 1, 0, null);
@@ -24,11 +26,11 @@ insert into ClubManagerDB(clubID, userID) values (1, 'HVMan1')
 insert into ClubManagerDB(clubID, userID) values (1, 'HVMan2')
 insert into ClubManagerDB(clubID, userID) values (2, 'DVMan1')
 
+
 --Creating Contct Info
 insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ('HVMan1', 'Martin Svanholm', '23276132', 'mrsvanholm#0007', 'mart373e@gmail.com')
 insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ('HVMan2', 'Brian Svanholm', '12345678', 'DetteErEtDiscordNavn#1234', 'eksempel@mail.com')
 insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ('DVMan1', 'Stålkat Svanholm', '87654321', 'Stålkat#4321', 'stålkat@gmail.com')
-insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ('AdminID', 'Lasse Kjær', '87463527', 'Mufasa#6846', 'JegKenderIkkLassesEmail@gmail.com')
 
 --Creating Teams
 insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(1, 1, 1, 'Hobro Vikings - Hold 1', 420, 2, 5, 3, 1, 1, 55, 25, 10, 'HVMan1', 0)

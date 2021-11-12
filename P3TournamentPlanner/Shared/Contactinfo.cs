@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace P3TournamentPlanner.Shared {
     public class Contactinfo {
         public Contactinfo() {
-
         }
 
         public Contactinfo(string name, string tlfNr, string discordID, string email) {
