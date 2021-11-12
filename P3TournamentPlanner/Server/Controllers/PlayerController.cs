@@ -46,21 +46,34 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpPost]
-        public void Post([FromBody]Player player, [FromHeader] string test) {
+        public void Post([FromBody]Player player, [FromHeader] int clubID, [FromHeader] int? teamID = null) {
+            Console.WriteLine("Post Enter");
+
             DatabaseQuerys db = new DatabaseQuerys();
 
-            Console.WriteLine("string: " + test);
-            /*System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers*/;
+            Console.WriteLine("teamID: " + teamID);
+            Console.WriteLine("clubID: " + clubID);
 
-            //SqlCommand command = new SqlCommand("insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (@teamID, @clubID, @IRLName, @IGName, @steamID, @csgoRank, @skillRating)");
+            SqlCommand command;
 
-            //command.Parameters.Add(new SqlParameter("teamID", ));
-            //command.Parameters.Add(new SqlParameter("clubID", ));
-            //command.Parameters.Add(new SqlParameter("IRLName", ));
-            //command.Parameters.Add(new SqlParameter("IGName", ));
-            //command.Parameters.Add(new SqlParameter("steamID", ));
-            //command.Parameters.Add(new SqlParameter("csgoRank", ));
-            //command.Parameters.Add(new SqlParameter("skillRating", ));
+            if (teamID != null) {
+                command = new SqlCommand("insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (@teamID, @clubID, @IRLName, @IGName, @steamID, @csgoRank, @skillRating)");
+            } else {
+                command = new SqlCommand("insert into PlayerDB(clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (@clubID, @IRLName, @IGName, @steamID, @csgoRank, @skillRating)");
+            }
+
+
+            if(teamID != null) command.Parameters.Add(new SqlParameter("teamID", teamID));
+            command.Parameters.Add(new SqlParameter("clubID", clubID));
+            command.Parameters.Add(new SqlParameter("IRLName", player.IRLName));
+            command.Parameters.Add(new SqlParameter("IGName", player.IGName));
+            command.Parameters.Add(new SqlParameter("steamID", player.steamID));
+            command.Parameters.Add(new SqlParameter("csgoRank", player.CSGORank));
+            command.Parameters.Add(new SqlParameter("skillRating", player.playerSkllRating));
+
+            db.InsertToTable(command);
+            
+            Console.WriteLine("Post Done");
         }
 
 

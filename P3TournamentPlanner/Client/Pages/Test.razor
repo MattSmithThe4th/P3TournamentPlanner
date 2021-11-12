@@ -12,6 +12,7 @@
 @code {
     DebugObject DO = new DebugObject();
     Team testTeam = new Team(3, 1, 1, "dinmorgay", 69, 69, 69, 69, 69, 69, 69, 69, 69, new ClubManager(new Contactinfo(), "dinMANAGERgay"), false);
+    Player testPlayer = new Player("Test Navn", "Test IG navn", "Dette er et steamID", "CSGO RANK GO HERE", 69420);
 
     protected override async Task OnInitializedAsync() {
 
@@ -29,8 +30,15 @@
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        var res = await client.PutAsJsonAsync<Team>("api/Stilling", testTeam);
+        client.DefaultRequestHeaders.Add("teamID", "69");
+        client.DefaultRequestHeaders.Add("clubID", "420");
+
+        var res = await client.PostAsJsonAsync<Player>("api/Player", testPlayer);
 
         Console.WriteLine(res);
+
+        //var res = await client.PutAsJsonAsync<Team>("api/Stilling", testTeam);
+
+        //Console.WriteLine(res);
     }
 }
