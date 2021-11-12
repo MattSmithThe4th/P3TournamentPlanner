@@ -12,25 +12,28 @@ namespace P3TournamentPlanner.Server.Controllers
     [ApiController]
     public class MatchController : ControllerBase
     {
-        public List<Match> Get(int division)
+        [HttpGet]
+        public List<Match> Get(int? teamID, int? divisionID)
         {
             Console.WriteLine("Get Recieved!");
-            Console.WriteLine(division);
-
-            //Console.WriteLine("Match ID: " + matchID.GetValueOrDefault());
-
+            Console.WriteLine(teamID);
 
             DatabaseQuerys db = new DatabaseQuerys();
 
             List<Match> matchList = new List<Match>();
-            
-
 
             DataTable matchTable, teamTable, contactTable;
 
-            matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
-                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where divisionID = " + division);
-
+            if (teamID != null)
+            {
+                matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
+                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where team1ID  = " + teamID + " or team2ID = " + teamID);
+            }
+            else
+            {
+                matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
+                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where divisionID = " + divisionID);
+            }
 
             foreach (DataRow r in matchTable.Rows)
             {
@@ -53,15 +56,38 @@ namespace P3TournamentPlanner.Server.Controllers
 
                 }
 
-                //"0matchID, 1divisionID, 2leagueID, 3team1ID, 4team2ID, 5team1Score, 6team2Score, 7startTime, 8playedFlag, 9hostClubID, 10serverIP, 11map"
-
-                matchList.Add(new Match((int)r[0], teamList, (string)r[7], (int)r[8], r[5] + " - " + r[6], (int)r[9], (string)r[10], (string)r[11]));
-                //matchList.Add(new Match((int)r[0], (int)r[1], (int)r[2], teamList, r[5] + " - " + r[6], r[7].ToString(), (int)r[8], (int)r[9], r[10].ToString())); //do something with results
+                matchList.Add(new Match((int)r[0], (int)r[1], (int)r[2], teamList, (int)r[5], (int)r[6], r[7].ToString(), (int)r[8], (int)r[9], r[10].ToString(), r[11].ToString())); //do something with results
             }
 
             Console.WriteLine(matchTable);
 
             return matchList;
+        }
+
+        [HttpPost]
+        public void Post(Match match) {
+            Console.WriteLine("Post Recieved!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            string command = $"insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
+                $"values({match.divisionID}, {match.leagueID}, {match.teams[0]}, {match.teams[1]}, {match.resultTeam1}, {match.resultTeam2}, {match.startTime}, " +
+                $"{match.playedFlag}, {match.clubHostID}, {match.serverIP})";
+
+            db.InsertToTable(command);
+        }
+
+        [HttpPut]
+        public void Put(Match match, int matchID) {
+            Console.WriteLine("Put Recieved!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            string command = $"update MatchDB set divisionID = {match.divisionID}, leagueID = {match.leagueID}, team1ID = {match.teams[0]}, team2ID = {match.teams[1]}, " +
+                $"team1Score = {match.resultTeam1}, team2Score = {match.resultTeam2}, startTime = {match.startTime}, " +
+                $"playedFlag = {match.playedFlag}, hostClubID = {match.clubHostID}, serverIP = {match.serverIP} where matchID = {matchID})";
+
+            db.InsertToTable(command);
         }
     }
 }

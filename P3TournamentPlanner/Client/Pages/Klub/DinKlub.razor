@@ -1,16 +1,32 @@
 ﻿@page "/dinklub"
-<h1>Din klub</h1>
+@page "/dinklub/{id:int}"
+@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@using System.Linq;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using System.Threading.Tasks;
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@inject NavigationManager NavigationManager
+
+<h1>Din klub - @club.name</h1>
 <section class="klub-section">
     <div class="klub-info">
-        <form>
+        <EditForm Model="club" OnSubmit="HandleSubmit">
             <label for="navn">Navn:</label>
-            <input id="navn" type="text" />
+            <InputText @bind-Value="club.name" id="navn" type="text" />
+
             <label for="adresse">Adresse:</label>
-            <input id="adresse" type="text" />
+            <InputText @bind-Value="club.address" id="adresse" type="text" />
+
             <button type="submit">Gem</button>
-        </form>
+        </EditForm>
     </div>
 </section>
+
 <section class="klub-section">
     <div class="header-div">
         <h2>Klub administratorer</h2>
@@ -39,7 +55,7 @@
     </div>
 </section>
 <section class="klub-section">
-    <div  id="hold-header" class="header-div">
+    <div id="hold-header" class="header-div">
         <h2>Dine hold</h2>
     </div>
     <div class="hold-div">
@@ -56,5 +72,30 @@
 
 
 @code {
+    [Parameter]
+    public Nullable<int> id { get; set; } 
 
+    Club club = new Club();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (id != null)
+        {
+            HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+            client.BaseAddress = new Uri("https://localhost:44341/");
+
+            Console.WriteLine("Get Send");
+            club = await client.GetFromJsonAsync<Club>("api/klub/klub?clubID=" + id);
+            Console.WriteLine("På den anden side");
+            Console.WriteLine(club);
+        }
+    }
+
+    async Task HandleSubmit()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        await client.PutAsJsonAsync<Club>("api/Klub", club);
+    }
 }

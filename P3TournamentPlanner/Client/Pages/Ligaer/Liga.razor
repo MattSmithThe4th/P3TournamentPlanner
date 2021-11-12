@@ -5,59 +5,76 @@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @page "/ligaer/csgo"
-
+<style>
+    .page {
+        background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(/images/csgo-paper.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+    }
+</style>
 <section class="main">
     <div id="container_1">
-        <h1 id="Headline"> Nordjyst Liga CS:GO </h1>
+        <h1 id="Headline"> Nordjysk Liga CS:GO </h1>
         <p id="text_1">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
     </div>
+    @*<div class="liga-header">
+        <img src="/images/CS-GO-wallpaper.jpg" />
+    </div>*@
 </section>
 <section class="table_container">
-    <div class="table_menu">
-        <button id="stilling-btn" @onclick="ShowStilling">Stilling</button>
-        <button id="kampe-btn" @onclick="ShowKampe">Kampe</button>
-        <button id="resultater-btn" @onclick="ShowResultater">Resultater</button>
-        <select id="divisioner" class="input-select decorated" @onchange="ChangeDivision">
-            @foreach (Division division in divisions)
-            {
-                @if (division.divisionID == ID)
+    <section class="table_container_background">
+        <div class="table_menu">
+            <button id="stilling-btn" @onclick="ShowStilling">Stilling</button>
+            <button id="kampe-btn" @onclick="ShowKampe">Kampe</button>
+            <button id="resultater-btn" @onclick="ShowResultater">Resultater</button>
+            <select id="divisioner" class="input-select decorated" @onchange="ChangeDivision">
+                @foreach (Division division in divisions)
                 {
-                    <option class="slt-option" selected value="@division.divisionID">Division @division.divisionID</option>
+                    @if (division.divisionID == ID)
+                    {
+                        <option class="slt-option" selected value="@division.divisionID">Division @division.divisionID</option>
+                    }
+                    else
+                    {
+                        <option class="slt-option" value="@division.divisionID">Division @division.divisionID</option>
+                    }
                 }
-                else
-                {
-                    <option class="slt-option" value="@division.divisionID">Division @division.divisionID</option>
+            </select>
+        </div>
+        @if (display == "stilling")
+        {
+            <style>
+                #stilling-btn {
+                    background-color: var(--penta-lilla)
                 }
-            }
-        </select>
-    </div>
-    @if (display == "stilling")
-    {
-        <style>
-            #stilling-btn {
-                background-color: var(--penta-lilla)
-            }
-        </style>
-        <StillingTable ID="ID" />
-    }
-    else if (display == "kampe")
-    {
-        <style>
-            #kampe-btn {
-                background-color: var(--penta-lilla)
-            }
-        </style>
-        <MatchList ID="ID" />
-    }
-    else
-    {
-        <style>
-            #resultater-btn {
-                background-color: var(--penta-lilla)
-            }
-        </style>
-        <ResultList ID="ID"/>
-    }
+            </style>
+            <StillingTable ID="ID" />
+        }
+        else if (display == "kampe")
+        {
+            <style>
+                #kampe-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+            <MatchList ID="ID" />
+        }
+        else
+        {
+            <style>
+                #resultater-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+            <ResultList ID="ID" />
+        }
+    </section>
 </section>
 
 @code {

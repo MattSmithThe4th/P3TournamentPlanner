@@ -38,13 +38,13 @@ namespace P3TournamentPlanner.Server {
             return default(T);
         }
 
-        public DataTable PullTable(string quary) {
+        public DataTable PullTable(string query) {
 
             DataTable table = new DataTable();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand(quary, connection);
+                SqlCommand cmd = new SqlCommand(query, connection);
                 connection.Open();
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -56,9 +56,9 @@ namespace P3TournamentPlanner.Server {
 
         }
 
-        public void InsertToTable(string quary) {
+        public void InsertToTable(string query) {
             using(SqlConnection connection = new SqlConnection(connectionString)) {
-                SqlCommand cmd = new SqlCommand(quary, connection);
+                SqlCommand cmd = new SqlCommand(query, connection);
                 connection.Open();
                 cmd.ExecuteNonQuery();
                 connection.Close();
