@@ -9,11 +9,6 @@
         //Måske
         public string userID { get; set; }
 
-        public ClubManager()
-        {
-
-        }
-
         public ClubManager(string testString, int testInt) {
             this.testString = testString;
             this.testInt = testInt;
@@ -22,6 +17,9 @@
         public ClubManager(Contactinfo contactinfo, string userID) {
             this.contactinfo = contactinfo;
             this.userID = userID;
+        }
+
+        public ClubManager() {
         }
     }
 }

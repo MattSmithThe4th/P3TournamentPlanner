@@ -11,26 +11,23 @@
     {
         @if (match.playedFlag == 1)
         {
-            <div class="match-container" id="@match.map"
-                 style="background-image: url(/images/maps/@match.map)">
-                <div class="match-container-background" @onclick="() => ShowMatch(match)">
-                    <div id="topPart">
-                        <h1 class="match-header"> @match.teams[0].teamName</h1>
-                        <h1 class="match-header" id="center"> vs </h1>
-                        <h1 class="match-header"> @match.teams[1].teamName</h1>
-                    </div>
-                    <div id="lowPart">
-                        <h3> @match.startTime</h3>
-                        <h3>
-                            @foreach (Club club in clubs)
+            <div class="match-container" @onclick="() => ShowMatch(match)">
+                <div id="topPart">
+                    <h1> @match.teams[0].teamName</h1>
+                    <h1> @match.results </h1>
+                    <h1> @match.teams[1].teamName</h1>
+                </div>
+                <div id="lowPart">
+                    <h3> @match.startTime</h3>
+                    <h3>
+                        @foreach (Club club in clubs)
+                        {
+                            @if (club.clubID == match.clubHostID.ToString())
                             {
-                                @if (club.clubID == match.clubHostID)
-                                {
-                                    @club.address
-                                }
+                                @club.address
                             }
-                        </h3>
-                    </div>
+                        }
+                    </h3>
                 </div>
             </div>
         }
@@ -41,8 +38,6 @@
     [Parameter]
     public int ID { get; set; }
 
-    public string MapSti = "Mirage";
-
     List<Match> matches = new List<Match>();
     List<Club> clubs = new List<Club>();
 
@@ -52,19 +47,14 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        matches = await client.GetFromJsonAsync<List<Match>>("api/match?divisionID=" + ID);
+        matches = await client.GetFromJsonAsync<List<Match>>("Match?division=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(matches);
 
         Console.WriteLine("Get Send");
-        clubs = await client.GetFromJsonAsync<List<Club>>("api/Klub");
+        clubs = await client.GetFromJsonAsync<List<Club>>("Klub");
         Console.WriteLine("På den anden side");
         Console.WriteLine(clubs);
-
-        foreach (Match match in matches)
-        {
-            match.map = match.map + ".jpg";
-        }
     }
 
     public void ShowMatch(Match match)

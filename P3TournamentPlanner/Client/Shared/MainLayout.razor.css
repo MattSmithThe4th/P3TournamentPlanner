@@ -10,21 +10,17 @@
 }
 
 .page {
-    display: flex;
-    flex-direction: column;
     background-color: #2d2d2d;
     color: white;
-}
-
-.content {
-    min-height: calc(100vh - 162px);
-    padding: 0;
-    flex: 1 0 auto;
 }
 
 .main {
     width: 60%;
     margin: 0 auto;
+}
+
+.main-main {
+    min-height: 60vh;
 }
 
 .navbar {
@@ -39,9 +35,8 @@
 }
 
 .footer {
-    flex-shrink: 0;
+    margin-top: 5em;
     background-color: #171717;
-    height: 162px;
 }
 
 @media only screen and (max-width: 700px) {

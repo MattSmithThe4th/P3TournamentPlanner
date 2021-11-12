@@ -5,7 +5,6 @@ namespace P3TournamentPlanner.Shared {
         public List<Team> teams { get; set; }
         public List<Match> matches { get; set; }
         public DivisionFormat divisionFormat { get; set; }
-        public int leagueID { get; set; }
         public int divisionID { get; set; }
 
         //Måske
@@ -15,9 +14,8 @@ namespace P3TournamentPlanner.Shared {
         
         }
 
-        public Division(int divisionID, int leagueID, DivisionFormat divFormat) {
+        public Division(int divisionID, DivisionFormat divFormat) {
             this.divisionID = divisionID;
-            this.leagueID = leagueID;
             divisionFormat = divFormat;
         }
     }
