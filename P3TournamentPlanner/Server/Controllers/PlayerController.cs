@@ -45,22 +45,23 @@ namespace P3TournamentPlanner.Server.Controllers {
             return playerList;
         }
 
-        //[HttpPost]
-        //public void Post(Player player) {
-        //    DatabaseQuerys db = new DatabaseQuerys();
+        [HttpPost]
+        public void Post([FromBody]Player player, [FromHeader] string test) {
+            DatabaseQuerys db = new DatabaseQuerys();
 
-        //    System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
+            Console.WriteLine("string: " + test);
+            /*System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers*/;
 
-        //    //SqlCommand command = new SqlCommand("insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (@teamID, @clubID, @IRLName, @IGName, @steamID, @csgoRank, @skillRating)");
+            //SqlCommand command = new SqlCommand("insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (@teamID, @clubID, @IRLName, @IGName, @steamID, @csgoRank, @skillRating)");
 
-        //    //command.Parameters.Add(new SqlParameter("teamID", ));
-        //    //command.Parameters.Add(new SqlParameter("clubID", ));
-        //    //command.Parameters.Add(new SqlParameter("IRLName", ));
-        //    //command.Parameters.Add(new SqlParameter("IGName", ));
-        //    //command.Parameters.Add(new SqlParameter("steamID", ));
-        //    //command.Parameters.Add(new SqlParameter("csgoRank", ));
-        //    //command.Parameters.Add(new SqlParameter("skillRating", ));
-        //}
+            //command.Parameters.Add(new SqlParameter("teamID", ));
+            //command.Parameters.Add(new SqlParameter("clubID", ));
+            //command.Parameters.Add(new SqlParameter("IRLName", ));
+            //command.Parameters.Add(new SqlParameter("IGName", ));
+            //command.Parameters.Add(new SqlParameter("steamID", ));
+            //command.Parameters.Add(new SqlParameter("csgoRank", ));
+            //command.Parameters.Add(new SqlParameter("skillRating", ));
+        }
 
 
 
