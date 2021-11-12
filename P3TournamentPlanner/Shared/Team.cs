@@ -8,7 +8,9 @@ namespace P3TournamentPlanner.Shared {
         public int leagueID { get; set; }
         public string teamName { get; set; } 
         public int teamSkillRating { get; set; } 
-        public ClubManager manager { get; set; } 
+        public ClubManager manager { get; set; }
+
+        public List<Player> players = new List<Player>();
         public int roundsWon { get; set; } 
         public int roundsLost { get; set; } 
         public bool archiveFlag { get; set; }
