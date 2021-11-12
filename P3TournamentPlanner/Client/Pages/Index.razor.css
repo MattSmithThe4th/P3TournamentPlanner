@@ -3,7 +3,8 @@
 }
 
 .main-container {
-    margin-top: 7em;
+    margin-top: 2em;
+    margin-bottom: 2em;
     display: flex;
 }
 
@@ -12,8 +13,8 @@
     border-radius: 20px;
 }
 
-.container{
-    margin: 0 2em;
+.container {
+
 }
 
 .container h2 {

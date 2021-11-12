@@ -27,7 +27,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
 
             foreach (DataRow r in dt.Rows) {
-                clubList.Add(new Club(r[0].ToString(), r[1].ToString(), r[2].ToString()));
+                clubList.Add(new Club((int)r[0], r[1].ToString(), r[2].ToString()));
             }
 
             Console.WriteLine(clubList);

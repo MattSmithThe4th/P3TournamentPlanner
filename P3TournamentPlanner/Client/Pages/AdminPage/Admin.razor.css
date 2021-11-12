@@ -38,4 +38,23 @@
     background-color: rebeccapurple;
     color:white;
 }
+
+.table_container {
+    margin-top: 3vh;
+}
+
+.table_menu button {
+    background-color: var(--main-lilla);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.table_menu button:hover {
+    background-color: var(--penta-lilla);
+    cursor: pointer;
 }

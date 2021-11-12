@@ -2,6 +2,10 @@
 @using System;
 @using System.Collections.Generic;
 @using Microsoft.AspNetCore.Authorization;
+@using System.Linq;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using System.Threading.Tasks;
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
@@ -11,23 +15,55 @@
     {
         @if (match.playedFlag == 0)
         {
-            <div class="match-container" @onclick="() => ShowMatch(match)">
-                <div id="topPart">
-                    <h1> @match.teams[0].teamName</h1>
-                    <h1> VS </h1>
-                    <h1> @match.teams[1].teamName</h1>
-                </div>
-                <div id="lowPart">
-                    <h3> @match.startTime</h3>
-                    <h3>
-                        @foreach (Club club in clubs)
-                        {
-                            @if (club.clubID == match.clubHostID.ToString())
+            <div class="match-container">
+                <div class="match-container-background" @onclick="() => ShowMatch(match)">
+                    <div id="topPart">
+                        <h1 class="match-header"> @match.teams[0].teamName</h1>
+                        <h1 class="match-header" id="center"> VS </h1>
+                        <h1 class="match-header"> @match.teams[1].teamName</h1>
+                    </div>
+                    <div id="lowPart">
+                        <h3> @match.startTime</h3>
+                        <h3>
+                            @foreach (Club club in clubs)
                             {
-                                @club.address
+                                @if (club.clubID == match.clubHostID)
+                                {
+                                    @club.address
+                                }
                             }
-                        }
-                    </h3>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div id="matchSection" style="width: 100%">
+    @foreach (Match match in matches)
+    {
+        @if (match.playedFlag == 0)
+        {
+            <div class="match-container">
+                <div class="match-container-background" @onclick="() => ShowMatch(match)">
+                    <div id="topPart">
+                        <h1 class="match-header"> @match.teams[0].teamName</h1>
+                        <h1 class="match-header" id="center"> VS </h1>
+                        <h1 class="match-header"> @match.teams[1].teamName</h1>
+                    </div>
+                    <div id="lowPart">
+                        <h3> @match.startTime</h3>
+                        <h3>
+                            @foreach (Club club in clubs)
+                            {
+                                @if (club.clubID == match.clubHostID)
+                                {
+                                    @club.address
+                                }
+                            }
+                        </h3>
+                    </div>
                 </div>
             </div>
         }
@@ -38,6 +74,8 @@
     [Parameter]
     public int ID { get; set; }
 
+    public string MapSti = "mirage.jpg";
+
     List<Match> matches = new List<Match>();
     List<Club> clubs = new List<Club>();
 
@@ -47,12 +85,12 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        matches = await client.GetFromJsonAsync<List<Match>>("Match?division=" + ID);
+        matches = await client.GetFromJsonAsync<List<Match>>("api/match?divisionID=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(matches);
 
         Console.WriteLine("Get Send");
-        clubs = await client.GetFromJsonAsync<List<Club>>("Klub");
+        clubs = await client.GetFromJsonAsync<List<Club>>("api/Klub");
         Console.WriteLine("På den anden side");
         Console.WriteLine(clubs);
     }

@@ -2,23 +2,24 @@
 @inject Services.MatchService MatchService
 @using P3TournamentPlanner.Shared;
 <section class="kamp-section">
-    <h1 id="kamp-id">Kamp id: @ID</h1>
-    <div class="team-div">
-        <h1>@MatchService.match.teams[0].teamName</h1>
-        <h1>VS</h1>
-        <h1>@MatchService.match.teams[1].teamName</h1>
-    </div>
-    <div class="info-div">
-        <div class="item-div date-div"><time datetime="2021-02-11">@MatchService.match.startTime</time></div>
-        <div class="item-div" id="center">
-            <p>Server ip:</p>
-            <p>connect biter.dathost.net:27126</p>
+    <section class="kamp-background">
+        <div class="team-div">
+            <h1 class="header">@MatchService.match.teams[0].teamName</h1>
+            <h1 class="header" id="center">VS</h1>
+            <h1 class="header">@MatchService.match.teams[1].teamName</h1>
         </div>
-        <div class="item-div" id="adresse">
-            <p>Hobro Vikings</p>
-            <p>Amerikavej 22, 9500 Hobro</p>
+        <div class="info-div">
+            <div class="item-div date-div"><time datetime="2021-02-11">@MatchService.match.startTime</time></div>
+            <div class="item-div" id="center">
+                <p>Server ip:</p>
+                <p>connect biter.dathost.net:27126</p>
+            </div>
+            <div class="item-div" id="adresse">
+                <p>Hobro Vikings</p>
+                <p>Amerikavej 22, 9500 Hobro</p>
+            </div>
         </div>
-    </div>
+    </section>
 </section>
 @code {
     [Parameter]
