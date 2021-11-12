@@ -76,7 +76,23 @@ namespace P3TournamentPlanner.Server.Controllers {
             Console.WriteLine("Post Done");
         }
 
+        //WIP!!!!!!!!! SKAL TILFØJE PLAYERID TIL DATABASEN, SÅ VI FAKTISK HAR EN IDENTIFIER!!! CONTROLLEREN ER ALLEREDE SAT OP TIL AT BRUGE DEM!!!
+        [HttpPut]
+        public void Put([FromBody] Player player, [FromHeader] int clubID, [FromHeader] int? teamID = null) {
+            DatabaseQuerys db = new DatabaseQuerys();
 
+            SqlCommand command = new SqlCommand("use GeneralDatabase update PlayerDB set teamID = @teamID, clubID = @clubID, IRLName = @IRLName, IGName = @IGName, steamID = @steamID, csgoRank = @csgoRank, skillRating = @skillRating where playerID = @playerID");
+            
+            command.Parameters.Add(new SqlParameter("teamID", teamID));
+            command.Parameters.Add(new SqlParameter("clubID", clubID));
+            command.Parameters.Add(new SqlParameter("IRLName", player.IRLName));
+            command.Parameters.Add(new SqlParameter("IGName", player.IGName));
+            command.Parameters.Add(new SqlParameter("steamID", player.steamID));
+            command.Parameters.Add(new SqlParameter("csgoRank", player.CSGORank));
+            command.Parameters.Add(new SqlParameter("skillRating", player.playerSkllRating));
+            command.Parameters.Add(new SqlParameter("playerID", player.playerID));
 
+            db.InsertToTable(command);
+        }
     }
 }

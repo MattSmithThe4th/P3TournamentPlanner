@@ -7,6 +7,7 @@
         public string steamID { get; set; }
         public string CSGORank { get; set; }
         public int playerSkllRating { get; set; }
+        public int playerID { get; set; }
 
         public Player(string IRLName, string IGName, string steamID, string CSGORank, int playerSkllRating) {
             this.IRLName = IRLName;
