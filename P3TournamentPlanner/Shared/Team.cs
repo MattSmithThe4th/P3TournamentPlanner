@@ -9,6 +9,7 @@ namespace P3TournamentPlanner.Shared {
         public string teamName { get; set; } 
         public int teamSkillRating { get; set; } 
         public ClubManager manager { get; set; }
+        public Club club { get; set; }
 
         public List<Player> players = new List<Player>();
         public int roundsWon { get; set; } 
@@ -69,7 +70,26 @@ namespace P3TournamentPlanner.Shared {
         }
 
         // teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag
-        public Team(int teamID, int divisionID, int leagueID, string teamName, int teamSkillRating, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, ClubManager manager, bool archiveFlag) {
+        public Team(int teamID, int divisionID, int leagueID, string teamName, int teamSkillRating, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, bool archiveFlag) {
+            this.teamID = teamID;
+            this.divisionID = divisionID;
+            this.leagueID = leagueID;
+            this.teamName = teamName;
+            this.teamSkillRating = teamSkillRating;
+            this.roundsWon = roundsWon;
+            this.roundsLost = roundsLost;
+            this.club = club;
+            this.archiveFlag = archiveFlag;
+            this.placement = placement;
+            this.matchesPlayed = matchesPlayed;
+            this.matchesWon = matchesWon;
+            this.matchesDraw = matchesDraw;
+            this.matchesLost = matchesLost;
+            this.points = points;
+        }
+
+        public Team(int teamID, int divisionID, int leagueID, string teamName, int teamSkillRating, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, ClubManager manager, bool archiveFlag)
+        {
             this.teamID = teamID;
             this.divisionID = divisionID;
             this.leagueID = leagueID;
