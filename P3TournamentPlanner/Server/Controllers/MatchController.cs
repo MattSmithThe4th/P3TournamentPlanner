@@ -13,23 +13,27 @@ namespace P3TournamentPlanner.Server.Controllers
     public class MatchController : ControllerBase
     {
         [HttpGet]
-        public List<Match> Get(int division)
+        public List<Match> Get(int? teamID, int? divisionID)
         {
             Console.WriteLine("Get Recieved!");
-            Console.WriteLine(division);
-
+            Console.WriteLine(teamID);
 
             DatabaseQuerys db = new DatabaseQuerys();
 
             List<Match> matchList = new List<Match>();
-            
-
 
             DataTable matchTable, teamTable, contactTable;
 
-            matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
-                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where divisionID = " + division);
-
+            if (teamID != null)
+            {
+                matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
+                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where team1ID  = " + teamID + " or team2ID = " + teamID);
+            }
+            else
+            {
+                matchTable = db.PullTable($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
+                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where divisionID = " + divisionID);
+            }
 
             foreach (DataRow r in matchTable.Rows)
             {
