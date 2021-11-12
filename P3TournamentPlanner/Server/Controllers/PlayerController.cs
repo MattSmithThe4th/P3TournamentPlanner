@@ -23,7 +23,11 @@ namespace P3TournamentPlanner.Server.Controllers {
             List<Player> playerList = new List<Player>();
             DataTable dt;
 
-            dt = db.PullTable("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID=" + teamID + " and clubID=" + clubID);
+            SqlCommand command = new SqlCommand("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID=@teamID and clubID = @clubID");
+            command.Parameters.Add(new SqlParameter("teamID", teamID));
+            command.Parameters.Add(new SqlParameter("clubID", clubID));
+
+            dt = db.PullTable(command);
 
             //0teamID, 1clubID, 2IRLName, 3IGName, 4steamID, 5csgoRank
 
@@ -40,6 +44,22 @@ namespace P3TournamentPlanner.Server.Controllers {
             return playerList;
         }
 
+        //[HttpPost]
+        //public void Post(Player player) {
+        //    DatabaseQuerys db = new DatabaseQuerys();
+
+        //    System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
+
+        //    //SqlCommand command = new SqlCommand("insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (@teamID, @clubID, @IRLName, @IGName, @steamID, @csgoRank, @skillRating)");
+
+        //    //command.Parameters.Add(new SqlParameter("teamID", ));
+        //    //command.Parameters.Add(new SqlParameter("clubID", ));
+        //    //command.Parameters.Add(new SqlParameter("IRLName", ));
+        //    //command.Parameters.Add(new SqlParameter("IGName", ));
+        //    //command.Parameters.Add(new SqlParameter("steamID", ));
+        //    //command.Parameters.Add(new SqlParameter("csgoRank", ));
+        //    //command.Parameters.Add(new SqlParameter("skillRating", ));
+        //}
 
 
 

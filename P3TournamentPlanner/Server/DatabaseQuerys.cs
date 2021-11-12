@@ -60,7 +60,8 @@ namespace P3TournamentPlanner.Server {
             using(SqlConnection connection = new SqlConnection(connectionString)) {
                 SqlCommand cmd = new SqlCommand(query, connection);
                 connection.Open();
-                cmd.ExecuteNonQuery();
+                command.Connection = connection;
+                command.ExecuteNonQuery();
                 connection.Close();
             }
         }

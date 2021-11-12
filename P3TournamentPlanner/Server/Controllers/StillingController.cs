@@ -49,6 +49,44 @@ namespace P3TournamentPlanner.Server.Controllers {
             return teamList;
         }
 
+        //PUT
+        [HttpPut]
+        public void Put(Team team) {
+            Console.WriteLine("Put Got!");
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            SqlCommand command = new SqlCommand("use GeneralDatabase update TeamsDB set divisionID = @divisionID, leagueID = @leagueID, teamName = @teamName, teamRating = @teamRating, placement = @placement, matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points, managerID = @managerID, archiveFlag = @archiveFlag where teamID = @teamID");
+
+            //command.Parameters.Add(new SqlParameter("clubID",));
+            command.Parameters.Add(new SqlParameter("divisionID", team.divisionID));
+            command.Parameters.Add(new SqlParameter("leagueID", team.leagueID));
+            command.Parameters.Add(new SqlParameter("teamName", team.teamName));
+            command.Parameters.Add(new SqlParameter("teamRating", team.teamSkillRating));
+            command.Parameters.Add(new SqlParameter("placement", team.placement));
+            command.Parameters.Add(new SqlParameter("matchPlayed", team.matchesPlayed));
+            command.Parameters.Add(new SqlParameter("matchesWon", team.matchesWon));
+            command.Parameters.Add(new SqlParameter("matchesDraw", team.matchesDraw));
+            command.Parameters.Add(new SqlParameter("matchesLost", team.matchesLost));
+            command.Parameters.Add(new SqlParameter("roundsWon", team.roundsWon));
+            command.Parameters.Add(new SqlParameter("roundsLost", team.roundsLost));
+            command.Parameters.Add(new SqlParameter("points", team.points));
+            command.Parameters.Add(new SqlParameter("managerID", team.manager.userID));
+            command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(team.archiveFlag)));
+            command.Parameters.Add(new SqlParameter("teamID", team.teamID));
+
+            Console.WriteLine(command.CommandText);
+
+            db.InsertToTable(command);
+
+            Console.WriteLine("Put End");
+        }
+
+        //Tror ikke den har behov for POST
+        //[HttpPost]
+        //public void Post() {
+
+        //}
+
 
 
 
