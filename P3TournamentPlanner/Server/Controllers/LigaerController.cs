@@ -38,5 +38,27 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             return leagueList;
         }
+
+        [HttpPost]
+        public void Post(League liga) {
+            Console.WriteLine("Post Recieved!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            string command = $"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values('{liga.name}, {liga.game}, {liga.admin}, {liga.archiveFlag}')";
+
+            db.InsertToTable(command);
+        }
+
+        [HttpPut]
+        public void Put(League liga, int leagueID) {
+            Console.WriteLine("Put Recieved!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            string command = $"update LeagueDB set leagueName = {liga.name}, game = {liga.game}, adminID = {liga.admin}, archiveFlag = {liga.archiveFlag} where LeagueID = {leagueID}";
+
+            db.InsertToTable(command);
+        }
     }
 }
