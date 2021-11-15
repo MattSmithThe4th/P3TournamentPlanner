@@ -22,4 +22,5 @@ tbody tr {
 
 tbody tr:hover {
     background-color: #4e4e4e;
+    cursor: pointer;
 }

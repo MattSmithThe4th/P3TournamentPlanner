@@ -42,14 +42,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Julian Aarup Larsen</td>
-                    <td>JulianManager@gmail.com</td>
-                    <td>12345678</td>
-                    <td>Julian</td>
-                    <td><button>Rediger</button></td>
-                    <td><button>Slet</button></td>
-                </tr>
+                @foreach (ClubManager clubManager in clubManagers)
+                {
+                    <tr>
+                        <td>@clubManager.contactinfo.name</td>
+                        <td>@clubManager.contactinfo.email</td>
+                        <td>@clubManager.contactinfo.tlfNr</td>
+                        <td>@clubManager.contactinfo.discordID</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -69,7 +70,7 @@
             <tbody>
                 @foreach (Team team in teams)
                 {
-                    <tr id="team-tr">
+                    <tr id="team-tr" @onclick="() => ShowTeam(team)">
                         <td>@team.teamName</td>
                         <td>CS:GO</td>
                         <td>Division @team.divisionID</td>
@@ -88,6 +89,7 @@
 
     Club club = new Club();
     List<Team> teams = new List<Team>();
+    List<ClubManager> clubManagers = new List<ClubManager>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -97,14 +99,42 @@
             client.BaseAddress = new Uri("https://localhost:44341/");
 
             Console.WriteLine("Get Send");
-            teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation?clubID=" + id);
-            Console.WriteLine("På den anden side");
-            Console.WriteLine(teams);
-
-            Console.WriteLine("Get Send");
             club = await client.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + id);
             Console.WriteLine("På den anden side");
             Console.WriteLine(club);
+
+            await GetTeams();
+        }
+    }
+
+    async Task GetTeams()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation?clubID=" + id);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(teams);
+
+        GetManagers();
+    }
+
+    void GetManagers()
+    {
+        foreach (Team team in teams)
+        {
+            if (clubManagers.Count == 0)
+            {
+                clubManagers.Add(team.manager);
+            }
+            for (int i = 0; i < clubManagers.Count; i++)
+            {
+                if (clubManagers[i].contactinfo.name != team.manager.contactinfo.name)
+                {
+                    clubManagers.Add(team.manager);
+                }
+            }
         }
     }
 
@@ -114,5 +144,10 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         await client.PutAsJsonAsync<Club>("api/Klub", club);
+    }
+
+    public void ShowTeam(Team team)
+    {
+        NavigationManager.NavigateTo($"/hold/{team.teamName}");
     }
 }
