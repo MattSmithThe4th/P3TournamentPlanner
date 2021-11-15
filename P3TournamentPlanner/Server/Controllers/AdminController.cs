@@ -39,8 +39,12 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpPost("changeRole")]
-        public async void PostRole([FromBody] User user, [FromHeader] bool toBecomeAdmin) {
+        public async Task PostRole([FromBody] User user, [FromHeader] bool toBecomeAdmin) {
             Console.WriteLine("PUT ENTERED!!!!!!!");
+
+            Console.WriteLine("bool: " + toBecomeAdmin);
+
+            Console.WriteLine("USERID!!!: " + user.ID);
             
             ApplicationUser appUser = await userManager.FindByIdAsync(user.ID);
 
