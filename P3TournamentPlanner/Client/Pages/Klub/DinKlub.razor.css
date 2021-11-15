@@ -15,33 +15,7 @@ td, th {
     text-align: left;
 }
 
-tbody tr:nth-child(odd) {
-    background-color: #3e3e3e;
-}
-
 tbody tr {
     margin-top: 5px;
     background-color: #3e3e3e;
-}
-
-.hold-div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: #3e3e3e;
-    margin-bottom: 10px;
-}
-
-#hold-header{
-    margin-bottom: 2vh;
-}
-
-.hold-div:hover {
-    cursor: pointer;
-    background-color: #4e4e4e;
-}
-
-.hold-div  h3{
-    margin: 0px;
-    padding: 5px;
 }

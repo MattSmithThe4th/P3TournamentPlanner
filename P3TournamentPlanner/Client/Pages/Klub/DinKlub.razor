@@ -54,30 +54,42 @@
         </table>
     </div>
 </section>
+
 <section class="klub-section">
-    <div id="hold-header" class="header-div">
-        <h2>Dine hold</h2>
-    </div>
-    <div class="hold-div">
-        <h3>Hobro Vikings - hold 1</h3>
-        <h3>League: CS:GO</h3>
-        <h3>Division: Division 1</h3>
-    </div>
-    <div class="hold-div">
-        <h3>Hobro Vikings - hold 1</h3>
-        <h3>League: CS:GO</h3>
-        <h3>Division: Division 1</h3>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Liga</th>
+                    <th>Division</th>
+                    <th>Antal spillere</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Team team in teams)
+                {
+                    <tr id="team-tr">
+                        <td>@team.teamName</td>
+                        <td>CS:GO</td>
+                        <td>Division @team.divisionID</td>
+                        <td>5</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </section>
 
 
 @code {
     [Parameter]
-    public Nullable<int> id { get; set; } 
+    public Nullable<int> id { get; set; }
 
     Club club = new Club();
+    List<Team> teams = new List<Team>();
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
         if (id != null)
         {
@@ -85,7 +97,12 @@
             client.BaseAddress = new Uri("https://localhost:44341/");
 
             Console.WriteLine("Get Send");
-            club = await client.GetFromJsonAsync<Club>("api/klub/klub?clubID=" + id);
+            teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation?clubID=" + id);
+            Console.WriteLine("På den anden side");
+            Console.WriteLine(teams);
+
+            Console.WriteLine("Get Send");
+            club = await client.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + id);
             Console.WriteLine("På den anden side");
             Console.WriteLine(club);
         }
