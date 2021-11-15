@@ -5,7 +5,7 @@
 
 <h3>Test</h3>
 <p id="test">dinmor</p>
-<button @onclick="TestFunc">Klik mig</button>
+<button @onclick="MakeAdminTest">Klik mig</button>
 
 @*<img src="data:image/png;base64, @DO.base64">*@
 
@@ -13,6 +13,8 @@
     DebugObject DO = new DebugObject();
     Team testTeam = new Team(3, 1, 1, "dinmorgay", 69, 69, 69, 69, 69, 69, 69, 69, 69, new ClubManager(new Contactinfo(), "dinMANAGERgay"), false);
     Player testPlayer = new Player("Test Navn", "Test IG navn", "Dette er et steamID", "CSGO RANK GO HERE", 69420);
+    User testUser;
+    List<User> testUserList;
 
     protected override async Task OnInitializedAsync() {
 
@@ -40,5 +42,19 @@
         //var res = await client.PutAsJsonAsync<Team>("api/Stilling", testTeam);
 
         //Console.WriteLine(res);
+    }
+
+    private async void MakeAdminTest() {
+        testUserList = await Http.GetFromJsonAsync<List<User>>("api/admin/users");
+
+        foreach(User user in testUserList) {
+            if(user.email == "admin@admin.dk") testUser = user;
+        }
+
+        Http.DefaultRequestHeaders.Add("toBecomeAdmin", "true");
+
+        var res = await Http.PostAsJsonAsync<User>("api/admin/changeRole", testUser);
+
+        Console.WriteLine(res);
     }
 }

@@ -24,7 +24,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             List<Player> playerList = new List<Player>();
             DataTable dt;
 
-            SqlCommand command = new SqlCommand("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID=@teamID and clubID = @clubID");
+            SqlCommand command = new SqlCommand("select playerID, teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID=@teamID and clubID = @clubID");
             command.Parameters.Add(new SqlParameter("teamID", teamID));
             command.Parameters.Add(new SqlParameter("clubID", clubID));
 
@@ -33,7 +33,9 @@ namespace P3TournamentPlanner.Server.Controllers {
             //0teamID, 1clubID, 2IRLName, 3IGName, 4steamID, 5csgoRank
 
             foreach(DataRow r in dt.Rows) {
-                playerList.Add(new Player((string)r[2], (string)r[3], (string)r[4], (string)r[5], (int)r[6]));
+                playerList.Add(new Player((string)r[3], (string)r[4], (string)r[5], (string)r[6], (int)r[7], (int)r[0]));
+
+                //playerList.Add(new Player((string)r[2], (string)r[3], (string)r[4], (string)r[5], (int)r[6]));
 
                 //playerList.Add(new Player((int)r[1], (int)r[0], r[2].ToString(), r[3].ToString(), r[4].ToString(), r[5].ToString()));
             }
@@ -76,7 +78,6 @@ namespace P3TournamentPlanner.Server.Controllers {
             Console.WriteLine("Post Done");
         }
 
-        //WIP!!!!!!!!! SKAL TILFØJE PLAYERID TIL DATABASEN, SÅ VI FAKTISK HAR EN IDENTIFIER!!! CONTROLLEREN ER ALLEREDE SAT OP TIL AT BRUGE DEM!!!
         [HttpPut]
         public void Put([FromBody] Player player, [FromHeader] int clubID, [FromHeader] int? teamID = null) {
             DatabaseQuerys db = new DatabaseQuerys();
