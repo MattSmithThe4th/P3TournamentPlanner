@@ -3,24 +3,26 @@
 @inject IHttpClientFactory ClientFactory
 @page "/admin/ligaerID"
 
-<header><h1> CS:GO </h1></header>
-<body>
+<header>
+    <h1> CS:GO : @league.name </h1>
+</header>
+<div class="box1">
     <EditForm Model="league" OnSubmit="HandleSubmit">
         <div class="#1">
             <div>
                 <label>Navn:</label>
-                <InputText placeholder="navn på liga"></InputText>
+                <InputText @bind-Value="@league.name" placeholder="navn på liga"></InputText>
             </div>
             <div>
                 <label>Dato:</label>
                 <div>
-                    <input  placeholder="start dato" />
+                    <input placeholder="start dato" />
                     <input placeholder="start dato" />
                 </div>
             </div>
             <div>
                 <label>Spil:</label>
-                <InputSelect TValue="string">
+                <InputSelect @bind-Value="game.name" TValue="string" >
                     <option value="Select"> Select </option>
                     <option value="Select"> CS:GO </option>
                 </InputSelect>
@@ -31,10 +33,41 @@
             <button> GEM </button>
         </div>
     </EditForm>
-</body>
+</div>
+<div class="boxes">
+    <div style="width: 100%">
+    
+    @foreach (Division division in Divisions)
+    {
+        <table class="boxes">
+            <tbody>
+                <tr>
+                    <th>Divisioner</th>
+                </tr>
+                <tr>
+                    <td> @division.divisionID : Division</td>
+                    <td>  <button> Rediger </button>  </td>
+                    <td>  <button> Slet </button>  </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+    </div>
+</div>
+<div class="box3">
+    <h1> Auto generer division </h1>
+    <div>
+        <form action="/" method="post">
+            <label>Antal hold</label>
+            <input type="number" />
+        </form>
+        <button> Auto Generer</button>
+    </div>
+</div>
 
 @code{
     List<League> ligas = new List<League>();
+    List<Division> Divisions = new List<Division>();
 
     League league = new League();
     VideoGame game = new VideoGame();
@@ -48,10 +81,14 @@
     {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
-
+    
         Console.WriteLine("Get Send");
         ligas = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
         Console.WriteLine("På den anden side");
-       
+
+        Console.WriteLine("Get Send");
+        Divisions = await client.GetFromJsonAsync<List<Division>>("api/Division");
+        Console.WriteLine("På den anden side");
+
     }
 }

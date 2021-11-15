@@ -1,0 +1,98 @@
+﻿@using P3TournamentPlanner.Shared
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@inject NavigationManager NavigationManager
+@inject Services.TeamService TeamService
+@page "/admin/ligaerDivision"
+<h3>  </h3>
+<body>
+
+    <div>
+        <div class="navn">
+            <div class="vertical">
+                <form action="/" method="post">
+                    <label> Divisions Navn</label>
+                    <input type="text" placeholder="Divisions navn" />
+                </form>
+            </div>
+            <button>Generer Kampe</button>
+        </div>
+        <div class="hold" style=" width:100%; ">
+            <table>
+                <tbody>
+                    <tr style=" width: 100%; ">
+                        <th>  Hold  </th>
+                        <th>  Kontakt person  </th>
+                        <th>  Email  </th>
+                        <th>  Antal spillere  </th>
+                    </tr>
+                    @foreach (Team team in teams)
+                    {
+                        <tr @onclick="() => ShowTeam(team)">
+                            <td>@team.teamName</td>
+                            <td> navn på kontakt person</td>
+                            <td>@team.manager.contactinfo.tlfNr</td>
+                            <td>@team.divisionID</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="tilføjHold">
+            <form action="/" method="post">
+                <select>
+                    <option> placeholder</option>
+                    @foreach (Team team in teams)
+                    {
+                        <option> @team.teamName </option>
+                    }
+                </select>
+
+            </form>
+        </div>
+        <div class="kampe">
+            <MatchList ID="ID" />
+        </div>
+    </div>
+</body>
+
+
+
+@code{
+    List<League> ligas = new List<League>();
+    List<Division> Divisions = new List<Division>();
+    List<Team> teams = new List<Team>();
+
+    Contactinfo contactinfo = new Contactinfo();
+    Team team = new Team();
+    League league = new League();
+    VideoGame game = new VideoGame();
+
+    public int ID = 1;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        ligas = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
+        Console.WriteLine("På den anden side");
+
+        Console.WriteLine("Get Send");
+        Divisions = await client.GetFromJsonAsync<List<Division>>("api/Division");
+        Console.WriteLine("På den anden side");
+
+        Console.WriteLine("Get Send");
+        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation");
+        Console.WriteLine("På den anden side");
+
+
+    }
+
+    public void ShowTeam(Team team)
+    {
+        TeamService.team = team;
+        NavigationManager.NavigateTo($"/hold/{team.teamName}");
+    }
+}
