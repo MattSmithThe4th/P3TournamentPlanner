@@ -143,7 +143,14 @@
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        await client.PutAsJsonAsync<Club>("api/Klub", club);
+        if(id == null)
+        {
+            await client.PostAsJsonAsync<Club>("api/klub", club);
+        }
+        else
+        {
+            await client.PutAsJsonAsync<Club>("api/Klub", club);
+        }
     }
 
     public void ShowTeam(Team team)

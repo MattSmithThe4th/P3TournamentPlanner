@@ -60,29 +60,61 @@ namespace P3TournamentPlanner.Server.Controllers {
             return clubList;
         }
 
-        [HttpPost]
-        public List<Club> Post(Club club)
-        {
-            Console.WriteLine("Post Recieved!");
+        //[HttpPost]
+        //public List<Club> Post(Club club)
+        //{
+        //    Console.WriteLine("Post Recieved!");
 
+        //    DatabaseQuerys db = new DatabaseQuerys();
+
+        //    string command = $"insert into ClubDB(clubName, clubAddress) values('{club.name}', '{club.address}')";
+
+        //    db.InsertToTable(command);
+
+        //    return Get();
+        //}
+
+        //[HttpPut]
+        //public void Put(Club club, int clubID)
+        //{
+        //    Console.WriteLine("Put Recieved!");
+
+        //    DatabaseQuerys db = new DatabaseQuerys();
+
+        //    string command = $"update clubDB set clubID = {club.clubID}, clubName = {club.name}, clubAddress = {club.address} where clubID = {clubID}";
+
+        //    db.InsertToTable(command);
+        //}
+
+        [HttpPut]
+        public void Put(Club club)
+        {
+            Console.WriteLine("Put Got!");
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"insert into ClubDB(clubName, clubAddress) values('{club.name}', '{club.address}')";
+            SqlCommand command = new SqlCommand("use GeneralDatabase update ClubDB set clubName = @clubName, clubAddress = @clubAddress where clubID = @clubID");
+
+            //command.Parameters.Add(new SqlParameter("clubID",));
+            command.Parameters.Add(new SqlParameter("clubName", club.name));
+            command.Parameters.Add(new SqlParameter("clubAddress", club.address));
+            command.Parameters.Add(new SqlParameter("clubID", club.clubID));
+
+            Console.WriteLine(command.CommandText);
 
             db.InsertToTable(command);
 
-            return Get();
+            Console.WriteLine("Put End");
         }
 
-        [HttpPut]
-        public void Put(Club club, int clubID)
+        [HttpPost]
+        public void Post(Club club)
         {
-            Console.WriteLine("Put Recieved!");
-
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"update clubDB set clubID = {club.clubID}, clubName = {club.name}, clubAddress = {club.address} where clubID = {clubID}";
-
+            //SqlCommand command = new SqlCommand($"use GeneralDatabase insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ({userIDString}, {ci.name}, {ci.tlfNr}, {ci.discordID}, {ci.email})");
+            SqlCommand command = new SqlCommand($"use GeneralDatabase insert into ClubDB(clubName, clubAddress) values (@clubName, @clubAddress)");
+            command.Parameters.Add(new SqlParameter("clubName", club.name));
+            command.Parameters.Add(new SqlParameter("clubAddress", club.address));
             db.InsertToTable(command);
         }
     }
