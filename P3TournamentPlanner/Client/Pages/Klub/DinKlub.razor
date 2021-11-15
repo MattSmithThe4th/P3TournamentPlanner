@@ -57,6 +57,9 @@
 </section>
 
 <section class="klub-section">
+    <div class="header-div">
+        <h2>Dine hold</h2>
+    </div>
     <div class="table-container">
         <table>
             <thead>
@@ -146,6 +149,7 @@
         if(id == null)
         {
             await client.PostAsJsonAsync<Club>("api/klub", club);
+            NavigationManager.NavigateTo("admin");
         }
         else
         {
