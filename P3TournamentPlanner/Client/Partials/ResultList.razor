@@ -16,7 +16,7 @@
                 <div class="match-container-background" @onclick="() => ShowMatch(match)">
                     <div id="topPart">
                         <h1 class="match-header"> @match.teams[0].teamName</h1>
-                        <h1 class="match-header" id="center"> vs </h1>
+                        <h1 class="match-header" id="center"> VS </h1>
                         <h1 class="match-header"> @match.teams[1].teamName</h1>
                     </div>
                     <div id="lowPart">
@@ -41,6 +41,9 @@
     [Parameter]
     public int ID { get; set; }
 
+    [Parameter]
+    public string search { get; set; }
+
     public string MapSti = "Mirage";
 
     List<Match> matches = new List<Match>();
@@ -51,10 +54,20 @@
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        Console.WriteLine("Get Send");
-        matches = await client.GetFromJsonAsync<List<Match>>("api/match?division=" + ID);
-        Console.WriteLine("På den anden side");
-        Console.WriteLine(matches);
+        if (search == "division")
+        {
+            Console.WriteLine("Get Send");
+            matches = await client.GetFromJsonAsync<List<Match>>("api/match?division=" + ID);
+            Console.WriteLine("På den anden side");
+            Console.WriteLine(matches);
+        }
+        else if (search == "team")
+        {
+            Console.WriteLine("Get Send");
+            matches = await client.GetFromJsonAsync<List<Match>>("api/match?teamID=" + ID);
+            Console.WriteLine("På den anden side");
+            Console.WriteLine(matches);
+        }
 
         Console.WriteLine("Get Send");
         clubs = await client.GetFromJsonAsync<List<Club>>("api/Klub");

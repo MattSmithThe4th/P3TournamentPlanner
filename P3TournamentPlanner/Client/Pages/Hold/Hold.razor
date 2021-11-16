@@ -5,7 +5,7 @@
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
 @inject Services.TeamService TeamService
-@page "/hold"
+@page "/allehold"
 <style>
     .page {
         background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(/images/esl.jpeg);
@@ -55,6 +55,6 @@
     public void ShowTeam(Team team)
     {
         TeamService.team = team;
-        NavigationManager.NavigateTo($"/hold/{team.teamName}");
+        NavigationManager.NavigateTo($"/hold/{team.teamID}");
     }
 }

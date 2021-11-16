@@ -1,110 +1,136 @@
-﻿@using System.Collections.Generic;
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@using System.Linq;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using System.Threading.Tasks;
 @inject HttpClient Http
-@inject Services.TeamService TeamService
-@page "/hold/{teamname?}"
+@inject IHttpClientFactory ClientFactory
+@page "/hold/{teamID:int}"
+@page "/hold"
 
-
-<h1>@TeamService.team.teamName</h1>
-
-<p>Klub:</p>
-<p>Kontaktperson: - </p>
-<p>Klublokale: Amerikavej 22, 9500 Hobro</p>
-
-<section class="table_container">
-    <div class="table_menu">
-        <button id="info-btn" @onclick="ShowInfo">Info</button>
-        <button id="kampe-btn" @onclick="ShowKampe">Kampe</button>
-        <button id="resultater-btn" @onclick="ShowResultater">Resultater</button>
-    </div>
-</section>
-@if (display == "kampe")
+@if (team == null)
 {
-    <style>
-        #kampe-btn {
-            background-color: var(--penta-lilla)
-        }
-    </style>
-    <MatchList ID="1"/>
+    <p>Loading ...</p>
 }
-else if (display == "resultater")
+else
 {
-    <style>
-        #resultater-btn {
-            background-color: var(--penta-lilla)
-        }
-    </style>
-    <ResultList ID="1"/>
-}
-else if (display == "info")
-{
-    <style>
-        #info-btn {
-            background-color: var(--penta-lilla)
-        }
-    </style>
-    <section class="manager-section">
-        <div class="header-div">
-            <h2>Trænere</h2>
-        </div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Navn</th>
-                        <th>Email</th>
-                        <th>Telefon</th>
-                        <th>Discord</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Julian Aarup Larsen</td>
-                        <td>JulianManager@gmail.com</td>
-                        <td>12345678</td>
-                        <td>Julian</td>
-                    </tr>
-                </tbody>
-            </table>
+    <h1>@team.teamName</h1>
+
+    <p>Klub: @club.name</p>
+    @foreach (ClubManager clubManager in clubManagers)
+    {
+        <p>Kontaktperson: @clubManager.contactinfo.name - @clubManager.contactinfo.tlfNr</p>
+    }
+    <p>Klublokale: Amerikavej 22, 9500 Hobro</p>
+
+    <section class="table_container">
+        <div class="table_menu">
+            <button id="info-btn" @onclick="ShowInfo">Info</button>
+            <button id="kampe-btn" @onclick="ShowKampe">Kampe</button>
+            <button id="resultater-btn" @onclick="ShowResultater">Resultater</button>
         </div>
     </section>
-
-    <section class="player-section">
-        <div class="header-div">
-            <h2>Spillere</h2>
-        </div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Navn</th>
-                        <th>In-game navn</th>
-                        <th>STEAM_ID</th>
-                        <th>Rank</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < 5; i++)
-                    {
+    @if (display == "kampe")
+    {
+        <style>
+            #kampe-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <MatchList ID="team.teamID" search="team"/>
+    }
+    else if (display == "resultater")
+    {
+        <style>
+            #resultater-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <ResultList ID="team.teamID" search="team"/>
+    }
+    else if (display == "info")
+    {
+        <style>
+            #info-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <section class="manager-section">
+            <div class="header-div">
+                <h2>Trænere</h2>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
                         <tr>
-                            <td>Martin Svanholm</td>
-                            <td>Svanh0lm</td>
-                            <td>STEAM_0:0:11101</td>
-                            <td>Global Elite</td>
+                            <th>Navn</th>
+                            <th>Email</th>
+                            <th>Telefon</th>
+                            <th>Discord</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </section>
+                    </thead>
+                    <tbody>
+                        @foreach (ClubManager clubManager in clubManagers)
+                        {
+                            <tr>
+                                <td>@clubManager.contactinfo.name</td>
+                                <td>@clubManager.contactinfo.email</td>
+                                <td>@clubManager.contactinfo.tlfNr</td>
+                                <td>@clubManager.contactinfo.discordID</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="player-section">
+            <div class="header-div">
+                <h2>Spillere</h2>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Navn</th>
+                            <th>In-game navn</th>
+                            <th>STEAM_ID</th>
+                            <th>Rank</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <tr>
+                                <td>Martin Svanholm</td>
+                                <td>Svanh0lm</td>
+                                <td>STEAM_0:0:11101</td>
+                                <td>Global Elite</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    }
 }
 
 
 
 @code {
     [Parameter]
-    public string teamname { get; set; }
+    public Nullable<int> teamID { get; set; }
 
-    public string display = "info";
+    public string kontaktperson;
+
+    string display = "info";
+
+    Team team = new Team();
+    Club club = new Club();
+    List<ClubManager> clubManagers = new List<ClubManager>();
 
     public void ShowInfo()
     {
@@ -122,5 +148,54 @@ else if (display == "info")
     {
         display = "resultater";
         StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (teamID != null)
+        {
+            await GetTeam();
+
+            await GetClub();
+        }
+    }
+
+    async Task GetTeam()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        team = await client.GetFromJsonAsync<Team>("api/TeamInformation/team?teamID=" + teamID);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(team);
+
+        GetManagers();
+    }
+
+    async Task GetClub()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        club = await client.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + team.teamID);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(club);
+    }
+
+    void GetManagers()
+    {
+        if (clubManagers.Count == 0)
+        {
+            clubManagers.Add(team.manager);
+        }
+        for (int i = 0; i < clubManagers.Count; i++)
+        {
+            if (clubManagers[i].contactinfo.name != team.manager.contactinfo.name)
+            {
+                clubManagers.Add(team.manager);
+            }
+        }
     }
 }
