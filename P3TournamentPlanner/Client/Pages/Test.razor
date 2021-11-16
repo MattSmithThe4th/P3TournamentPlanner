@@ -5,7 +5,8 @@
 
 <h3>Test</h3>
 <p id="test">dinmor</p>
-<button @onclick="MakeAdminTest">Klik mig</button>
+<button @onclick="MakeAdminTest">Make Admin</button>
+<button @onclick="RevokeAdminTest">Revoke Admin</button>
 
 @*<img src="data:image/png;base64, @DO.base64">*@
 
@@ -52,6 +53,20 @@
         }
 
         Http.DefaultRequestHeaders.Add("toBecomeAdmin", "true");
+
+        var res = await Http.PostAsJsonAsync<User>("api/admin/changeRole", testUser);
+
+        Console.WriteLine(res);
+    }
+
+    private async void RevokeAdminTest() {
+        testUserList = await Http.GetFromJsonAsync<List<User>>("api/admin/users");
+
+        foreach(User user in testUserList) {
+            if(user.email == "admin@admin.dk") testUser = user;
+        }
+
+        Http.DefaultRequestHeaders.Add("toBecomeAdmin", "false");
 
         var res = await Http.PostAsJsonAsync<User>("api/admin/changeRole", testUser);
 

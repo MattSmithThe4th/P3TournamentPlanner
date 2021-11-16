@@ -13,7 +13,7 @@ using Microsoft.Data.SqlClient;
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class StillingController : ControllerBase {
 
         //Runs when a get request is send to /Stilling. It creates a list of teams in the given league and division,

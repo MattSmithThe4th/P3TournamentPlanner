@@ -77,7 +77,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("api/Stilling?league=" + liga + "&division=" + ID);
+        teams = await Http.GetFromJsonAsync<List<Team>>("api/Stilling?league=" + liga + "&division=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
         teams.Sort((x, y) => y.points.CompareTo(x.points));
