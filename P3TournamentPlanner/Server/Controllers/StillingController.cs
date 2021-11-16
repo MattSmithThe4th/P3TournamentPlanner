@@ -35,7 +35,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             //// --------------- End --------------------
 
             //Pulls from database, to .NET datatable
-            SqlCommand command = new SqlCommand($"select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = @division and leagueID = @league");
+            SqlCommand command = new SqlCommand($"select clubID, teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = @division and leagueID = @league");
             command.Parameters.Add(new SqlParameter("division", division));
             command.Parameters.Add(new SqlParameter("league", league));
             dt = db.PullTable(command);
@@ -43,7 +43,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             //Creates teamList, based on said data
             foreach(DataRow r in dt.Rows)
             {
-                teamList.Add(new Team(r[0].ToString(), (int)r[1], (int)r[2], (int)r[3], (int)r[4], (int)r[5], (int)r[6]));
+                teamList.Add(new Team((int)r[0], r[1].ToString(), (int)r[2], (int)r[3], (int)r[4], (int)r[5], (int)r[6], (int)r[7]));
             }
 
             foreach(Team t in teamList) {
@@ -59,9 +59,9 @@ namespace P3TournamentPlanner.Server.Controllers {
             Console.WriteLine("Put Got!");
             DatabaseQuerys db = new DatabaseQuerys();
 
-            SqlCommand command = new SqlCommand("use GeneralDatabase update TeamsDB set divisionID = @divisionID, leagueID = @leagueID, teamName = @teamName, teamRating = @teamRating, placement = @placement, matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points, managerID = @managerID, archiveFlag = @archiveFlag where teamID = @teamID");
+            SqlCommand command = new SqlCommand("use GeneralDatabase update TeamsDB set clubID = @clubID, divisionID = @divisionID, leagueID = @leagueID, teamName = @teamName, teamRating = @teamRating, placement = @placement, matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points, managerID = @managerID, archiveFlag = @archiveFlag where teamID = @teamID");
 
-            //command.Parameters.Add(new SqlParameter("clubID",));
+            command.Parameters.Add(new SqlParameter("clubID", team.clubID));
             command.Parameters.Add(new SqlParameter("divisionID", team.divisionID));
             command.Parameters.Add(new SqlParameter("leagueID", team.leagueID));
             command.Parameters.Add(new SqlParameter("teamName", team.teamName));
