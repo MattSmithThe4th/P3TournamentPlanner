@@ -1,5 +1,6 @@
-﻿.header-div h2 {
-    margin: 0;
+﻿.header-div {
+    display: flex;
+    justify-content: space-between;
     margin-top: 5vh;
 }
 
@@ -20,7 +21,41 @@ tbody tr {
     background-color: #3e3e3e;
 }
 
-tbody tr:hover {
+#hold tr:hover {
     background-color: #4e4e4e;
+    cursor: pointer;
+}
+
+.btn-div {
+    display: flex;
+    flex-direction: row;
+    margin: auto 0;
+}
+
+.btn-td {
+    padding: 0;
+}
+
+.td-div{
+    display: flex;
+}
+
+.btn-primary {
+    border-radius: 5px;
+}
+
+.btn {
+    background-color: var(--main-lilla);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-size: medium;
+}
+
+.btn:hover {
+    background-color: var(--quad-lilla);
     cursor: pointer;
 }

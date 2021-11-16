@@ -11,6 +11,7 @@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
 
 <h1>Din klub - @club.name</h1>
 <section class="klub-section">
@@ -30,6 +31,9 @@
 <section class="klub-section">
     <div class="header-div">
         <h2>Klub administratorer</h2>
+        <div class="btn-div">
+            <button class="btn-primary btn-klubadmin">Opret ny klub administrator</button>
+        </div>
     </div>
     <div class="table-container">
         <table>
@@ -49,11 +53,67 @@
                         <td>@clubManager.contactinfo.email</td>
                         <td>@clubManager.contactinfo.tlfNr</td>
                         <td>@clubManager.contactinfo.discordID</td>
+                        <td class="btn-td">
+                            <div class="td-div">
+                                <button class="btn" @onclick="() => Edit(clubManager.userID)">Rediger</button>
+                            </div>
+                        </td>
+                        <td class="btn-td">
+                            <div class="td-div">
+                                <button class="btn" @onclick="Delete">Slet</button>
+                            </div>
+                        </td>
                     </tr>
+
+                    @if (userID == clubManager.userID)
+                    {
+                        <tr class="edittr" id="@clubManager.userID">
+                            <td class="edit">
+                                <label>Navn:</label>
+                                <input @bind="clubManager.contactinfo.name" />
+                            </td>
+                            <td class="edit">
+                                <label>Email:</label>
+                                <input @bind="clubManager.contactinfo.email" />
+                            </td>
+                            <td class="edit">
+                                <label>Telefon:</label>
+                                <input @bind="clubManager.contactinfo.tlfNr" />
+                            </td>
+                            <td class="edit">
+                                <label>Discord:</label>
+                                <input @bind="clubManager.contactinfo.discordID" />
+                            </td>
+                            <td class="btn-td">
+                                <div class="td-div">
+                                    <button class="btn" @onclick="() => Edit(clubManager.userID)">Gem</button>
+                                </div>  
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
     </div>
+    <form>
+        <div>
+            <label>Navn:</label>
+            <input @bind="clubManager1.contactinfo.name"/>
+        </div>
+        <div>
+            <label>Email:</label>
+            <input />
+        </div>
+        <div>
+            <label>Telefon:</label>
+            <input />
+        </div>
+        <div>
+            <label>Discord:</label>
+            <input />
+        </div>
+    </form>
 </section>
 
 <section class="klub-section">
@@ -70,7 +130,7 @@
                     <th>Antal spillere</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="hold">
                 @foreach (Team team in teams)
                 {
                     <tr id="team-tr" @onclick="() => ShowTeam(team)">
@@ -90,7 +150,12 @@
     [Parameter]
     public Nullable<int> id { get; set; }
 
+    public string display = "none";
+
+    public string userID;
+
     Club club = new Club();
+    ClubManager clubManager1 = new ClubManager(new Contactinfo());
     List<Team> teams = new List<Team>();
     List<ClubManager> clubManagers = new List<ClubManager>();
 
@@ -146,7 +211,7 @@
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        if(id == null)
+        if (id == null)
         {
             await client.PostAsJsonAsync<Club>("api/klub", club);
             NavigationManager.NavigateTo("admin");
@@ -157,8 +222,40 @@
         }
     }
 
+    void HandleManagerSubmit()
+    {
+        Console.WriteLine("Ye");
+    }
+
     public void ShowTeam(Team team)
     {
         NavigationManager.NavigateTo($"/hold/{team.teamID}");
+    }
+
+    async Task Alert()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Er du sikker?");
+
+        if (confirmed == true)
+        {
+            NavigationManager.NavigateTo($"/dinklub/{club.clubID}", forceLoad: true);
+        }
+    }
+
+    public void Edit(string UserID)
+    {
+        if (UserID == userID)
+        {
+            userID = "";
+        }
+        else
+        {
+            userID = UserID;
+        }
+    }
+
+    public async void Delete()
+    {
+        await Alert();
     }
 }
