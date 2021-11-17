@@ -56,5 +56,16 @@ namespace P3TournamentPlanner.Server {
                 connection.Close();
             }
         }
+
+        public void DeleteRow(SqlCommand command)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
     }
 }

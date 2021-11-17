@@ -102,5 +102,24 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             db.InsertToTable(command);
         }
+
+        [HttpDelete]
+        [Route("Delete/{userID}")]
+        public void Delete(string userID)
+        {
+            Console.WriteLine("Delete Received!");
+
+            DatabaseQuerys db = new();
+
+            SqlCommand command = new("delete from ContactInfoDB where userID = @userID");
+            command.Parameters.Add(new SqlParameter("userID", userID));
+
+            db.DeleteRow(command);
+
+            command = new("delete from ClubManagerDB where userID = @userID");
+            command.Parameters.Add(new SqlParameter("userID", userID));
+
+            db.DeleteRow(command);
+        }
     }
 }
