@@ -3,9 +3,7 @@
         //add login
         public Contactinfo contactinfo { get; set; }
 
-        public string testString { get; set; }
-        public int testInt { get; set; }
-
+        public int ClubID { get; set; }
         //Måske
         public string userID { get; set; }
 

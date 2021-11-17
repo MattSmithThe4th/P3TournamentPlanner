@@ -16,7 +16,7 @@
 <h1>Din klub - @club.name</h1>
 <section class="klub-section">
     <div class="klub-info">
-        <EditForm Model="club" OnSubmit="HandleSubmit">
+        <EditForm Model="club" OnSubmit="HandleClubSubmit">
             <label for="navn">Navn:</label>
             <InputText @bind-Value="club.name" id="navn" type="text" />
 
@@ -55,7 +55,7 @@
                         <td>@clubManager.contactinfo.discordID</td>
                         <td class="btn-td">
                             <div class="td-div">
-                                <button class="btn" @onclick="() => Edit(clubManager.userID)">Rediger</button>
+                                <button class="btn" @onclick="() => ShowMananger(clubManager)">Rediger</button>
                             </div>
                         </td>
                         <td class="btn-td">
@@ -86,7 +86,7 @@
                             </td>
                             <td class="btn-td">
                                 <div class="td-div">
-                                    <button class="btn" @onclick="() => Edit(clubManager.userID)">Gem</button>
+                                    <button class="btn" @onclick="() => HandleManagerPut(clubManager)">Gem</button>
                                 </div>  
                             </td>
                             <td></td>
@@ -206,7 +206,7 @@
         }
     }
 
-    async Task HandleSubmit()
+    async Task HandleClubSubmit()
     {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
@@ -222,9 +222,28 @@
         }
     }
 
-    void HandleManagerSubmit()
+    async Task HandleManagerPut(ClubManager clubManager)
     {
-        Console.WriteLine("Ye");
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        ShowMananger(clubManager);
+
+        Console.WriteLine(clubManager.userID);
+
+        await client.PutAsJsonAsync<ClubManager>("api/ClubManager", clubManager);
+    }
+
+    void ShowMananger(ClubManager clubManager)
+    {
+        if (clubManager.userID == userID)
+        {
+            userID = "";
+        }
+        else
+        {
+            userID = clubManager.userID;
+        }
     }
 
     public void ShowTeam(Team team)
@@ -239,18 +258,6 @@
         if (confirmed == true)
         {
             NavigationManager.NavigateTo($"/dinklub/{club.clubID}", forceLoad: true);
-        }
-    }
-
-    public void Edit(string UserID)
-    {
-        if (UserID == userID)
-        {
-            userID = "";
-        }
-        else
-        {
-            userID = UserID;
         }
     }
 
