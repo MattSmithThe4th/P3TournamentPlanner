@@ -44,18 +44,18 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            SqlCommand command = new SqlCommand("use GeneralDatabase update ClubManagerDB set clubID = @clubID where userID = @userID");
+            SqlCommand command = new SqlCommand("update ClubManagerDB set clubID = @clubID where userID = @userID");
 
             command.Parameters.Add(new SqlParameter("clubID", cm.ClubID));
             command.Parameters.Add(new SqlParameter("userID", cm.userID));
 
             db.InsertToTable(command);
 
-            command = new SqlCommand("use GeneralDatabase update ContactInfoDB set " +
+            command = new SqlCommand("update ContactInfoDB set " +
                 "contactName = @contactName, " +
                 "tlfNumber = @tlfNumber, " +
                 "discordID = @discordID, " +
-                "email = @email, " +
+                "email = @email " +
                 "where userID = @userID");
 
             command.Parameters.Add(new SqlParameter("contactName", cm.contactinfo.name));
