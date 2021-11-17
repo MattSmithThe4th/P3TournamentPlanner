@@ -11,6 +11,13 @@
         {
 
         }
+        public ClubManager(Contactinfo contactinfo, string userID, int clubID)
+        {
+            this.contactinfo = contactinfo;
+            this.userID = userID;
+            this.ClubID = clubID;
+        }
+
         public ClubManager(Contactinfo contactinfo, string userID) {
             this.contactinfo = contactinfo;
             this.userID = userID;

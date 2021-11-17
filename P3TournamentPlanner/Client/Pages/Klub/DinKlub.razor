@@ -32,7 +32,7 @@
     <div class="header-div">
         <h2>Klub administratorer</h2>
         <div class="btn-div">
-            <button class="btn-primary btn-klubadmin">Opret ny klub administrator</button>
+            <button class="btn-primary btn-klubadmin" @onclick="ShowNewManager">Opret ny klub administrator</button>
         </div>
     </div>
     <div class="table-container">
@@ -96,24 +96,38 @@
             </tbody>
         </table>
     </div>
-    <form>
-        <div>
-            <label>Navn:</label>
-            <input @bind="clubManager1.contactinfo.name"/>
+    <div style="display: @display">
+        <div class="header-div">
+            <h3>Ny klub administrator</h3>
         </div>
-        <div>
-            <label>Email:</label>
-            <input />
-        </div>
-        <div>
-            <label>Telefon:</label>
-            <input />
-        </div>
-        <div>
-            <label>Discord:</label>
-            <input />
-        </div>
-    </form>
+        <form>
+            <div class="manager-form">
+                <div>
+                    <label>Navn:</label>
+                    <input required type="text" @bind="clubManager1.contactinfo.name" />
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input type="text" @bind="clubManager1.contactinfo.email" />
+                </div>
+                <div>
+                    <label>Telefon:</label>
+                    <input type="text" @bind="clubManager1.contactinfo.tlfNr" />
+                </div>
+                <div>
+                    <label>Discord:</label>
+                    <input type="text" @bind="clubManager1.contactinfo.discordID" />
+                </div>
+                <div>
+                    <label>Username:</label>
+                    <input type="text" @bind="clubManager1.userID" />
+                </div>
+                <div class="btn-div">
+                    <button class="btn-primary" type="submit" @onclick="HandleManagerPost">Opret</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </section>
 
 <section class="klub-section">
@@ -159,7 +173,7 @@
     List<Team> teams = new List<Team>();
     List<ClubManager> clubManagers = new List<ClubManager>();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         if (id != null)
         {
@@ -185,25 +199,18 @@
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
 
-        GetManagers();
+        await GetManagers();
     }
 
-    void GetManagers()
+    async Task GetManagers()
     {
-        foreach (Team team in teams)
-        {
-            if (clubManagers.Count == 0)
-            {
-                clubManagers.Add(team.manager);
-            }
-            for (int i = 0; i < clubManagers.Count; i++)
-            {
-                if (clubManagers[i].contactinfo.name != team.manager.contactinfo.name)
-                {
-                    clubManagers.Add(team.manager);
-                }
-            }
-        }
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        clubManagers = await client.GetFromJsonAsync<List<ClubManager>>("api/ClubManager?clubID=" + id);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(clubManagers);
     }
 
     async Task HandleClubSubmit()
@@ -234,6 +241,17 @@
         await client.PutAsJsonAsync<ClubManager>("api/ClubManager", clubManager);
     }
 
+    async Task HandleManagerPost()
+    {
+        ShowNewManager();
+        clubManager1.ClubID = club.clubID;
+
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        await client.PostAsJsonAsync<ClubManager>("api/ClubManager", clubManager1);
+    }
+
     void ShowMananger(ClubManager clubManager)
     {
         if (clubManager.userID == userID)
@@ -243,6 +261,18 @@
         else
         {
             userID = clubManager.userID;
+        }
+    }
+
+    void ShowNewManager()
+    {
+        if (display == "none")
+        {
+            display = "block";
+        }
+        else
+        {
+            display = "none";
         }
     }
 
