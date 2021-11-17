@@ -10,12 +10,13 @@
     <div>
         <div class="navn">
             <div class="vertical">
-                <form action="/" method="post">
+                <form class="fix" action="/" method="post">
                     <label> Divisions Navn</label>
                     <input type="text" placeholder="Divisions navn" />
                 </form>
+                <button id="genererkampe">Generer Kampe</button>
             </div>
-            <button>Generer Kampe</button>
+            
         </div>
         <div class="hold" style=" width:100%; ">
             <table>
@@ -39,18 +40,29 @@
             </table>
         </div>
         <div class="tilføjHold">
-            <form action="/" method="post">
+            <form ="/" method="post">
                 <select>
-                    <option> placeholder</option>
+                    <option> Placeholder</option>
                     @foreach (Team team in teams)
                     {
                         <option> @team.teamName </option>
                     }
                 </select>
-                <button></button>
+                
             </form>
+            <button>Tilføj hold</button>
         </div>
         <div class="kampe">
+            <div>
+                <button>Divisioner</button><button>Bracket</button>
+            </div>
+            <div class="streg"></div>
+            @if (true)
+            {
+
+            }
+
+
             <MatchList ID="ID" />
         </div>
     </div>
