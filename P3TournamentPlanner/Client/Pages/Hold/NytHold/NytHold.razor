@@ -15,19 +15,32 @@
 @page "/nythold/{clubID:int}"
 
 <h1>Opret nyt hold</h1>
+<h3>Guide til oprettelse af hold</h3>
+<ul>
+    <li><p>Start med at udfylde navnet på dit hold.</p></li>
+    <li><p>Herefter kan du vælge din træner for holdet, ud fra klub administratorene (Har du ingen ledige klub admins kan du tilføje en senere).</p></li>
+    <li><p>Du kan nu tilføje de spillere som du vil have på holdet (du kan tilføje så mange du vil).</p></li>
+    <li><p>For at oprette holdet kan du trykke på "opret hold" knappen (dit hold vil nu være oprette).</p></li>
+</ul>
+
+<h2>Dit hold</h2>
 <EditForm Model="team">
-    <div class="team-info-dic">
-        <div>
+    <div class="team-info-div">
+        <div class="item-div">
             <label>Navn:</label>
             <InputText @bind-Value="team.teamName"></InputText>
         </div>
 
-        <div>
+        <div class="item-div">
             <label>Vælg træner:</label>
             <InputSelect @bind-Value="team.manager">
                 <option>Vælg klub administrator</option>
-                <option>Martin Svanholm</option>
+                <option value="">Martin Svanholm</option>
             </InputSelect>
+        </div>
+
+        <div class="item-div">
+            <button class="btn-primary">Opret hold</button>
         </div>
     </div>
     <SpillerForm />
