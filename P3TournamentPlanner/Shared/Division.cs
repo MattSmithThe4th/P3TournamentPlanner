@@ -24,5 +24,9 @@ namespace P3TournamentPlanner.Shared {
             this.teams = teams;
             this.matches = matches;
         }
+
+        public Division(List<Team> teams) {
+            this.teams = teams;
+        }
     }
 }

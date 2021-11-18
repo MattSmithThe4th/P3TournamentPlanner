@@ -57,6 +57,34 @@ namespace P3TournamentPlanner.Server.Controllers {
             return league;
         }
 
+        [HttpPost("genDivisions")]
+        public List<Division> GenerateDivisions([FromBody] List<Team> teamList, [FromHeader] int divisionAmount) {
+            List<Division> divisions = new List<Division>();
+
+            int teamsLeft = teamList.Count();
+
+            foreach(Team t in teamList) {
+                Console.WriteLine(t.teamName);
+            }
+
+            for(int i = 0; i < divisionAmount; i++) {
+                divisions.Add(new Division(new List<Team>()));
+                Console.WriteLine("Teams left pre: " + teamsLeft);
+                Console.WriteLine($"Division left pre: {divisionAmount - i}");
+                Console.WriteLine($"There are {Math.Ceiling(((float)teamsLeft / ((float)divisionAmount - i)))} teams in division {i + 1}");
+                for(int j = 0; j < Math.Ceiling(((float)teamsLeft / ((float)divisionAmount - i))); j++) {
+                    Console.WriteLine(teamList[teamsLeft - 1 - j].teamName);
+                    divisions[i].teams.Add(teamList[teamsLeft - 1 - j]);
+                }
+
+                teamsLeft -= (int)Math.Ceiling(((float)teamsLeft / ((float)divisionAmount - i)));
+                Console.WriteLine("");
+            }
+
+            return divisions;
+        }
+
+
         [HttpPost("changeRole")]
         public async Task PostRole([FromBody] User user, [FromHeader] bool toBecomeAdmin) {
             Console.WriteLine("PUT ENTERED!!!!!!!");
