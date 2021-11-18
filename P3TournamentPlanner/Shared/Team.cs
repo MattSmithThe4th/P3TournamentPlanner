@@ -88,5 +88,11 @@ namespace P3TournamentPlanner.Shared {
             this.matchesLost = matchesLost;
             this.points = points;
         }
+
+        //THIS IS USED FOR TEST!!
+        public Team(int clubID, string teamName) {
+            this.clubID = clubID;
+            this.teamName = teamName;
+        }
     }
 }

@@ -38,6 +38,25 @@ namespace P3TournamentPlanner.Server.Controllers {
             return userList;
         }
 
+        [HttpPost("genMatches")]
+        public League GenerateMatches([FromBody] League league) {
+            Random rand = new Random();
+
+            foreach(Division division in league.divisions) {
+                for(int i = 0; i < division.teams.Count - 1; i++) {
+                    for(int j = i + 1; j < division.teams.Count; j++) {
+                        List<Team> teamsInMatch = new List<Team>();
+                        teamsInMatch.Add(division.teams[i]);
+                        teamsInMatch.Add(division.teams[j]);
+
+                        division.matches.Add(new Match(teamsInMatch, "This is the start time", 0, teamsInMatch[rand.Next(0, 2)].clubID, "This is the ServerIP", "This is the map", 0, 0));
+                    }
+                }
+            }
+
+            return league;
+        }
+
         [HttpPost("changeRole")]
         public async Task PostRole([FromBody] User user, [FromHeader] bool toBecomeAdmin) {
             Console.WriteLine("PUT ENTERED!!!!!!!");
