@@ -1,0 +1,51 @@
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@using System.Linq;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using System.Threading.Tasks;
+@using P3TournamentPlanner.Client.Pages.Hold.NytHold.NytHoldPartials;
+@inherits NytHoldBase
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@page "/nythold/{clubID:int}"
+
+<h1>Opret nyt hold</h1>
+<EditForm Model="team">
+    <div class="team-info-dic">
+        <div>
+            <label>Navn:</label>
+            <InputText @bind-Value="team.teamName"></InputText>
+        </div>
+
+        <div>
+            <label>Vælg træner:</label>
+            <InputSelect @bind-Value="team.manager">
+                <option>Vælg klub administrator</option>
+                <option>Martin Svanholm</option>
+            </InputSelect>
+        </div>
+    </div>
+    <SpillerForm />
+</EditForm>
+
+@code {
+    [Parameter]
+    public int clubID { get; set; }
+
+    async Task HandleTeamPost()
+    {
+        team.club = new Club();
+        team.manager = new ClubManager();
+        team.club.clubID = clubID;
+
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        await client.PostAsJsonAsync<Team>("api/ClubManager", team);
+    }
+}

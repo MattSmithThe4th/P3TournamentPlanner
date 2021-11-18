@@ -106,5 +106,17 @@ namespace P3TournamentPlanner.Shared {
             this.matchesLost = matchesLost;
             this.points = points;
         }
+
+        public Team(ClubManager manager, Club club, List<Player> players)
+        {
+            this.manager = manager;
+            this.club = club;
+            this.players = players;
+        }
+
+        public Team(Club club)
+        {
+            this.club = club;
+        }
     }
 }

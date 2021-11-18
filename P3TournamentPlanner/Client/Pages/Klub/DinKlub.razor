@@ -134,6 +134,9 @@
 <section class="klub-section">
     <div class="header-div">
         <h2>Dine hold</h2>
+        <div class="btn-div">
+            <button class="btn-primary btn-klubadmin" @onclick="NewTeam">Opret nyt hold</button>
+        </div>
     </div>
     <div class="table-container">
         <table>
@@ -253,7 +256,6 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         await client.PostAsJsonAsync<ClubManager>("api/ClubManager", clubManager1);
-
     }
 
     void ShowMananger(ClubManager clubManager)
@@ -278,6 +280,11 @@
         {
             display = "none";
         }
+    }
+
+    void NewTeam()
+    {
+        NavigationManager.NavigateTo($"/nythold/{id}");
     }
 
     public void ShowTeam(Team team)
