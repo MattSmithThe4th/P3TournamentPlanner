@@ -1,25 +1,39 @@
-﻿@page "/test"
-@using P3TournamentPlanner.Shared
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@using System.Linq;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using System.Threading.Tasks;
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
+@page "/test"
 
 <h3>Test</h3>
 <p id="test">dinmor</p>
 <button>Klik mig</button>
 
-<img src="data:image/png;base64, @DO.base64">
+
 
 @code {
-    DebugObject DO = new DebugObject();
+    List<Team> teams = new List<Team>();
 
     protected override async Task OnInitializedAsync() {
-
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        DO = await client.GetFromJsonAsync<DebugObject>("api/Debug");
-        Console.WriteLine("På den anden side");
 
+        var options = new JsonSerializerOptions() {
+            ReferenceHandler = ReferenceHandler.Preserve,
+            PropertyNameCaseInsensitive = true
+        };
+
+        teams = await client.GetFromJsonAsync<List<Team>>("api/Overall");
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(teams);
     }
 }
