@@ -31,16 +31,16 @@
             <InputText @bind-Value="team.teamName"></InputText>
         </div>
 
-        <div class="item-div">
+        @*<div class="item-div">
             <label>Vælg træner:</label>
             <InputSelect @bind-Value="team.manager">
                 <option>Vælg klub administrator</option>
                 <option value="">Martin Svanholm</option>
             </InputSelect>
-        </div>
+        </div>*@
 
         <div class="item-div">
-            <button class="btn-primary">Opret hold</button>
+            <button class="btn-primary" @onclick="HandleTeamPost">Opret hold</button>
         </div>
     </div>
     <SpillerForm />
@@ -50,15 +50,38 @@
     [Parameter]
     public int clubID { get; set; }
 
+    List<ClubManager> clubManagers = new List<ClubManager>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await GetManagers();
+
+
+    }
+
     async Task HandleTeamPost()
     {
         team.club = new Club();
         team.manager = new ClubManager();
+        team.players = new List<Player>();
+        team.players = players;
         team.club.clubID = clubID;
+        team.manager.userID = "detteeErManager";
 
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        await client.PostAsJsonAsync<Team>("api/ClubManager", team);
+        await client.PostAsJsonAsync<Team>("api/TeamInformation", team);
+    }
+
+    async Task GetManagers()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        clubManagers = await client.GetFromJsonAsync<List<ClubManager>>("api/ClubManager?clubID=" + clubID);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(clubManagers);
     }
 }
