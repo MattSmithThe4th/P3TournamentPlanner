@@ -20,6 +20,7 @@
     List<User> testUserList;
 
     List<Division> divList = new List<Division>();
+    List<Division> GenDivRes = new List<Division>();
 
     List<Team> div1Teams = new List<Team>();
     List<Team> div2Teams = new List<Team>();
@@ -110,24 +111,26 @@
     }
 
     private async Task GenerateDivisions() {
-        teamsToDivide.Add(new Team("Team 1"));
-        teamsToDivide.Add(new Team("Team 2"));
-        teamsToDivide.Add(new Team("Team 3"));
-        teamsToDivide.Add(new Team("Team 4"));
-        teamsToDivide.Add(new Team("Team 5"));
-        teamsToDivide.Add(new Team("Team 6"));
-        teamsToDivide.Add(new Team("Team 7"));
-        teamsToDivide.Add(new Team("Team 8"));
-        teamsToDivide.Add(new Team("Team 9"));
-        teamsToDivide.Add(new Team("Team 10"));
+        //teamsToDivide.Add(new Team("Team 1"));
+        //teamsToDivide.Add(new Team("Team 2"));
+        //teamsToDivide.Add(new Team("Team 3"));
+        //teamsToDivide.Add(new Team("Team 4"));
+        //teamsToDivide.Add(new Team("Team 5"));
+        //teamsToDivide.Add(new Team("Team 6"));
+        //teamsToDivide.Add(new Team("Team 7"));
+        //teamsToDivide.Add(new Team("Team 8"));
+        //teamsToDivide.Add(new Team("Team 9"));
+        //teamsToDivide.Add(new Team("Team 10"));
 
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        client.DefaultRequestHeaders.Add("divisionAmount", "3");
+        //client.DefaultRequestHeaders.Add("divisionAmount", "3");
 
-        var res = await client.PostAsJsonAsync<List<Team>>("api/admin/genDivisions", teamsToDivide);
+        GenDivRes = await client.GetFromJsonAsync<List<Division>>("api/admin/genDivisions?leagueID=2&divisionAmount=2");
 
-        Console.WriteLine(res);
+        //var res = await client.PostAsJsonAsync<List<Team>>("api/admin/genDivisions", teamsToDivide);
+
+        //Console.WriteLine(res);
     }
 }

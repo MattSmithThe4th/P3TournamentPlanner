@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Server.Data;
 using P3TournamentPlanner.Server.Models;
 using P3TournamentPlanner.Shared;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -38,11 +40,20 @@ namespace P3TournamentPlanner.Server.Controllers {
             return userList;
         }
 
-        [HttpPost("genMatches")]
-        public League GenerateMatches([FromBody] League league) {
+        [HttpGet("genMatches")]
+        public List<Division> GenerateMatches(int leagueID) {
             Random rand = new Random();
+            List<Division> divisions = new List<Division>();
 
-            foreach(Division division in league.divisions) {
+            //DET KAN IKKE LAVES FØR VI FOR LAVET EN POST AF HOLD.d
+            //Waht ever.. Det må sp vente xd
+            //Datacollection
+            DatabaseQuerys db = new DatabaseQuerys();
+            DataTable dt;
+            SqlCommand command = new SqlCommand("select ");
+
+            //Logic
+            foreach(Division division in divisions) {
                 for(int i = 0; i < division.teams.Count - 1; i++) {
                     for(int j = i + 1; j < division.teams.Count; j++) {
                         List<Team> teamsInMatch = new List<Team>();
@@ -54,13 +65,33 @@ namespace P3TournamentPlanner.Server.Controllers {
                 }
             }
 
-            return league;
+            return divisions;
         }
 
-        [HttpPost("genDivisions")]
-        public List<Division> GenerateDivisions([FromBody] List<Team> teamList, [FromHeader] int divisionAmount) {
+        [HttpGet("genDivisions")]
+        public List<Division> GenerateDivisions(int leagueID, int divisionAmount) {
             List<Division> divisions = new List<Division>();
+            List<Team> teamList = new List<Team>();
 
+            //Datacollection
+            DatabaseQuerys db = new DatabaseQuerys();
+            DataTable dt;
+
+            SqlCommand command = new SqlCommand("select teamID, clubID, teamName, teamRating, managerID from TeamsDB where leagueID = @leagueID and divisionID = 0");
+            command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+            //command.Parameters.Add(new SqlParameter("divisionID", (bigint)0));
+            dt = db.PullTable(command);
+
+            //1teamID, 2clubID, 3teamName, 4teamRating, 5managerID
+            foreach(DataRow r in dt.Rows) {
+                command = new SqlCommand("select contactName, tlfNumber, discordID, email from ContactInfoDB where userID = @managerID");
+                command.Parameters.Add(new SqlParameter("managerID", (string)r[4]));
+                DataTable manInfo = db.PullTable(command);
+
+                teamList.Add(new Team((int)r[0], (int)r[1], 0, leagueID, (string)r[2], (int)r[3], 0, 0, 0, 0, 0, 0, 0, 0, new ClubManager(new Contactinfo((string)manInfo.Rows[0][0], (string)manInfo.Rows[0][1], (string)manInfo.Rows[0][2], (string)manInfo.Rows[0][3]), (string)r[4]), false));
+            }
+
+            //Division Generation
             int teamsLeft = teamList.Count();
 
             foreach(Team t in teamList) {
