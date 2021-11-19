@@ -117,7 +117,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             foreach(Player player in team.players)
             {
-                command = new SqlCommand("insert into PlayerDB(clubID, IRLname, IGname, steamID, CSGOrank) values(@clubID, @IRLname, @IGname, @steamID, @CSGOrank)");
+                command = new SqlCommand("insert into PlayerDB(clubID, IRLName, IGName, steamID, csgoRank) values(@clubID, @IRLname, @IGname, @steamID, @CSGOrank)");
                 command.Parameters.Add(new SqlParameter("clubID", team.club.clubID));
                 command.Parameters.Add(new SqlParameter("IRLname", player.IRLName));
                 command.Parameters.Add(new SqlParameter("IGname", player.IGName));
