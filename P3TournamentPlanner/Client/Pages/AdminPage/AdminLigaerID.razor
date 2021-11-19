@@ -1,6 +1,7 @@
 ﻿@using P3TournamentPlanner.Shared
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
+@inject NavigationManager NavigationManager
 @page "/admin/ligaerID"
 
 <header>
@@ -81,7 +82,7 @@
     {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
-    
+
         Console.WriteLine("Get Send");
         ligas = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
         Console.WriteLine("På den anden side");
@@ -89,6 +90,10 @@
         Console.WriteLine("Get Send");
         Divisions = await client.GetFromJsonAsync<List<Division>>("api/Division");
         Console.WriteLine("På den anden side");
+    }
 
+    public void ShowDivision()
+    {
+        NavigationManager.NavigateTo("/admin/ligaerDivision");
     }
 }

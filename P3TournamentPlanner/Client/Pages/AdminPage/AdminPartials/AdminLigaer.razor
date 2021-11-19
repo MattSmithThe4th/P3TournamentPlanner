@@ -1,7 +1,7 @@
 ﻿@using P3TournamentPlanner.Shared
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
-@page "/admin/ligaer"
+@inject NavigationManager NavigationManager
 <h3>Admin Ligaer</h3>
 <div id="matchSection" style="width: 100%">
     <h1> Ligaer </h1>
@@ -17,12 +17,11 @@
             @foreach (League liga in ligas)
             {
 
-                <tr>
+                <tr @onclick="ShowLiga">
                     <td>  @liga.name  </td>
                     <td>  @liga.game.name  </td>
                     <td> @liga.teamAmount</td>
                     <td>  @liga.archiveFlag  </td>
-                    <td><button> Edit </button></td>
                 </tr>
             }
         </tbody>
@@ -35,7 +34,7 @@
 
     public string MapSti = "Mirage";
 
- 
+
     List<League> ligas = new List<League>();
 
     protected override async Task OnParametersSetAsync()
@@ -46,9 +45,10 @@
         Console.WriteLine("Get Send");
         ligas = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
         Console.WriteLine("På den anden side");
- 
     }
 
-
-
+    public void ShowLiga()
+    {
+        NavigationManager.NavigateTo("/admin/ligaerID");
+    }
 }
