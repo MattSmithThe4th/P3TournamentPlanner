@@ -1,12 +1,12 @@
 ﻿@using P3TournamentPlanner.Shared
+@using P3TournamentPlanner.Client.Partials;
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
 @inject Services.TeamService TeamService
-@page "/admin/ligaerDivision"
+@page "/admin/ligaerDivision/{divisionID:int}"
 <h3>  </h3>
 <body>
-
     <div>
         <div class="navn">
             <div class="vertical">
@@ -16,17 +16,19 @@
                 </form>
                 <button id="genererkampe">Generer Kampe</button>
             </div>
-            
+
         </div>
         <div class="hold" style=" width:100%; ">
             <table>
-                <tbody>
+                <thead>
                     <tr style=" width: 100%; ">
                         <th>  Hold  </th>
                         <th>  Kontakt person  </th>
                         <th>  Email  </th>
                         <th>  Antal spillere  </th>
                     </tr>
+                </thead>
+                <tbody>
                     @foreach (Team team in teams)
                     {
                         <tr @onclick="() => ShowTeam(team)">
@@ -48,31 +50,42 @@
                         <option> @team.teamName </option>
                     }
                 </select>
-                
+
             </form>
             <button>Tilføj hold</button>
         </div>
-        <div class="kampe">
-            <div>
-                <button>Divisioner</button><button>Bracket</button>
-            </div>
-            <div class="streg"></div>
-            @if (true)
-            {
-
-            }
-
-
-            <MatchList ID="ID" />
+        <div class="table_menu">
+            <button id="kampe-btn" @onclick='() => ChangeDisplay("kampe")'>Kampe</button>
+            <button id="resultater-btn" @onclick='() => ChangeDisplay("")'>Resultater</button>
         </div>
+        @if (display == "kampe")
+        {
+            <style>
+                #kampe-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+            <MatchList ID="divisionID" search="division" />
+        }
+        else
+        {
+            <style>
+                #resultater-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+            <ResultList ID="divisionID" search="division" />
+        }
     </div>
 </body>
 
 
 
 @code{
+    [Parameter]
+    public int divisionID { get; set; }
+
     List<League> ligas = new List<League>();
-    List<Division> Divisions = new List<Division>();
     List<Team> teams = new List<Team>();
 
     Contactinfo contactinfo = new Contactinfo();
@@ -81,6 +94,13 @@
     VideoGame game = new VideoGame();
 
     public int ID = 1;
+
+    string display = "kampe";
+
+    public void ChangeDisplay(string d)
+    {
+        display = d;
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -92,19 +112,13 @@
         Console.WriteLine("På den anden side");
 
         Console.WriteLine("Get Send");
-        Divisions = await client.GetFromJsonAsync<List<Division>>("api/Division");
+        teams = await client.GetFromJsonAsync<List<Team>>($"api/TeamInformation?divisionID={divisionID}");
         Console.WriteLine("På den anden side");
-
-        Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation");
-        Console.WriteLine("På den anden side");
-
-
     }
 
     public void ShowTeam(Team team)
     {
         TeamService.team = team;
-        NavigationManager.NavigateTo($"/hold/{team.teamName}");
+        NavigationManager.NavigateTo($"/hold/{team.teamID}");
     }
 }

@@ -54,7 +54,7 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpGet]
-        public List<Team> Get(int? clubID) {
+        public List<Team> Get(int? clubID, int? divisionID) {
             Console.WriteLine("Get Received!");
 
             DatabaseQuerys db = new DatabaseQuerys();
@@ -64,16 +64,21 @@ namespace P3TournamentPlanner.Server.Controllers {
             DataTable dt;
             DataTable dt2;
 
-            SqlCommand command;
+            SqlCommand command = new SqlCommand();
 
-            if(clubID == null)
+            if(clubID == null && divisionID == null)
             {
                 command = new SqlCommand("select teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag from TeamsDB");
             }
-            else
+            else if (clubID != null)
             {
                 command = new SqlCommand("select teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag from TeamsDB where clubID = @clubID");
                 command.Parameters.Add(new SqlParameter("clubID", clubID));
+            }
+            else if (divisionID != null)
+            {
+                command = new SqlCommand("select teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag from TeamsDB where divisionID = @divisionID");
+                command.Parameters.Add(new SqlParameter("divisionID", divisionID));
             }
 
             dt = db.PullTable(command);
