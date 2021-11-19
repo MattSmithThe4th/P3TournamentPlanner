@@ -100,5 +100,32 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             return teamList;
         }
+
+        [HttpPost]
+        public void Post(Team team)
+        {
+            Console.WriteLine("Post Received!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            SqlCommand command = new SqlCommand("insert into TeamsDB(clubID, teamName, managerID) values(@clubID, @teamName, @managerID)");
+            command.Parameters.Add(new SqlParameter("clubID", team.club.clubID));
+            command.Parameters.Add(new SqlParameter("teamName", team.teamName));
+            command.Parameters.Add(new SqlParameter("managerID", team.manager.userID));
+
+            db.InsertToTable(command);
+
+            foreach(Player player in team.players)
+            {
+                command = new SqlCommand("insert into PlayerDB(clubID, IRLname, IGname, steamID, CSGOrank) values(@clubID, @IRLname, @IGname, @steamID, @CSGOrank)");
+                command.Parameters.Add(new SqlParameter("clubID", team.club.clubID));
+                command.Parameters.Add(new SqlParameter("IRLname", player.IRLName));
+                command.Parameters.Add(new SqlParameter("IGname", player.IGName));
+                command.Parameters.Add(new SqlParameter("steamID", player.steamID));
+                command.Parameters.Add(new SqlParameter("CSGOrank", player.CSGORank));
+
+                db.InsertToTable(command);
+            }
+        }
     }
 }
