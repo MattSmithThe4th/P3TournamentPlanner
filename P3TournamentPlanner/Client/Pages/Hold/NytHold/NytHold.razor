@@ -33,13 +33,13 @@
 
         <div class="item-div">
             <label>Vælg træner:</label>
-            <InputSelect @bind-Value="team.manager.userID">
+            <select @onchange="SetManager">
                 <option>Vælg klub administrator</option>
                 @foreach (ClubManager clubManager in cm)
                 {
-                    <option @onchange="() => SetManager(clubManager)" value="@clubManager.userID">@clubManager.contactinfo.name</option>
+                    <option value="@clubManager.userID">@clubManager.contactinfo.name</option>
                 }
-            </InputSelect>
+            </select>
         </div>
 
         <div class="item-div">
@@ -50,44 +50,32 @@
 </EditForm>
 
 @code {
-    [Parameter]
-    public int clubID { get; set; }
-
-    ClubManager clubManager1 = new ClubManager();
-    List<ClubManager> clubManagers = new List<ClubManager>();
-    List<ClubManager> cm = new List<ClubManager>();
-    List<Team> teams = new List<Team>();
-
-    protected override void OnInitialized()
-    {
-        team.manager = new ClubManager(new Contactinfo()); 
-    }
-
     protected override async Task OnParametersSetAsync()
     {
-    await GetManagers();
+        await GetManagers();
 
-    await GetTeams();
+        await GetTeams();
 
-    GetManagersWithoutTeam();
+        GetManagersWithoutTeam();
     }
 
-    async Task HandleTeamPost()
+    public async Task HandleTeamPost()
     {
-        SetManager()
-        team.club = new Club();
-        team.manager = new ClubManager();
-        team.players = new List<Player>();
-        team.players = players;
         team.club.clubID = clubID;
+
+        foreach (Player player in team.players)
+        {
+            Console.WriteLine(player.IRLName);
+        }
 
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         await client.PostAsJsonAsync<Team>("api/TeamInformation", team);
+
     }
 
-    async Task GetManagers()
+    public async Task GetManagers()
     {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
@@ -104,7 +92,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation?clubID=" + clubID);
+        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation/teamTest?clubID=" + clubID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
     }
@@ -132,9 +120,8 @@
         return false;
     }
 
-    public void SetManager(ClubManager clubManager)
+    public void SetManager(ChangeEventArgs e)
     {
-        team.manager = clubManager;
-        Console.WriteLine(team.manager.contactinfo.name);
+        team.manager.userID = e.Value.ToString();
     }
 }

@@ -9,7 +9,7 @@ namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class TeamInformationController : ControllerBase {
-        [HttpGet ("team")]
+        [HttpGet("team")]
         public Team Get(int teamID)
         {
             Console.WriteLine("Get Received!");
@@ -23,7 +23,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             SqlCommand command;
 
-            command = new SqlCommand("select teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag from TeamsDB where teamID = @teamID");
+            command = new SqlCommand("select teamID, clubID, teamName, managerID from TeamsDB where teamID = @teamID");
             command.Parameters.Add(new SqlParameter("teamID", teamID));
 
 
@@ -35,7 +35,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             {
 
                 command = new SqlCommand($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID=@userID");
-                command.Parameters.Add(new SqlParameter("userID", r[14].ToString()));
+                command.Parameters.Add(new SqlParameter("userID", r[3].ToString()));
                 dt2 = db.PullTable(command);
 
                 //DataRow r2 = dt2.Rows[0];
@@ -44,10 +44,10 @@ namespace P3TournamentPlanner.Server.Controllers {
                 //    (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], (string)r[14], (int)r[15]));
 
                 Contactinfo contactInfo = new Contactinfo((string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
-                ClubManager manager = new ClubManager(contactInfo, r[14].ToString());
-                team = new Team((int)r[0], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], manager, Convert.ToBoolean(r[15]));
+                ClubManager manager = new ClubManager(contactInfo, r[3].ToString());
+                team = new Team((int)r[0], (int)r[1], r[2].ToString(), manager);
 
-                Console.WriteLine("HEREEE:--->" + (string)r[4]);
+                Console.WriteLine("HEREEE:--->");
             }
 
             return team;
@@ -101,6 +101,61 @@ namespace P3TournamentPlanner.Server.Controllers {
                 teamList.Add(new Team((int)r[0], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], manager, Convert.ToBoolean(r[15])));
 
                 Console.WriteLine("HEREEE:--->" + (string)r[4]);
+            }
+
+            return teamList;
+        }
+
+        [HttpGet ("teamTest")]
+        public List<Team> GetTeam(int? clubID, int? divisionID)
+        {
+            Console.WriteLine("Get Received!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            List<Team> teamList = new List<Team>();
+
+            DataTable dt;
+            DataTable dt2;
+
+            SqlCommand command = new SqlCommand();
+
+            if (clubID == null && divisionID == null)
+            {
+                command = new SqlCommand("select teamID, clubID, teamName, managerID from TeamsDB");
+            }
+            else if (clubID != null)
+            {
+                command = new SqlCommand("select teamID, clubID, teamName, managerID from TeamsDB where clubID = @clubID");
+                command.Parameters.Add(new SqlParameter("clubID", clubID));
+            }
+            else if (divisionID != null)
+            {
+                command = new SqlCommand("select teamID, clubID, teamName, managerID from TeamsDB where divisionID = @divisionID");
+                command.Parameters.Add(new SqlParameter("divisionID", divisionID));
+            }
+
+            dt = db.PullTable(command);
+
+            //dt = db.PullTable("select teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag from TeamsDB");
+            //0teamID, 1clubID, 2divisionID, 3leagueID, 4teamName, 5teamRating, 6placement, 7matchPlayed, 8matchesWon, 9matchesDraw, 10matchesLost, 11roundsWon, 12roundsLost, 13points, 14managerID, 15archiveFlag
+            foreach (DataRow r in dt.Rows)
+            {
+
+                command = new SqlCommand($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID=@userID");
+                command.Parameters.Add(new SqlParameter("userID", r[3].ToString()));
+                dt2 = db.PullTable(command);
+
+                //DataRow r2 = dt2.Rows[0];
+                //Console.WriteLine((string)r2[0]);
+                //teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (string)r2[0], (int)r[6],
+                //    (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], (string)r[14], (int)r[15]));
+
+                Contactinfo contactInfo = new Contactinfo((string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
+                ClubManager manager = new ClubManager(contactInfo, r[3].ToString());
+                teamList.Add(new Team((int)r[0], (int)r[1], r[2].ToString(), manager));
+
+                Console.WriteLine("HEREEE:--->");
             }
 
             return teamList;

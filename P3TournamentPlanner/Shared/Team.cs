@@ -10,8 +10,7 @@ namespace P3TournamentPlanner.Shared {
         public int teamSkillRating { get; set; } 
         public ClubManager manager { get; set; }
         public Club club { get; set; }
-
-        public List<Player> players = new List<Player>();
+        public List<Player> players { get; set; }
         public int roundsWon { get; set; } 
         public int roundsLost { get; set; } 
         public bool archiveFlag { get; set; }
@@ -117,6 +116,14 @@ namespace P3TournamentPlanner.Shared {
         public Team(Club club)
         {
             this.club = club;
+        }
+
+        public Team(int teamID, int clubID, string teamName, ClubManager clubManager)
+        {
+            this.teamID = teamID;
+            this.club = new Club(clubID);
+            this.teamName = teamName;
+            this.manager = clubManager;
         }
     }
 }

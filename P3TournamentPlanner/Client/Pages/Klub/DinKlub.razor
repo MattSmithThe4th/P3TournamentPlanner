@@ -154,7 +154,7 @@
                     <tr id="team-tr" @onclick="() => ShowTeam(team)">
                         <td>@team.teamName</td>
                         <td>CS:GO</td>
-                        <td>Division @team.divisionID</td>
+                        <td>Division @*@team.divisionID*@</td>
                         <td>5</td>
                     </tr>
                 }
@@ -199,7 +199,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation?clubID=" + id);
+        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation/teamTest?clubID=" + id);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
 

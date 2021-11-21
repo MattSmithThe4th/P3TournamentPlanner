@@ -4,25 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using P3TournamentPlanner.Shared;
+using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace P3TournamentPlanner.Client.Pages.Hold
 {
     public class NytHoldBase : ComponentBase
     {
-        public Team team = new Team();
+        [Parameter]
+        public int clubID { get; set; }
+
+        public List<ClubManager> clubManagers = new List<ClubManager>();
+        public List<ClubManager> cm = new List<ClubManager>();
+        public List<Team> teams = new List<Team>();
+
+        public Team team = new Team(new ClubManager(new Contactinfo()), new Club(), new List<Player>());
         public Player player = new Player();
-        public List<Player> players = new List<Player>();
 
         public void AddPlayer()
         {
-            players.Add(this.player);
-            Console.WriteLine("");
-            foreach (Player player in players)
-            {
-                Console.WriteLine(player.IRLName);
-            }
+            team.players.Add(this.player);
             this.player = new Player();
-            StateHasChanged();
         }
     }
 }
