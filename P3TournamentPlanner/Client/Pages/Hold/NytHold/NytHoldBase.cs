@@ -19,13 +19,9 @@ namespace P3TournamentPlanner.Client.Pages.Hold
         public List<ClubManager> cm = new List<ClubManager>();
         public List<Team> teams = new List<Team>();
 
-        public Team team = new Team(new ClubManager(new Contactinfo()), new Club(), new List<Player>());
         public Player player = new Player();
+        public List<Player> players = new List<Player>();
 
-        public void AddPlayer()
-        {
-            team.players.Add(this.player);
-            this.player = new Player();
-        }
+        public Team team = new Team(new ClubManager(new Contactinfo()), new Club(), new List<Player>());
     }
 }

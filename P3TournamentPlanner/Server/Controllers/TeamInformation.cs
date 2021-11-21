@@ -167,6 +167,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             Console.WriteLine("Post Received!");
 
             DatabaseQuerys db = new DatabaseQuerys();
+            DataTable dt;
 
             SqlCommand command = new SqlCommand("insert into TeamsDB(clubID, teamName, managerID) values(@clubID, @teamName, @managerID)");
             command.Parameters.Add(new SqlParameter("clubID", team.club.clubID));
@@ -175,9 +176,15 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             db.InsertToTable(command);
 
+            command = new SqlCommand("select teamID from TeamsDB where teamName = @teamName");
+            command.Parameters.Add(new SqlParameter("teamName", team.teamName));
+
+            dt = db.PullTable(command);
+
             foreach (Player player in team.players)
             {
-                command = new SqlCommand("insert into PlayerDB(clubID, IRLName, IGName, steamID, csgoRank) values(@clubID, @IRLname, @IGname, @steamID, @CSGOrank)");
+                command = new SqlCommand("insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank) values(@teamID, @clubID, @IRLname, @IGname, @steamID, @CSGOrank)");
+                command.Parameters.Add(new SqlParameter("teamID", (int)dt.Rows[0][0]));
                 command.Parameters.Add(new SqlParameter("clubID", team.club.clubID));
                 command.Parameters.Add(new SqlParameter("IRLname", player.IRLName));
                 command.Parameters.Add(new SqlParameter("IGname", player.IGName));
