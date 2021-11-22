@@ -1,16 +1,22 @@
 ﻿@page "/test"
 @using P3TournamentPlanner.Shared
+@using System.IO;
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 
 <h3>Test</h3>
 <p id="test">dinmor</p>
+
+<InputFile OnChange="@TestXD"></InputFile>
+
 <button @onclick="MakeAdminTest">Make Admin</button>
 <button @onclick="RevokeAdminTest">Revoke Admin</button>
 <button @onclick="GenerateMatches">Gen Match Test</button>
 <button @onclick="GenerateDivisions">Gen Div Test</button>
+<button @onclick="GetLogo">Get Logo</button>
+<button @onclick="PutLogo">Put Logo</button>
 
-@*<img src="data:image/png;base64, @DO.base64">*@
+<img src="data:image/png;base64, @debugClub.base64Logo">
 
 @code {
     DebugObject DO = new DebugObject();
@@ -27,6 +33,10 @@
 
     List<Team> teamsToDivide = new List<Team>();
 
+    Club debugClub = new Club(1, "Hobro Vikings", "Amerikavej 22, 9500 Hobro", "");
+
+    string base64;
+
 
 
     protected override async Task OnInitializedAsync() {
@@ -34,12 +44,12 @@
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        client.DefaultRequestHeaders.Add("teamID", "69");
-        client.DefaultRequestHeaders.Add("clubID", "420");
+        //client.DefaultRequestHeaders.Add("teamID", "69");
+        //client.DefaultRequestHeaders.Add("clubID", "420");
 
-        var res = await client.PostAsJsonAsync<Player>("api/Player", testPlayer);
+        //var res = await client.PostAsJsonAsync<Player>("api/Player", testPlayer);
 
-        Console.WriteLine(res);
+        //Console.WriteLine(res);
 
         //var res = await client.PutAsJsonAsync<Team>("api/Stilling", testTeam);
 
@@ -120,5 +130,43 @@
         //var res = await client.PostAsJsonAsync<List<Team>>("api/admin/genDivisions", teamsToDivide);
 
         //Console.WriteLine(res);
+    }
+
+    private async Task GetLogo() {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        debugClub = await client.GetFromJsonAsync<Club>("api/klub/klub?clubID=1");
+
+        Console.WriteLine("xd: " + debugClub.base64Logo);
+    }
+
+    private async Task PutLogo() {
+        //GenerateBase64();
+
+        debugClub.base64Logo = base64;
+
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        var res = await client.PutAsJsonAsync<Club>("api/klub", debugClub);
+
+        Console.WriteLine("xd: " + debugClub.base64Logo);
+    }
+
+    //private string GenerateBase64() {
+
+    //}
+
+    private async Task TestXD(InputFileChangeEventArgs e) {
+        Console.WriteLine("Det er her");
+        Stream stream = e.File.OpenReadStream();
+        MemoryStream ms = new MemoryStream();
+
+        await stream.CopyToAsync(ms);
+        byte[] imgByte = ms.ToArray();
+        base64 = Convert.ToBase64String(imgByte);
+
+        Console.WriteLine(base64);
     }
 }

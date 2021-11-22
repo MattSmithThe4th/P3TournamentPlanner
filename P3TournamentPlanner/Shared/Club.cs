@@ -10,6 +10,7 @@ namespace P3TournamentPlanner.Shared {
         public List<Team> teams { get; set; }
         public List<ClubManager> clubManagers { get; set; }
         public string address { get; set; }
+        public string base64Logo { get; set; }
 
         public Club() {
         }
@@ -18,10 +19,11 @@ namespace P3TournamentPlanner.Shared {
             this.name = name;
         }
 
-        public Club(int clubID, string name, string address) {
+        public Club(int clubID, string name, string address, string base64Logo) {
             this.clubID = clubID;
             this.name = name;
             this.address = address;
+            this.base64Logo = base64Logo;
         }
 
         public Club(int clubID)
