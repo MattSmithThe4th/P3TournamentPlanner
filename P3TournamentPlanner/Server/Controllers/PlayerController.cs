@@ -28,12 +28,12 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             if (teamID != null)
             {
-                command = new SqlCommand("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID = @teamID");
+                command = new SqlCommand("select playerID, teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID = @teamID");
                 command.Parameters.Add(new SqlParameter("teamID", teamID));
             }
             else if (clubID != null)
             {
-                command = new SqlCommand("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where clubID = @clubID");
+                command = new SqlCommand("select playerID teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where clubID = @clubID");
                 command.Parameters.Add(new SqlParameter("clubID", clubID));
             }
 
@@ -42,7 +42,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             //0teamID, 1clubID, 2IRLName, 3IGName, 4steamID, 5csgoRank
 
             foreach(DataRow r in dt.Rows) {
-                playerList.Add(new Player((string)r[2], (string)r[3], (string)r[4], (string)r[5], (int)r[6], (int)r[0]));
+                playerList.Add(new Player((string)r[3], (string)r[4], (string)r[5], (string)r[6], (int)r[7], (int)r[0]));
 
                 //playerList.Add(new Player((string)r[2], (string)r[3], (string)r[4], (string)r[5], (int)r[6]));
 
@@ -85,21 +85,35 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpPut]
-        public void Put([FromBody] Player player, [FromHeader] int clubID, [FromHeader] int? teamID = null) {
+        public void Put(Player player) {
             DatabaseQuerys db = new DatabaseQuerys();
 
             SqlCommand command = new SqlCommand("use GeneralDatabase update PlayerDB set teamID = @teamID, clubID = @clubID, IRLName = @IRLName, IGName = @IGName, steamID = @steamID, csgoRank = @csgoRank, skillRating = @skillRating where playerID = @playerID");
             
-            command.Parameters.Add(new SqlParameter("teamID", teamID));
-            command.Parameters.Add(new SqlParameter("clubID", clubID));
+            command.Parameters.Add(new SqlParameter("teamID", player.teamID));
+            command.Parameters.Add(new SqlParameter("clubID", player.clubID));
             command.Parameters.Add(new SqlParameter("IRLName", player.IRLName));
             command.Parameters.Add(new SqlParameter("IGName", player.IGName));
             command.Parameters.Add(new SqlParameter("steamID", player.steamID));
             command.Parameters.Add(new SqlParameter("csgoRank", player.CSGORank));
-            command.Parameters.Add(new SqlParameter("skillRating", player.playerSkllRating));
+            command.Parameters.Add(new SqlParameter("skillRating", player.CalculateSkillRating()));
             command.Parameters.Add(new SqlParameter("playerID", player.playerID));
 
             db.InsertToTable(command);
+        }
+
+        [HttpDelete]
+        [Route("Delete/{playerID}")]
+        public void Delete(int playerID)
+        {
+            Console.WriteLine("Delete Received!");
+
+            DatabaseQuerys db = new();
+
+            SqlCommand command = new("delete from PlayerDB where playerID = @playerID");
+            command.Parameters.Add(new SqlParameter("playerID", playerID));
+
+            db.DeleteRow(command);
         }
     }
 }
