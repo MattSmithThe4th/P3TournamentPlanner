@@ -10,6 +10,7 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
+@inject IJSRuntime JsRuntime
 @page "/hold/{teamID:int}"
 
 @if (team == null)
@@ -23,6 +24,18 @@ else
     <p>Klub: @team.club.name</p>
     <p>Kontaktperson: @team.manager.contactinfo.name - @team.manager.contactinfo.tlfNr</p>
     <p>Klublokale: Amerikavej 22, 9500 Hobro</p>
+
+    <h3>Ændre hold</h3>
+    <div class="hold-info">
+        <div class="name-input-div">
+            <label>Hold navn:</label>
+            <input type="text" @bind-value="team.teamName" />
+        </div>
+        <div>
+            <button class="btn-primary">Gem Hold</button>
+            <button class="btn-primary" @onclick="DeleteTeam">Slet hold</button>
+        </div>
+    </div>
 
     <section class="table_container">
         <div class="table_menu">
@@ -155,7 +168,7 @@ else
                     </tbody>
                 </table>
             </div>
-            <NySpiller clubID="team.club.clubID" teamID="teamID" display="@playerDisplay"/>
+            <NySpiller clubID="team.club.clubID" teamID="teamID" display="@playerDisplay" />
         </section>
     }
 }
@@ -258,6 +271,21 @@ else
 
             await client.DeleteAsync("api/Player/Delete/" + player.IGName);
             NavigationManager.NavigateTo($"/nythold/{teamID}", forceLoad: true);
+        }
+    }
+
+    async void DeleteTeam()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Er du sikker?");
+
+        if (confirmed == true)
+        {
+            HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+            client.BaseAddress = new Uri("https://localhost:44341/");
+
+            await client.DeleteAsync("api/TeamInformation/Delete/" + teamID);
+
+            NavigationManager.NavigateTo($"/dinklub/{team.club.clubID}", forceLoad: true);
         }
     }
 
