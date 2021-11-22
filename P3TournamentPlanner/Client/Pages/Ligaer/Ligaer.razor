@@ -1,0 +1,22 @@
+﻿@page "/ligaer"
+@inject NavigationManager NavigationManager
+<h1>Ligaer</h1>
+<p id="explainer">Oversigt over de forskellige ligaer</p>
+<section class="liga-section">
+    <div class="liga-container">
+        <h2>CS:GO</h2>
+        <div class="liga-div">
+            <p>Dette er en liga for alle som spiller cs:go</p>
+            <div class="wrapper">
+                <button value="csgo" class="btn-primary" @onclick="ShowCSGOLeague">Se mere</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    public void ShowCSGOLeague()
+    {
+        NavigationManager.NavigateTo("/ligaer/csgo");
+    }
+}

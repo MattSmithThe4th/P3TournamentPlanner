@@ -1,0 +1,292 @@
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@using System.Linq;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using System.Threading.Tasks;
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@page "/hold/{teamID:int}"
+
+@if (team == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <h1>@team.teamName</h1>
+
+    <p>Klub: @team.club.name</p>
+    <p>Kontaktperson: @team.manager.contactinfo.name - @team.manager.contactinfo.tlfNr</p>
+    <p>Klublokale: Amerikavej 22, 9500 Hobro</p>
+
+    <section class="table_container">
+        <div class="table_menu">
+            <button id="info-btn" @onclick="ShowInfo">Info</button>
+            <button id="kampe-btn" @onclick="ShowKampe">Kampe</button>
+            <button id="resultater-btn" @onclick="ShowResultater">Resultater</button>
+        </div>
+    </section>
+    @if (display == "kampe")
+    {
+        <style>
+            #kampe-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <MatchList ID="team.teamID" search="team" />
+    }
+    else if (display == "resultater")
+    {
+        <style>
+            #resultater-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <ResultList ID="team.teamID" search="team" />
+    }
+    else if (display == "info")
+    {
+        <style>
+            #info-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <section class="manager-section">
+            <div class="header-div">
+                <h2>Trænere</h2>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Navn</th>
+                            <th>Email</th>
+                            <th>Telefon</th>
+                            <th>Discord</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@team.manager.contactinfo.name</td>
+                            <td>@team.manager.contactinfo.email</td>
+                            <td>@team.manager.contactinfo.tlfNr</td>
+                            <td>@team.manager.contactinfo.discordID</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                @*<EditForm>
+                        <label>Tilføj træner</label>
+                    </EditForm>*@
+            </div>
+        </section>
+
+        <section class="player-section">
+            <div class="header-div">
+                <h2>Spillere</h2>
+                <div class="btn-div">
+                    <button class="btn-primary btn-klubadmin" @onclick="ShowNewPlayer">Opret ny spiller</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Navn</th>
+                            <th>In-game navn</th>
+                            <th>STEAM_ID</th>
+                            <th>Rank</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Player player in team.players)
+                        {
+                            <tr>
+                                <td>@player.IRLName</td>
+                                <td>@player.IGName</td>
+                                <td>@player.steamID</td>
+                                <td>@player.CSGORank</td>
+                                <td class="btn-td">
+                                    <div class="td-div">
+                                        <button class="btn" @onclick="() => ShowPlayer(player)">Rediger</button>
+                                    </div>
+                                </td>
+                                <td class="btn-td">
+                                    <div class="td-div">
+                                        <button class="btn" @onclick="() => Delete(player)">Slet</button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            @if (IGName == player.IGName)
+                            {
+                                <tr class="edittr" id="@player.IGName">
+                                    <td class="edit">
+                                        <label>Navn:</label>
+                                        <input @bind="player.IRLName" />
+                                    </td>
+                                    <td class="edit">
+                                        <label>Email:</label>
+                                        <input @bind="player.IGName" />
+                                    </td>
+                                    <td class="edit">
+                                        <label>Telefon:</label>
+                                        <input @bind="player.steamID" />
+                                    </td>
+                                    <td class="edit">
+                                        <label>Discord:</label>
+                                        <input @bind="player.CSGORank" />
+                                    </td>
+                                    <td class="btn-td">
+                                        <div class="td-div">
+                                            <button class="btn" @onclick="() => HandlePlayerPut(player)">Gem</button>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <NySpiller clubID="team.club.clubID" teamID="teamID" display="@playerDisplay"/>
+        </section>
+    }
+}
+
+@code {
+    [Parameter]
+    public Nullable<int> teamID { get; set; }
+
+    public string kontaktperson;
+
+    string IGName;
+
+    string display = "info";
+
+    string playerDisplay = "none";
+
+    Team team = new Team(new ClubManager(new Contactinfo()), new Club(), new List<Player>());
+
+    public void ShowInfo()
+    {
+        display = "info";
+        StateHasChanged();
+    }
+
+    public void ShowKampe()
+    {
+        display = "kampe";
+        StateHasChanged();
+    }
+
+    public void ShowResultater()
+    {
+        display = "resultater";
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (teamID != null)
+        {
+            await GetTeam();
+
+            await GetClub();
+
+            await GetPlayers();
+        }
+    }
+
+    async Task GetTeam()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        team = await client.GetFromJsonAsync<Team>("api/TeamInformation/team?teamID=" + teamID);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(team);
+    }
+
+    async Task GetClub()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        team.club = await client.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + team.teamID);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(team.club);
+    }
+
+    async Task GetPlayers()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        team.players = await client.GetFromJsonAsync<List<Player>>("api/Player?teamID=" + teamID);
+        Console.WriteLine("På den anden side");
+        Console.WriteLine(team.players);
+    }
+
+    async Task HandlePlayerPut(Player player)
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        ShowPlayer(player);
+
+        await client.PutAsJsonAsync<Player>("api/Player", player);
+    }
+
+    async Task Alert(Player player)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Er du sikker?");
+
+        if (confirmed == true)
+        {
+            HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+            client.BaseAddress = new Uri("https://localhost:44341/");
+
+            await client.DeleteAsync("api/Player/Delete/" + player.IGName);
+            NavigationManager.NavigateTo($"/nythold/{teamID}", forceLoad: true);
+        }
+    }
+
+    public async void Delete(Player player)
+    {
+        await Alert(player);
+    }
+
+    void ShowPlayer(Player player)
+    {
+        if (player.IGName == IGName)
+        {
+            IGName = "";
+        }
+        else
+        {
+            IGName = player.IGName;
+        }
+    }
+
+    void ShowNewPlayer()
+    {
+        if (playerDisplay == "none")
+        {
+            playerDisplay = "block";
+        }
+        else
+        {
+            playerDisplay = "none";
+        }
+    }
+}
