@@ -5,7 +5,6 @@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
-@inject Services.TeamService TeamService
 <table class="Stilling">
     <thead>
         <tr>
@@ -62,7 +61,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("api/Stilling?league=" + liga + "&division=" + ID);
+        teams = await Http.GetFromJsonAsync<List<Team>>("api/Stilling?league=" + liga + "&division=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
         teams.Sort((x, y) => y.points.CompareTo(x.points));
@@ -93,7 +92,6 @@
 
     public void ShowTeam(Team team)
     {
-        TeamService.team = team;
-        NavigationManager.NavigateTo($"/hold/{team.teamName}");
+        NavigationManager.NavigateTo($"/hold/{team.teamID}");
     }
 }

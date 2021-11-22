@@ -1,0 +1,108 @@
+﻿@using P3TournamentPlanner.Shared
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@inject NavigationManager NavigationManager
+@page "/admin/ligaer/{leagueID:int}"
+
+<header>
+    <h1> CS:GO : @league.name </h1>
+</header>
+<section class="main">
+    <div class="text-div">
+        <div class="header-div">
+            <h2>Din liga</h2>
+        </div>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Suspendisse tempus, erat ac tempor accumsan, turpis nunc aliquam nulla, et tincidunt felis mauris at enim.
+            Cras turpis odio, tempor nec libero ut, aliquet congue nisi.
+            Pellentesque congue tincidunt nisi vel sollicitudin. In sed mattis diam.
+            Mauris nec imperdiet est, viverra feugiat libero. Donec ac lacus sapien.
+            Donec eget velit at orci elementum dictum. Duis ut ultricies nibh, eu consequat libero.
+            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+            Aenean ullamcorper quam in dolor.
+        </p>
+    </div>
+    <div class="form-div">
+        <div class="header-div">
+            <h2>Liga</h2>
+        </div>
+        <EditForm Model="league" OnSubmit="HandleSubmit">
+            <div>
+                <div class="item-div">
+                    <label>Navn:</label>
+                    <InputText @bind-Value="@league.name" placeholder="Navn på liga"></InputText>
+                </div>
+                <div id="dato-div" class="item-div">
+                    <label>Dato:</label>
+                    <input placeholder="Start dato (01/01 - 2021)" />
+                    <input placeholder="Start dato (31/012 - 2021)" />
+                </div>
+                <div class="item-div">
+                    <label>Spil:</label>
+                    <InputSelect @bind-Value="game.name" TValue="string">
+                        <option value="">Vælg spil</option>
+                        <option value="Select">cs:go</option>
+                    </InputSelect>
+                </div>
+                <div class="item-div">
+                    <button class="btn-primary"> GEM </button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+    <div class="boxes">
+        <div>
+            <h2>Divisioner</h2>
+        </div>
+        <div style="width: 100%">
+            <table class="boxes">
+                <tbody>
+                    @foreach (Division division in Divisions)
+                    {
+                        <tr @onclick="() => ShowDivision(division)">
+                            <td><h3>@division.divisionID. Division</h3></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <button class="btn-primary"> Auto Generer</button>
+    </div>
+</section>
+
+@code{
+    [Parameter]
+    public int leagueID { get; set; }
+
+    List<League> ligas = new List<League>();
+    List<Division> Divisions = new List<Division>();
+
+    League league = new League();
+    VideoGame game = new VideoGame();
+
+    async Task HandleSubmit()
+    {
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        ligas = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
+        Console.WriteLine("På den anden side");
+
+        Console.WriteLine("Get Send");
+        Divisions = await client.GetFromJsonAsync<List<Division>>($"api/Division?leagueID={leagueID}");
+            Console.WriteLine("På den anden side");
+    }
+
+    public void ShowDivision(Division division)
+    {
+        NavigationManager.NavigateTo($"/admin/ligaerDivision/{division.divisionID}");
+    }
+}

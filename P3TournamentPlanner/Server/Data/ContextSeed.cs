@@ -20,7 +20,8 @@ namespace P3TournamentPlanner.Server.Data {
                 UserName = "superadmin@gmail.com",
                 Email = "superadmin@gmail.com",
             };
-            if (userManager.Users.All(u => u.Id != defaultUser.Id))
+
+            if(userManager.Users.All(u => u.Id != defaultUser.Id))
             {
                 var user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)

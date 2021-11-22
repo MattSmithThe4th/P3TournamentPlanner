@@ -11,8 +11,6 @@ create table ContactInfoDB(userID varchar(64), contactName varchar(64), tlfNumbe
 create table MatchDB(matchID int primary key identity, divisionID int, leagueID int, team1ID int, team2ID int, team1Score int, team2Score int, startTime varchar(64), playedFlag int, hostClubID int, serverIP varchar(64), map varchar(64))
 create table serverDB(serverIP varchar(64), divisionID int, leagueID int, inUse int, matchID int)
 
-select * from ClubDB
-
 --Creating ServerDB
 insert into serverDB(serverIP, divisionID, leagueID, inUse, matchID) values ('Server IP 1', 1, 1, 0, null);
 insert into serverDB(serverIP, divisionID, leagueID, inUse, matchID) values ('Server IP 2', 2, 1, 0, null);
@@ -26,17 +24,24 @@ insert into ClubManagerDB(clubID, userID) values (1, 'HVMan1')
 insert into ClubManagerDB(clubID, userID) values (1, 'HVMan2')
 insert into ClubManagerDB(clubID, userID) values (2, 'DVMan1')
 
-
 --Creating Contct Info
 insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ('HVMan1', 'Martin Svanholm', '23276132', 'mrsvanholm#0007', 'mart373e@gmail.com')
 insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ('HVMan2', 'Brian Svanholm', '12345678', 'DetteErEtDiscordNavn#1234', 'eksempel@mail.com')
 insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ('DVMan1', 'Stålkat Svanholm', '87654321', 'Stålkat#4321', 'stålkat@gmail.com')
+insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ('AdminID', 'Lasse Kjær', '87463527', 'Mufasa#6846', 'JegKenderIkkLassesEmail@gmail.com')
 
 --Creating Teams
 insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(1, 1, 1, 'Hobro Vikings - Hold 1', 420, 2, 5, 3, 1, 1, 55, 25, 10, 'HVMan1', 0)
 insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(1, 2, 1, 'Hobro Vikings - Hold 2', 415, 2, 5, 1, 1, 3, 25, 55, 4, 'HVMan2', 0)
 insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(2, 1, 1, 'Dall Villaby - Hold 1', 312, 1, 6, 2, 0, 4, 24, 56, 6, 'DVMan1', 0)
 insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(2, 2, 1, 'Dall Villaby - Hold 2', 300, 1, 5, 1, 1, 3, 25, 55, 4, 'DVMan1', 0)
+
+--Creating Teams for non-started league
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(1, 0, 2, 'Dall Villaby - Hold 1', 400, 0, 0, 0, 0, 0, 0, 0, 0, 'DVMan1', 0)
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(1, 0, 2, 'Dall Villaby - Hold 2', 350, 0, 0, 0, 0, 0, 0, 0, 0, 'DVMan1', 0)
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(1, 0, 2, 'Dall Villaby - Hold 3', 300, 0, 0, 0, 0, 0, 0, 0, 0, 'DVMan1', 0)
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(2, 0, 2, 'Hobro Vikings - Hold 1', 375, 0, 0, 0, 0, 0, 0, 0, 0, 'HVMan1', 0)
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(2, 0, 2, 'Hobro Vikings - Hold 2', 325, 0, 0, 0, 0, 0, 0, 0, 0, 'HVMan2', 0)
 
 --Creating Players
 --Hobro Vikings - Hold 1
@@ -67,24 +72,27 @@ insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRa
 insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (4, 2, 'Christoffer', 'ElWacko', 'STEAM_0:0:11119', 'Silver 1', 1)
 insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (4, 2, 'Nicolai', 'Cidrew', 'STEAM_0:0:11120', 'Silver 1', 1)
 
---Creating League
+--Creating Leagues
 insert into LeagueDB(leagueName, game, adminID, archiveFlag) values ('Nordjysk Liga - CS:GO', 'CS:GO', 'AdminID', 0)
+insert into LeagueDB(leagueName, game, adminID, archiveFlag) values ('Ny ikke-startet liga', 'CS:GO', 'AdminID', 0)
 
 --Creating Divisions
 insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) values (1, 1, 'round-robin', 0)
 insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) values (2, 1, 'round-robin', 0)
+--Holding division for non-started league
+insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) values (0, 2, 'holdingDivision', 0)
 
 --Creating Matches
 --Division 1 matches played
 insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 1, 3, 16, 10, 'Dette er Start time', 1, 1, 'Dette er server IP', 'Inferno')
 insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 3, 1, 16, 10, 'Dette er Start time', 1, 3, 'Dette er server IP', 'Mirage')
 --Division 1 matches unplayed
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 3, 1, 'Dette er Start time', 0, 3, 'Dette er server IP', 'Dust 2')
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 1, 3, 'Dette er Start time', 0, 1, 'Dette er server IP', 'Vertigo')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 3, 1, 0, 0, 'Dette er Start time', 0, 3, 'Dette er server IP', 'Dust 2')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 1, 3, 0, 0, 'Dette er Start time', 0, 1, 'Dette er server IP', 'Vertigo')
 
 --Division 2 matches played
 insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 2, 4, 16, 10, 'Dette er Start time', 1, 2, 'Dette er server IP', 'Nuke')
 insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 4, 2, 16, 10, 'Dette er Start time', 1, 4, 'Dette er server IP', 'Ancient')
 --Division 2 matches unplayed
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 4, 2, 'Dette er Start time', 0, 4, 'Dette er server IP', 'Inferno')
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 2, 4, 'Dette er Start time', 0, 2, 'Dette er server IP', 'Nuke')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 4, 2, 0, 0, 'Dette er Start time', 0, 4, 'Dette er server IP', 'Inferno')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 2, 4, 0, 0, 'Dette er Start time', 0, 2, 'Dette er server IP', 'Nuke')

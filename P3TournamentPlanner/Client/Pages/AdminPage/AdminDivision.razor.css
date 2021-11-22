@@ -1,0 +1,112 @@
+﻿.navn {
+    display:flex;
+    justify-content:center; 
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    width: 100%;
+    font-size: larger;
+}
+
+td, th {
+    padding: 0.35rem;
+    text-align: left;
+}
+
+tbody tr:hover {
+    cursor: pointer;
+    background-color: grey;
+}
+
+tbody tr {
+    margin-top: 5px;
+    background-color: #3d3d3d;
+}
+
+.points {
+    width: 75px;
+    text-align: center;
+}
+
+.number {
+    text-align: center;
+    width: 50px;
+}
+
+.placement {
+    width: 75px;
+}
+
+.tilføjHold {
+   
+}
+
+.kampe {
+    justify-content: center;
+    margin-top: 30px;
+}
+
+button {
+    background-color: var(--main-lilla);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin-top:10px;
+}
+
+    button:hover {
+        background-color: var(--penta-lilla);
+        cursor: pointer;
+    }
+
+form {
+    background-color: var(--main-lilla);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.streg {
+    width:100%;
+    background-color:black;
+    height:2px;
+}
+
+#genererkampe{
+    float:right;
+    margin-bottom:20px;
+}
+
+.vertical{
+    
+}
+
+.fix {
+    padding: 10px 25px;
+}
+
+.table_menu button {
+    background-color: var(--main-lilla);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.table_menu button:hover {
+    background-color: var(--penta-lilla);
+    cursor: pointer;
+}

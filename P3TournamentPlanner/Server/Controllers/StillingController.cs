@@ -8,6 +8,7 @@ using P3TournamentPlanner.Shared;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.Data.SqlClient;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
@@ -34,12 +35,15 @@ namespace P3TournamentPlanner.Server.Controllers {
             //// --------------- End --------------------
 
             //Pulls from database, to .NET datatable
-            dt = db.PullTable("select teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = " + division + " and leagueID = '" + league + "'");
+            SqlCommand command = new SqlCommand($"select clubID, teamName, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, points from TeamsDB where divisionID = @division and leagueID = @league");
+            command.Parameters.Add(new SqlParameter("division", division));
+            command.Parameters.Add(new SqlParameter("league", league));
+            dt = db.PullTable(command);
 
             //Creates teamList, based on said data
             foreach(DataRow r in dt.Rows)
             {
-                teamList.Add(new Team(r[0].ToString(), (int)r[1], (int)r[2], (int)r[3], (int)r[4], (int)r[5], (int)r[6]));
+                teamList.Add(new Team((int)r[0], r[1].ToString(), (int)r[2], (int)r[3], (int)r[4], (int)r[5], (int)r[6], (int)r[7]));
             }
 
             foreach(Team t in teamList) {
@@ -48,6 +52,44 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             return teamList;
         }
+
+        //PUT
+        [HttpPut]
+        public void Put(Team team) {
+            Console.WriteLine("Put Got!");
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            SqlCommand command = new SqlCommand("use GeneralDatabase update TeamsDB set clubID = @clubID, divisionID = @divisionID, leagueID = @leagueID, teamName = @teamName, teamRating = @teamRating, placement = @placement, matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points, managerID = @managerID, archiveFlag = @archiveFlag where teamID = @teamID");
+
+            command.Parameters.Add(new SqlParameter("clubID", team.clubID));
+            command.Parameters.Add(new SqlParameter("divisionID", team.divisionID));
+            command.Parameters.Add(new SqlParameter("leagueID", team.leagueID));
+            command.Parameters.Add(new SqlParameter("teamName", team.teamName));
+            command.Parameters.Add(new SqlParameter("teamRating", team.teamSkillRating));
+            command.Parameters.Add(new SqlParameter("placement", team.placement));
+            command.Parameters.Add(new SqlParameter("matchPlayed", team.matchesPlayed));
+            command.Parameters.Add(new SqlParameter("matchesWon", team.matchesWon));
+            command.Parameters.Add(new SqlParameter("matchesDraw", team.matchesDraw));
+            command.Parameters.Add(new SqlParameter("matchesLost", team.matchesLost));
+            command.Parameters.Add(new SqlParameter("roundsWon", team.roundsWon));
+            command.Parameters.Add(new SqlParameter("roundsLost", team.roundsLost));
+            command.Parameters.Add(new SqlParameter("points", team.points));
+            command.Parameters.Add(new SqlParameter("managerID", team.manager.userID));
+            command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(team.archiveFlag)));
+            command.Parameters.Add(new SqlParameter("teamID", team.teamID));
+
+            Console.WriteLine(command.CommandText);
+
+            db.InsertToTable(command);
+
+            Console.WriteLine("Put End");
+        }
+
+        //Tror ikke den har behov for POST
+        //[HttpPost]
+        //public void Post() {
+
+        //}
 
 
 
