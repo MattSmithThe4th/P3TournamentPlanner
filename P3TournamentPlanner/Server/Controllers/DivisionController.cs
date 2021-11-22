@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
 using System;
 using System.Collections.Generic;
@@ -47,8 +48,11 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"insert into divisionDB(divisionID, leagueID, divisionFormat) " +
-                $"values({division.divisionID}, {division.leagueID}, {division.divisionFormat})";
+            SqlCommand command = new SqlCommand("insert into divisionDB(divisionID, leagueID, divisionFormat) " +
+                "values(@divisionID, @divisionLeagueID, @divisionFormat)");
+            command.Parameters.Add(new SqlParameter("divisionID", division.divisionID));
+            command.Parameters.Add(new SqlParameter("divisionLeagueID", division.leagueID));
+            command.Parameters.Add(new SqlParameter("divisionFormat", division.divisionFormat));
 
             db.InsertToTable(command);
         }
@@ -59,8 +63,11 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"update divisionDB set divisionID = {division.leagueID}, divisionName = {division.leagueID}, " +
-                $"divisionAddress = {division.divisionFormat} where divisionID = {divisionID}";
+            SqlCommand command = new SqlCommand("update DivisionsDB set divisionID = {@divisionleagueID}," +
+                "divisionFormat = @divisionFormat where divisionID = @divisionID");
+            command.Parameters.Add(new SqlParameter("divisionleagueID", division.leagueID));
+            command.Parameters.Add(new SqlParameter("divisionFormat", division.divisionFormat));
+            command.Parameters.Add(new SqlParameter("divisionID", divisionID));
 
             db.InsertToTable(command);
         }
