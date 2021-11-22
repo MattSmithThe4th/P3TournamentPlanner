@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
 using System;
 using System.Collections.Generic;
@@ -66,9 +67,19 @@ namespace P3TournamentPlanner.Server.Controllers
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
-                $"values({match.divisionID}, {match.leagueID}, {match.teams[0]}, {match.teams[1]}, {match.resultTeam1}, {match.resultTeam2}, {match.startTime}, " +
-                $"{match.playedFlag}, {match.clubHostID}, {match.serverIP})";
+            SqlCommand command = new SqlCommand("insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
+                "values(@matchDivisionID, @leagueID, @team1ID, @team2ID, @team1Score, @team2Score, @startTime, " +
+                "@playedFlag, @hostClubID, @serverIP)");
+            command.Parameters.Add(new SqlParameter("matchDivisionID", match.divisionID));
+            command.Parameters.Add(new SqlParameter("leagueID", match.leagueID));
+            command.Parameters.Add(new SqlParameter("team1ID", match.teams[0]));
+            command.Parameters.Add(new SqlParameter("team2ID", match.teams[1]));
+            command.Parameters.Add(new SqlParameter("team1Score", match.resultTeam1));
+            command.Parameters.Add(new SqlParameter("team2Score", match.resultTeam2));
+            command.Parameters.Add(new SqlParameter("startTime", match.startTime));
+            command.Parameters.Add(new SqlParameter("playedFlag", match.playedFlag));
+            command.Parameters.Add(new SqlParameter("hostClubID", match.clubHostID));
+            command.Parameters.Add(new SqlParameter("serverIP", match.serverIP));
 
             db.InsertToTable(command);
         }
@@ -79,9 +90,20 @@ namespace P3TournamentPlanner.Server.Controllers
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"update MatchDB set divisionID = {match.divisionID}, leagueID = {match.leagueID}, team1ID = {match.teams[0]}, team2ID = {match.teams[1]}, " +
-                $"team1Score = {match.resultTeam1}, team2Score = {match.resultTeam2}, startTime = {match.startTime}, " +
-                $"playedFlag = {match.playedFlag}, hostClubID = {match.clubHostID}, serverIP = {match.serverIP} where matchID = {matchID})";
+            SqlCommand command = new SqlCommand("update MatchDB set divisionID = @matchDivisionID, leagueID = @leagueID, team1ID = @team1ID, team2ID = @team2ID, " +
+                $"team1Score = @team1Score, team2Score = @team2Score, startTime = @startTime, " +
+                $"playedFlag = @playedFlag, hostClubID = @hostClubID, serverIP = @serverIP where matchID = @matchID)");
+            command.Parameters.Add(new SqlParameter("matchDivisionID", match.divisionID));
+            command.Parameters.Add(new SqlParameter("leagueID", match.leagueID));
+            command.Parameters.Add(new SqlParameter("team1ID", match.teams[0]));
+            command.Parameters.Add(new SqlParameter("team2ID", match.teams[1]));
+            command.Parameters.Add(new SqlParameter("team1Score", match.resultTeam1));
+            command.Parameters.Add(new SqlParameter("team2Score", match.resultTeam2));
+            command.Parameters.Add(new SqlParameter("startTime", match.startTime));
+            command.Parameters.Add(new SqlParameter("playedFlag", match.playedFlag));
+            command.Parameters.Add(new SqlParameter("hostClubID", match.clubHostID));
+            command.Parameters.Add(new SqlParameter("serverIP", match.serverIP));
+            command.Parameters.Add(new SqlParameter("matchID", matchID));
 
             db.InsertToTable(command);
         }
