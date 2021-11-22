@@ -1,0 +1,79 @@
+﻿@using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Authorization;
+@using System.Linq;
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using System.Threading.Tasks;
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+
+<div style="display: @display">
+    <div class="header-div">
+        <h3>Ny spiller</h3>
+    </div>
+    <form>
+        <div class="manager-form">
+            <div>
+                <label>Navn:</label>
+                <input type="text" @bind="player.IRLName" />
+            </div>
+            <div>
+                <label>Email:</label>
+                <input type="text" @bind="player.IGName" />
+            </div>
+            <div>
+                <label>Telefon:</label>
+                <input type="text" @bind="player.steamID" />
+            </div>
+            <div>
+                <label>Discord:</label>
+                <input type="text" @bind="player.CSGORank" />
+            </div>
+            <div class="btn-div">
+                <button class="btn-primary" type="submit" @onclick="HandlePlayerPost">Opret</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@code {
+    [Parameter]
+    public string display { get; set; }
+
+    [Parameter]
+    public Nullable<int> teamID { get; set; }
+
+    [Parameter]
+    public int clubID { get; set; }
+
+    Player player = new Player();
+
+    async Task HandlePlayerPost()
+    {
+        display = "none";
+
+        if (teamID != null)
+        {
+            player.clubID = clubID;
+            player.teamID = (int)teamID;
+
+            HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+            client.BaseAddress = new Uri("https://localhost:44341/");
+
+            await client.PostAsJsonAsync<Player>("api/Player", player);
+        }
+        else
+        {
+            player.clubID = clubID;
+
+            HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+            client.BaseAddress = new Uri("https://localhost:44341/");
+
+            await client.PostAsJsonAsync<Player>("api/Player", player);
+        }
+    }
+}

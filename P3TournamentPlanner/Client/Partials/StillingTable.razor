@@ -5,7 +5,6 @@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
-@inject Services.TeamService TeamService
 <table class="Stilling">
     <thead>
         <tr>
@@ -93,7 +92,6 @@
 
     public void ShowTeam(Team team)
     {
-        TeamService.team = team;
-        NavigationManager.NavigateTo($"/hold/{team.teamName}");
+        NavigationManager.NavigateTo($"/hold/{team.teamID}");
     }
 }

@@ -24,6 +24,11 @@ namespace P3TournamentPlanner.Shared {
             this.address = address;
         }
 
+        public Club(int clubID)
+        {
+            this.clubID = clubID;
+        }
+
         //Midlertidig
         public string ImageToBase64(string imgPath) {
             byte[] imageBytes = System.IO.File.ReadAllBytes(imgPath);

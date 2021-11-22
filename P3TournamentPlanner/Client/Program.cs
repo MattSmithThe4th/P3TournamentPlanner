@@ -28,6 +28,8 @@ namespace P3TournamentPlanner.Client
 
             builder.Services.AddScoped<Services.TeamService>();
             builder.Services.AddScoped<Services.MatchService>();
+            builder.Services.AddScoped<Services.KlubService>();
+
 
             await builder.Build().RunAsync();
         }

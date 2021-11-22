@@ -1,5 +1,6 @@
-﻿.header-div h2 {
-    margin: 0;
+﻿.header-div {
+    display: flex;
+    justify-content: space-between;
     margin-top: 5vh;
 }
 
@@ -15,33 +16,50 @@ td, th {
     text-align: left;
 }
 
-tbody tr:nth-child(odd) {
-    background-color: #3e3e3e;
-}
-
 tbody tr {
     margin-top: 5px;
     background-color: #3e3e3e;
 }
 
-.hold-div {
+#hold tr:hover {
+    background-color: #4e4e4e;
+    cursor: pointer;
+}
+
+.btn-div {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    background-color: #3e3e3e;
-    margin-bottom: 10px;
+    margin: auto 0;
 }
 
-#hold-header{
-    margin-bottom: 2vh;
+.btn-td {
+    padding: 0;
 }
 
-.hold-div:hover {
+.td-div{
+    display: flex;
+}
+
+.btn-primary {
+    border-radius: 5px;
+}
+
+.btn {
+    background-color: var(--main-lilla);
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-size: medium;
+}
+
+.btn:hover {
+    background-color: var(--quad-lilla);
     cursor: pointer;
-    background-color: #4e4e4e;
 }
 
-.hold-div  h3{
-    margin: 0px;
-    padding: 5px;
+.manager-form {
+    display: flex;
 }

@@ -10,8 +10,8 @@ namespace P3TournamentPlanner.Shared {
         public string teamName { get; set; } 
         public int teamSkillRating { get; set; } 
         public ClubManager manager { get; set; }
-
-        public List<Player> players = new List<Player>();
+        public Club club { get; set; }
+        public List<Player> players { get; set; }
         public int roundsWon { get; set; } 
         public int roundsLost { get; set; } 
         public bool archiveFlag { get; set; }
@@ -70,7 +70,26 @@ namespace P3TournamentPlanner.Shared {
         }
 
         // teamID, clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag
-        public Team(int teamID, int clubID, int divisionID, int leagueID, string teamName, int teamSkillRating, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, ClubManager manager, bool archiveFlag) {
+        public Team(int teamID, int divisionID, int leagueID, string teamName, int teamSkillRating, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, bool archiveFlag) {
+            this.teamID = teamID;
+            this.divisionID = divisionID;
+            this.leagueID = leagueID;
+            this.teamName = teamName;
+            this.teamSkillRating = teamSkillRating;
+            this.roundsWon = roundsWon;
+            this.roundsLost = roundsLost;
+            this.club = club;
+            this.archiveFlag = archiveFlag;
+            this.placement = placement;
+            this.matchesPlayed = matchesPlayed;
+            this.matchesWon = matchesWon;
+            this.matchesDraw = matchesDraw;
+            this.matchesLost = matchesLost;
+            this.points = points;
+        }
+
+        public Team(int teamID, int divisionID, int leagueID, string teamName, int teamSkillRating, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int roundsWon, int roundsLost, int points, ClubManager manager, bool archiveFlag)
+        {
             this.teamID = teamID;
             this.clubID = clubID;
             this.divisionID = divisionID;
@@ -87,6 +106,26 @@ namespace P3TournamentPlanner.Shared {
             this.matchesDraw = matchesDraw;
             this.matchesLost = matchesLost;
             this.points = points;
+        }
+
+        public Team(ClubManager manager, Club club, List<Player> players)
+        {
+            this.manager = manager;
+            this.club = club;
+            this.players = players;
+        }
+
+        public Team(Club club)
+        {
+            this.club = club;
+        }
+
+        public Team(int teamID, int clubID, string teamName, ClubManager clubManager)
+        {
+            this.teamID = teamID;
+            this.club = new Club(clubID);
+            this.teamName = teamName;
+            this.manager = clubManager;
         }
     }
 }

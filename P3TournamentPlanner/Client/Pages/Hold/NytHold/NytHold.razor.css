@@ -1,0 +1,52 @@
+﻿.team-info-div {
+    display: flex;
+}
+
+.item-div {
+    margin-right: 3vw;
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin-top: 6vh;
+}
+
+.container {
+    margin-top: 3vh;
+}
+
+.spiller-div {
+    display: flex;
+}
+
+.spiller-form {
+    display: flex;
+    flex-direction: column;
+    margin-right: 5vw;
+}
+
+.spiller-list-div {
+    min-width: 25vw;
+}
+
+.spiller-list p {
+    margin: 0;
+    margin-right: 3vw;
+    margin-bottom: 3vh;
+}
+
+.list {
+    display: flex;
+}
+
+.item-div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2vh;
+}
+
+#name {
+    font-size: medium;
+    margin-bottom: 1vh;
+}

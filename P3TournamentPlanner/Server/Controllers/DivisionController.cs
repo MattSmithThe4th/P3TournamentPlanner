@@ -11,7 +11,8 @@ namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class DivisionController : ControllerBase {
-        public List<Division> Get() {
+        [HttpGet]
+        public List<Division> Get(int? leagueID) {
             Console.WriteLine("Get Recieved!");
             //Console.WriteLine("league: " + league);
             //Console.WriteLine("division: " + division);
@@ -26,7 +27,19 @@ namespace P3TournamentPlanner.Server.Controllers {
             DataTable dt;
             DivisionFormat df = new DivisionFormat();
 
-            SqlCommand command = new SqlCommand($"select divisionID, leagueID, divisionFormat from DivisionsDB");
+            SqlCommand command = new SqlCommand();
+
+            if (leagueID == null)
+            {
+                command = new SqlCommand($"select divisionID, leagueID, divisionFormat from DivisionsDB");
+            }
+            else
+            {
+                command = new SqlCommand($"select divisionID, leagueID, divisionFormat from DivisionsDB where leagueID = @leagueID");
+                command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+            }
+
+            
             dt = db.PullTable(command);
             //dt = db.PullTable($"select divisionID, leagueID, divisionFormat from DivisionsDB");
             

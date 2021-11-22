@@ -4,15 +4,9 @@
 @using Microsoft.AspNetCore.Authorization;
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
-@using P3TournamentPlanner.Shared;
+@inject NavigationManager NavigationManager
 <h3>Admin</h3>
-<button>Lav ny klub</button>
-<!--<div class="Containers" id="information">
-    <h3>Username</h3>
-    <h3>Password</h3>
-    <h3>Email</h3>
-</div>-->
-
+<button @onclick="CreateClub">Lav ny klub</button>
 <div class="mainTable">
     <table class="table-style" style=" border-collapse: separate; border-spacing: 0 10px; width: 90%; font-size: larger;">
         <thead>
@@ -26,7 +20,7 @@
         <tbody>
             @foreach (Club club in clubs)
             {
-                <tr>
+                <tr @onclick="() => ShowClub(club)">
                     <td>@club.name</td>
                 </tr>
             }
@@ -46,5 +40,15 @@
         clubs = await client.GetFromJsonAsync<List<Club>>("api/Klub");
         Console.WriteLine("På den anden side");
         Console.WriteLine(clubs);
+    }
+
+    public void ShowClub(Club club)
+    {
+        NavigationManager.NavigateTo($"dinklub/{club.clubID}");
+    }
+
+    public void CreateClub()
+    {
+        NavigationManager.NavigateTo("dinklub");
     }
 }

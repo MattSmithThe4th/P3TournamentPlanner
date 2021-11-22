@@ -1,0 +1,57 @@
+﻿.main {
+    margin-top: 6vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.text-div {
+    max-width: 20vw;
+}
+
+.form-div {
+    display: flex;
+    flex-direction: column;
+    min-width: 15vw;
+}
+
+.item-div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3vh;
+}
+
+#dato-div input:first-of-type {
+    margin-bottom: 1vh;
+}
+
+.boxes {
+    max-width: 15vw;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    width: 100%;
+}
+
+td, th {
+    padding: 0.35rem;
+    text-align: left;
+}
+
+tbody tr:hover {
+    background-color: #4e4e4e;
+    cursor: pointer;
+}
+
+tbody h3 {
+    margin: 0;
+}
+
+tbody tr {
+    margin-top: 5px;
+    background-color: #3d3d3d;
+    width: 100%;
+}
+
+#last:hover {
+    cursor: default;
+    background-color: #3e3e3e;
+}

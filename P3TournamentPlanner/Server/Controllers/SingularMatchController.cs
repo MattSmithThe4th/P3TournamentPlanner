@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
 using System;
@@ -7,40 +8,24 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace P3TournamentPlanner.Server.Controllers
-{
+namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class MatchController : ControllerBase
-    {
-        public List<Match> Get(int? division, int? teamID)
+    public class SingularMatchController : ControllerBase {
+        [HttpGet]
+        public Match Get(int matchID)
         {
             Console.WriteLine("Get Recieved!");
-            Console.WriteLine(division);
-
-            //Console.WriteLine("Match ID: " + matchID.GetValueOrDefault());
-
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            List<Match> matchList = new List<Match>();
-
+            Match match = new Match();
+            
             DataTable matchTable, teamTable, clubTable;
 
-            SqlCommand command;
-
-            if (division != null)
-            {
-                command = new SqlCommand($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
-                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where divisionID = @div");
-                command.Parameters.Add(new SqlParameter("div", division));
-            }
-            else
-            {
-                command = new SqlCommand($"select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
-                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where team1ID = @teamID or team2ID = @teamID");
-                command.Parameters.Add(new SqlParameter("teamID", teamID));
-            }
+            SqlCommand command = new SqlCommand($"select divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
+                $"startTime, playedFlag, hostClubID, serverIP, map from MatchDB where matchID = @matchID");
+            command.Parameters.Add(new SqlParameter("matchID", matchID));
 
             matchTable = db.PullTable(command);
 
@@ -60,12 +45,10 @@ namespace P3TournamentPlanner.Server.Controllers
                     }
 
                 }
-                matchList.Add(new Match((int)r[0], teamList, (string)r[7], (int)r[8], (int)r[5], (int)r[6], (int)r[9], (string)r[10], (string)r[11]));
+                match = new Match((int)r[0], teamList, (string)r[7], (int)r[8], (int)r[5], (int)r[6], (int)r[9], (string)r[10], (string)r[11]);
             }
 
-            Console.WriteLine(matchTable);
-
-            return matchList;
+            return match;
         }
     }
 }

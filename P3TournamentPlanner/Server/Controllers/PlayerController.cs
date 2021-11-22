@@ -15,7 +15,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
 
         [HttpGet]
-        public List<Player> Get(int teamID, int clubID) {
+        public List<Player> Get(int? teamID, int? clubID) {
             Console.WriteLine("Player Get Recieved!");
             Console.WriteLine("teamID" + teamID);
             Console.WriteLine("clubID" + clubID);
@@ -24,9 +24,18 @@ namespace P3TournamentPlanner.Server.Controllers {
             List<Player> playerList = new List<Player>();
             DataTable dt;
 
-            SqlCommand command = new SqlCommand("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID=@teamID and clubID = @clubID");
-            command.Parameters.Add(new SqlParameter("teamID", teamID));
-            command.Parameters.Add(new SqlParameter("clubID", clubID));
+            SqlCommand command = new SqlCommand();
+
+            if (teamID != null)
+            {
+                command = new SqlCommand("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where teamID = @teamID");
+                command.Parameters.Add(new SqlParameter("teamID", teamID));
+            }
+            else if (clubID != null)
+            {
+                command = new SqlCommand("select teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where clubID = @clubID");
+                command.Parameters.Add(new SqlParameter("clubID", clubID));
+            }
 
             dt = db.PullTable(command);
 
