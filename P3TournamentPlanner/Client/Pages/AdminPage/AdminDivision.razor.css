@@ -67,13 +67,11 @@ button {
 
 form {
     background-color: var(--main-lilla);
-    border: none;
     color: white;
     padding: 10px 25px;
-    text-align: center;
-    text-decoration: none;
     display: inline-block;
     font-size: 18px;
+    margin-right:10rem;
 }
 
 .streg {
@@ -84,11 +82,12 @@ form {
 
 #genererkampe{
     float:right;
-    margin-bottom:20px;
+    
 }
 
-.vertical{
-    
+.vertical {
+    justify-content: center;
+    float: right;
 }
 
 .fix {
