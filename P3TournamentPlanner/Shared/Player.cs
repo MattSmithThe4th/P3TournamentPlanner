@@ -7,6 +7,7 @@
         public string steamID { get; set; }
         public string CSGORank { get; set; }
         public int playerSkllRating { get; set; }
+        public int playerID { get; set; }
 
         public Player(string IRLName, string IGName, string steamID, string CSGORank, int playerSkllRating) {
             this.IRLName = IRLName;
@@ -80,6 +81,8 @@
                 default:
                     return 0; 
             }
+        public Player(string iRLName, string iGName, string steamID, string cSGORank, int playerSkllRating, int playerID) : this(iRLName, iGName, steamID, cSGORank, playerSkllRating) {
+            this.playerID = playerID;
         }
     }
 }

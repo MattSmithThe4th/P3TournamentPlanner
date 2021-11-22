@@ -36,6 +36,13 @@ insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placemen
 insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(2, 1, 1, 'Dall Villaby - Hold 1', 312, 1, 6, 2, 0, 4, 24, 56, 6, 'DVMan1', 0)
 insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(2, 2, 1, 'Dall Villaby - Hold 2', 300, 1, 5, 1, 1, 3, 25, 55, 4, 'DVMan1', 0)
 
+--Creating Teams for non-started league
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(1, 0, 2, 'Dall Villaby - Hold 1', 400, 0, 0, 0, 0, 0, 0, 0, 0, 'DVMan1', 0)
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(1, 0, 2, 'Dall Villaby - Hold 2', 350, 0, 0, 0, 0, 0, 0, 0, 0, 'DVMan1', 0)
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(1, 0, 2, 'Dall Villaby - Hold 3', 300, 0, 0, 0, 0, 0, 0, 0, 0, 'DVMan1', 0)
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(2, 0, 2, 'Hobro Vikings - Hold 1', 375, 0, 0, 0, 0, 0, 0, 0, 0, 'HVMan1', 0)
+insert into TeamsDB(clubID, divisionID, leagueID, teamName, teamRating, placement, matchPlayed, matchesWon, matchesDraw, matchesLost, roundsWon, roundsLost, points, managerID, archiveFlag) values(2, 0, 2, 'Hobro Vikings - Hold 2', 325, 0, 0, 0, 0, 0, 0, 0, 0, 'HVMan2', 0)
+
 --Creating Players
 --Hobro Vikings - Hold 1
 insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (1, 1, 'Jonas', '1onas', 'STEAM_0:0:11101', 'Silver 1', 1)
@@ -65,12 +72,15 @@ insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRa
 insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (4, 2, 'Christoffer', 'ElWacko', 'STEAM_0:0:11119', 'Silver 1', 1)
 insert into PlayerDB(teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating) values (4, 2, 'Nicolai', 'Cidrew', 'STEAM_0:0:11120', 'Silver 1', 1)
 
---Creating League
+--Creating Leagues
 insert into LeagueDB(leagueName, game, adminID, archiveFlag) values ('Nordjysk Liga - CS:GO', 'CS:GO', 'AdminID', 0)
+insert into LeagueDB(leagueName, game, adminID, archiveFlag) values ('Ny ikke-startet liga', 'CS:GO', 'AdminID', 0)
 
 --Creating Divisions
 insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) values (1, 1, 'round-robin', 0)
 insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) values (2, 1, 'round-robin', 0)
+--Holding division for non-started league
+insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) values (0, 2, 'holdingDivision', 0)
 
 --Creating Matches
 --Division 1 matches played
