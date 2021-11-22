@@ -25,7 +25,7 @@ namespace P3TournamentPlanner.Server.Controllers
 
             List<Match> matchList = new List<Match>();
 
-            DataTable matchTable, teamTable, clubTable;
+            DataTable matchTable, teamTable, contactTable;
 
             SqlCommand command;
 
