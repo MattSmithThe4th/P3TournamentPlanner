@@ -7,6 +7,7 @@
         public string steamID { get; set; }
         public string CSGORank { get; set; }
         public int playerSkllRating { get; set; }
+        public int playerID { get; set; }
 
         public Player(string IRLName, string IGName, string steamID, string CSGORank, int playerSkllRating) {
             this.IRLName = IRLName;
@@ -19,12 +20,14 @@
         public Player() {
         }
 
-        public int CalculateSkillRating()
-        {
-            switch (this.CSGORank)
-            {
+        public Player(string iRLName, string iGName, string steamID, string cSGORank, int playerSkllRating, int playerID) : this(iRLName, iGName, steamID, cSGORank, playerSkllRating) {
+            this.playerID = playerID;
+        }
+
+        public int CalculateSkillRating() {
+            switch(this.CSGORank) {
                 case "Silver 1":
-                    return playerSkllRating = 4; 
+                    return playerSkllRating = 4;
 
                 case "Silver 2":
                     return playerSkllRating = 8;
@@ -78,7 +81,7 @@
                     return playerSkllRating = 100;
 
                 default:
-                    return 0; 
+                    return 0;
             }
         }
     }

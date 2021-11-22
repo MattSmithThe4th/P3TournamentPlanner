@@ -37,5 +37,10 @@ namespace P3TournamentPlanner.Shared {
             this.archiveFlag = archiveFlag;
             this.teamAmount = teamAmount;
         }
+
+        //THIS IS USED FOR TEST!!
+        public League(List<Division> divisions) {
+            this.divisions = divisions;
+        }
     }
 }

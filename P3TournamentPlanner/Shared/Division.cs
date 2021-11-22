@@ -18,5 +18,15 @@ namespace P3TournamentPlanner.Shared {
             this.divisionID = divisionID;
             divisionFormat = divFormat;
         }
+
+        //THIS IS USED FOR TEST!!
+        public Division(List<Team> teams, List<Match> matches) {
+            this.teams = teams;
+            this.matches = matches;
+        }
+
+        public Division(List<Team> teams) {
+            this.teams = teams;
+        }
     }
 }

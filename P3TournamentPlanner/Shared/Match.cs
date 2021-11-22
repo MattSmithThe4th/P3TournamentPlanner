@@ -31,5 +31,16 @@ namespace P3TournamentPlanner.Shared {
             this.serverIP = serverIP;
             this.map = map;
         }
+
+        public Match(List<Team> teams, string startTime, int playedFlag, int clubHostID, string serverIP, string map, int team1Score, int team2Score) {
+            this.teams = teams;
+            this.startTime = startTime;
+            this.playedFlag = playedFlag;
+            this.clubHostID = clubHostID;
+            this.serverIP = serverIP;
+            this.map = map;
+            this.team1Score = team1Score;
+            this.team2Score = team2Score;
+        }
     }
 }
