@@ -102,10 +102,25 @@ namespace P3TournamentPlanner.Shared {
             this.manager = clubManager;
         }
 
+        
+
         //THIS IS USED FOR TEST!!
         public Team(int clubID, string teamName) {
             this.clubID = clubID;
             this.teamName = teamName;
+        }
+
+        //constructor for updating teamDB after game results come in
+        public Team(int teamID, int roundsWon, int roundsLost, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int points) {
+            this.teamID = teamID;
+            this.roundsWon = roundsWon;
+            this.roundsLost = roundsLost;
+            this.placement = placement;
+            this.matchesPlayed = matchesPlayed;
+            this.matchesWon = matchesWon;
+            this.matchesDraw = matchesDraw;
+            this.matchesLost = matchesLost;
+            this.points = points;
         }
 
         //den nemme løsning. hvis vi vil være fancy kan vi lave et weighted system

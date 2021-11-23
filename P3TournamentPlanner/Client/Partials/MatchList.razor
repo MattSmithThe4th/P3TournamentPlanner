@@ -13,7 +13,7 @@
 <div id="matchSection" style="width: 100%">
     @foreach (Match match in matches)
     {
-        @if (match.playedFlag == 0)
+        @if (!match.playedFlag)
         {
             <div class="match-container">
                 <div class="match-container-background" @onclick="() => ShowMatch(match)">
@@ -43,7 +43,7 @@
 <div id="matchSection" style="width: 100%">
     @foreach (Match match in matches)
     {
-        @if (match.playedFlag == 0)
+        @if (!match.playedFlag)
         {
             <div class="match-container">
                 <div class="match-container-background" @onclick="() => ShowMatch(match)">

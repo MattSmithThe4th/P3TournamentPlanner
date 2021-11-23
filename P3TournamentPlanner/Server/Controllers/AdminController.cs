@@ -60,7 +60,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                         teamsInMatch.Add(division.teams[i]);
                         teamsInMatch.Add(division.teams[j]);
 
-                        division.matches.Add(new Match(teamsInMatch, "This is the start time", 0, teamsInMatch[rand.Next(0, 2)].clubID, "This is the ServerIP", "This is the map", 0, 0));
+                        division.matches.Add(new Match(teamsInMatch, "This is the start time", false, teamsInMatch[rand.Next(0, 2)].clubID, "This is the ServerIP", "This is the map", 0, 0));
                     }
                 }
             }
