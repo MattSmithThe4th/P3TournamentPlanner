@@ -1,5 +1,9 @@
 ﻿@page "/kamp/{id:int}"
 @inject Services.MatchService MatchService
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
+@inherits MatchBase
 @using P3TournamentPlanner.Shared;
 <section class="kamp-section">
     <section class="kamp-background">
@@ -21,7 +25,60 @@
         </div>
     </section>
 </section>
+<section>
+    <EditForm Model="match">
+        <div class="edit-section">
+            <div class="edit-div">
+                <h3>Ændre resultat</h3>
+                <div class="form-item">
+                    <label>@MatchService.match.teams[0].teamName:</label>
+                    <InputNumber @bind-Value="match.team1Score"></InputNumber>
+                </div>
+                <div class="form-item">
+                    <label>@MatchService.match.teams[1].teamName:</label>
+                    <InputNumber @bind-Value="match.team2Score"></InputNumber>
+                </div>
+            </div>
+            <div class="edit-div">
+                <h3>Ændre map</h3>
+                <div class="form-item">
+                    <label>Map:</label>
+                    <InputSelect @bind-Value="match.map">
+                        <option value="Ancient">Ancient</option>
+                        <option value="Dust 2">Dust 2</option>
+                        <option value="inferno">Inferno</option>
+                        <option value="mirage">Mirage</option>
+                        <option value="nuke">Nuke</option>
+                        <option value="overpass">Overpass</option>
+                        <option value="vertigo">Vertigo</option>
+                    </InputSelect>
+                </div>
+            </div>
+            <div class="edit-div">
+                <h3>Admin</h3>
+                <div class="form-item">
+                    <label>Server ip:</label>
+                    <InputText @bind-Value="match.serverIP"></InputText>
+                </div>
+                <div class="form-item">
+                    <label>Start tidspunkt</label>
+                    <InputText @bind-Value="match.startTime"></InputText>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+</section>
 @code {
     [Parameter]
     public int ID { get; set; }
+
+    async Task PutMatch()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Put Send");
+        await client.PutAsJsonAsync<Match>("api/Match", match);
+        Console.WriteLine("På den anden side");
+    }
 }

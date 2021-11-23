@@ -58,6 +58,29 @@
     margin: 0;
 }
 
+.edit-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.edit-div {
+    width: 15vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.edit-div h3 { 
+    text-align: center;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2vh;
+}
+
 #adresse {
     display: flex;
     flex-direction: column;
