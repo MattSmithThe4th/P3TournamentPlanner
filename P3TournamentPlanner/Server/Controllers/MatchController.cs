@@ -62,7 +62,7 @@ namespace P3TournamentPlanner.Server.Controllers
 
                         //contactTable = db.PullTable($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID='{row[14]}'");
 
-                        Contactinfo contactInfo = new Contactinfo((string)contactTable.Rows[0][0], (string)contactTable.Rows[0][1], (string)contactTable.Rows[0][2], (string)contactTable.Rows[0][3]);
+                        Contactinfo contactInfo = new Contactinfo((string)row[14], (string)contactTable.Rows[0][0], (string)contactTable.Rows[0][1], (string)contactTable.Rows[0][2], (string)contactTable.Rows[0][3]);
                         ClubManager manager = new ClubManager(contactInfo, (string)row[14]);
                         teamList.Add(new Team((int)row[0], (int)row[1], (int)row[2], (int)row[3], (string)row[4], (int)row[5], (int)row[6], (int)row[7], (int)row[8], (int)row[9], (int)row[10], (int)row[11], (int)row[12], (int)row[13], manager, Convert.ToBoolean(row[15])));
 
@@ -96,8 +96,8 @@ namespace P3TournamentPlanner.Server.Controllers
             command.Parameters.Add(new SqlParameter("leagueID", match.leagueID));
             command.Parameters.Add(new SqlParameter("team1ID", match.teams[0]));
             command.Parameters.Add(new SqlParameter("team2ID", match.teams[1]));
-            command.Parameters.Add(new SqlParameter("team1Score", match.resultTeam1));
-            command.Parameters.Add(new SqlParameter("team2Score", match.resultTeam2));
+            command.Parameters.Add(new SqlParameter("team1Score", match.team1Score));
+            command.Parameters.Add(new SqlParameter("team2Score", match.team2Score));
             command.Parameters.Add(new SqlParameter("startTime", match.startTime));
             command.Parameters.Add(new SqlParameter("playedFlag", match.playedFlag));
             command.Parameters.Add(new SqlParameter("hostClubID", match.clubHostID));
@@ -119,8 +119,8 @@ namespace P3TournamentPlanner.Server.Controllers
             command.Parameters.Add(new SqlParameter("leagueID", match.leagueID));
             command.Parameters.Add(new SqlParameter("team1ID", match.teams[0]));
             command.Parameters.Add(new SqlParameter("team2ID", match.teams[1]));
-            command.Parameters.Add(new SqlParameter("team1Score", match.resultTeam1));
-            command.Parameters.Add(new SqlParameter("team2Score", match.resultTeam2));
+            command.Parameters.Add(new SqlParameter("team1Score", match.team1Score));
+            command.Parameters.Add(new SqlParameter("team2Score", match.team2Score));
             command.Parameters.Add(new SqlParameter("startTime", match.startTime));
             command.Parameters.Add(new SqlParameter("playedFlag", match.playedFlag));
             command.Parameters.Add(new SqlParameter("hostClubID", match.clubHostID));

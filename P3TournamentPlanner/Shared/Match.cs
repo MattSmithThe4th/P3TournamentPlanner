@@ -4,6 +4,8 @@ using System;
 namespace P3TournamentPlanner.Shared {
     public class Match
     {
+        public int leagueID { get; set; }
+        public int divisionID { get; set; }
         public int matchID { get; set; }
         public List<Team> teams { get; set; }
         public string startTime { get; set; }
