@@ -1,5 +1,4 @@
 ﻿@page "/kamp/{id:int}"
-@inject Services.MatchService MatchService
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
@@ -8,12 +7,12 @@
 <section class="kamp-section">
     <section class="kamp-background">
         <div class="team-div">
-            <h1 class="header">@MatchService.match.teams[0].teamName</h1>
+            @*<h1 class="header">@match.teams[0].teamName</h1>
             <h1 class="header" id="center">VS</h1>
-            <h1 class="header">@MatchService.match.teams[1].teamName</h1>
+            <h1 class="header">@match.teams[1].teamName</h1>*@
         </div>
         <div class="info-div">
-            <div class="item-div date-div"><time datetime="2021-02-11">@MatchService.match.startTime</time></div>
+            <div class="item-div date-div"><time datetime="2021-02-11">@match.startTime</time></div>
             <div class="item-div" id="center">
                 <p>Server ip:</p>
                 <p>connect biter.dathost.net:27126</p>
@@ -25,17 +24,17 @@
         </div>
     </section>
 </section>
-<section>
+@*<section>
     <EditForm Model="match">
         <div class="edit-section">
             <div class="edit-div">
                 <h3>Ændre resultat</h3>
                 <div class="form-item">
-                    <label>@MatchService.match.teams[0].teamName:</label>
+                    <label>@match.teams[0].teamName:</label>
                     <InputNumber @bind-Value="match.team1Score"></InputNumber>
                 </div>
                 <div class="form-item">
-                    <label>@MatchService.match.teams[1].teamName:</label>
+                    <label>@match.teams[1].teamName:</label>
                     <InputNumber @bind-Value="match.team2Score"></InputNumber>
                 </div>
             </div>
@@ -67,10 +66,18 @@
             </div>
         </div>
     </EditForm>
-</section>
+</section>*@
 @code {
     [Parameter]
     public int ID { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        match = await client.GetFromJsonAsync<Match>($"api/Match?matchID=" + ID);
+    }
 
     async Task PutMatch()
     {
