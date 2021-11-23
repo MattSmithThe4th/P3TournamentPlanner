@@ -1,82 +1,113 @@
-﻿@page "/kamp/{id:int}"
-@inject NavigationManager NavigationManager
+﻿@inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
-@inherits MatchBase
 @using P3TournamentPlanner.Shared;
-<section class="kamp-section">
-    <section class="kamp-background">
-        <div class="team-div">
-            @*<h1 class="header">@match.teams[0].teamName</h1>
-            <h1 class="header" id="center">VS</h1>
-            <h1 class="header">@match.teams[1].teamName</h1>*@
-        </div>
-        <div class="info-div">
-            <div class="item-div date-div"><time datetime="2021-02-11">@match.startTime</time></div>
-            <div class="item-div" id="center">
-                <p>Server ip:</p>
-                <p>connect biter.dathost.net:27126</p>
+@page "/kamp/{id:int}"
+
+@if (teams == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <section class="kamp-section" style="background-image: url(/images/maps/@GetMap())">
+        <section class="kamp-background">
+            <div class="team-div">
+                <h1 class="header">@teams[0].teamName</h1>
+                @if (match.playedFlag == 0)
+                {
+                    <h1 class="header" id="center">VS</h1>
+                }
+                else
+                {
+                    <h1 class="header" id="center">@match.team1Score - @match.team2Score</h1>
+                }
+                <h1 class="header">@teams[1].teamName</h1>
             </div>
-            <div class="item-div" id="adresse">
-                <p>Hobro Vikings</p>
-                <p>Amerikavej 22, 9500 Hobro</p>
+            <div class="info-div">
+                <div class="item-div date-div"><time datetime="2021-02-11">@match.startTime</time></div>
+                <div class="item-div" id="center">
+                    <p>Server ip:</p>
+                    <p>@match.serverIP</p>
+                </div>
+                <div class="item-div" id="adresse">
+                    <p>Hobro Vikings</p>
+                    <p>Amerikavej 22, 9500 Hobro</p>
+                </div>
             </div>
-        </div>
+        </section>
     </section>
-</section>
-@*<section>
-    <EditForm Model="match">
-        <div class="edit-section">
-            <div class="edit-div">
-                <h3>Ændre resultat</h3>
-                <div class="form-item">
-                    <label>@match.teams[0].teamName:</label>
-                    <InputNumber @bind-Value="match.team1Score"></InputNumber>
+    <section>
+        <EditForm Model="match">
+            <div class="container">
+                <div>
+                    <h2>Rediger kamp</h2>
                 </div>
-                <div class="form-item">
-                    <label>@match.teams[1].teamName:</label>
-                    <InputNumber @bind-Value="match.team2Score"></InputNumber>
+                <div class="wrapper">
+                    <button class="btn-primary">Gem</button>
                 </div>
             </div>
-            <div class="edit-div">
-                <h3>Ændre map</h3>
-                <div class="form-item">
-                    <label>Map:</label>
-                    <InputSelect @bind-Value="match.map">
-                        <option value="Ancient">Ancient</option>
-                        <option value="Dust 2">Dust 2</option>
-                        <option value="inferno">Inferno</option>
-                        <option value="mirage">Mirage</option>
-                        <option value="nuke">Nuke</option>
-                        <option value="overpass">Overpass</option>
-                        <option value="vertigo">Vertigo</option>
-                    </InputSelect>
+            <hr />
+            <div class="edit-section">
+                <div class="edit-div">
+                    <h3>Ændre resultat</h3>
+                    <div class="form-item">
+                        <label>@match.teams[0].teamName:</label>
+                        <InputNumber @bind-Value="match.team1Score"></InputNumber>
+                    </div>
+                    <div class="form-item">
+                        <label>@match.teams[1].teamName:</label>
+                        <InputNumber @bind-Value="match.team2Score"></InputNumber>
+                    </div>
+                </div>
+                <div class="edit-div">
+                    <h3>Ændre map</h3>
+                    <div class="form-item">
+                        <label>Map:</label>
+                        <InputSelect @bind-Value="match.map">
+                            <option value="Ancient">Ancient</option>
+                            <option value="Dust 2">Dust 2</option>
+                            <option value="Inferno">Inferno</option>
+                            <option value="Mirage">Mirage</option>
+                            <option value="Nuke">Nuke</option>
+                            <option value="Overpass">Overpass</option>
+                            <option value="Vertigo">Vertigo</option>
+                        </InputSelect>
+                    </div>
+                </div>
+                <div class="edit-div">
+                    <h3>Admin</h3>
+                    <div class="form-item">
+                        <label>Server ip:</label>
+                        <InputText @bind-Value="match.serverIP"></InputText>
+                    </div>
+                    <div class="form-item">
+                        <label>Start tidspunkt:</label>
+                        <InputText @bind-Value="match.startTime"></InputText>
+                    </div>
                 </div>
             </div>
-            <div class="edit-div">
-                <h3>Admin</h3>
-                <div class="form-item">
-                    <label>Server ip:</label>
-                    <InputText @bind-Value="match.serverIP"></InputText>
-                </div>
-                <div class="form-item">
-                    <label>Start tidspunkt</label>
-                    <InputText @bind-Value="match.startTime"></InputText>
-                </div>
-            </div>
-        </div>
-    </EditForm>
-</section>*@
+        </EditForm>
+    </section>
+}
 @code {
     [Parameter]
     public int ID { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    public Match match = new Match();
+
+    public List<Team> teams;
+
+    protected override async Task OnParametersSetAsync()
     {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         match = await client.GetFromJsonAsync<Match>($"api/Match?matchID=" + ID);
+
+        teams = match.teams;
+
+        Console.WriteLine(teams[1].teamName);
     }
 
     async Task PutMatch()
@@ -87,5 +118,14 @@
         Console.WriteLine("Put Send");
         await client.PutAsJsonAsync<Match>("api/Match", match);
         Console.WriteLine("På den anden side");
+    }
+
+    public string GetMap()
+    {
+        if (match.playedFlag == 0)
+        {
+            return "csgo-gerneric-maps.jpg";
+        }
+        return match.map + ".jpg";
     }
 }

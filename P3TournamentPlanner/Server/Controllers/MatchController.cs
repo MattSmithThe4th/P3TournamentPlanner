@@ -110,12 +110,14 @@ namespace P3TournamentPlanner.Server.Controllers
             teams.Add(new Team((int)dt.Rows[0][3], (int)teamTable.Rows[0][0], teamTable.Rows[0][1].ToString()));
 
             command = new SqlCommand("select clubID, teamName from TeamsDB where teamID = @teamID");
-            command.Parameters.Add(new SqlParameter("teamID", dt.Rows[0][4]));
+            command.Parameters.Add(new SqlParameter("teamID", (int)dt.Rows[0][4]));
             teamTable = db.PullTable(command);
 
             teams.Add(new Team((int)dt.Rows[0][4], (int)teamTable.Rows[0][0], teamTable.Rows[0][1].ToString()));
 
             match = new Match((int)dt.Rows[0][0], teams, dt.Rows[0][7].ToString(), (int)dt.Rows[0][8], (int)dt.Rows[0][5], (int)dt.Rows[0][6], (int)dt.Rows[0][9], dt.Rows[0][10].ToString(), dt.Rows[0][11].ToString());
+
+            Console.WriteLine(match.teams[0].teamName);
 
             return match;
         }
