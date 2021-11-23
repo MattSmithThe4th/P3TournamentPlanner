@@ -16,7 +16,7 @@
 <button @onclick="GetLogo">Get Logo</button>
 <button @onclick="PutLogo">Put Logo</button>
 
-<img src="data:image/png;base64, @debugClub.base64Logo">
+<img src="data:image/png;base64, @imgSrc">
 
 @code {
     DebugObject DO = new DebugObject();
@@ -35,7 +35,8 @@
 
     Club debugClub = new Club(1, "Hobro Vikings", "Amerikavej 22, 9500 Hobro", "");
 
-    string base64;
+    string imgSrc = "";
+    string base64 = null;
 
 
 
@@ -138,11 +139,18 @@
 
         debugClub = await client.GetFromJsonAsync<Club>("api/klub/klub?clubID=1");
 
+        imgSrc = debugClub.base64Logo;
+
         Console.WriteLine("xd: " + debugClub.base64Logo);
     }
 
     private async Task PutLogo() {
         //GenerateBase64();
+
+        //Error handling så hjemmesiden ikke dør
+        if(base64 == null) {
+            throw new InvalidOperationException("No file is currently selected");
+        }
 
         debugClub.base64Logo = base64;
 
@@ -158,6 +166,8 @@
 
     //}
 
+    //Laver billede om til base64 byte representation hver gang en ny fil vælges
+    //File -> datastream -> memorystream -> byte array -> base64 string
     private async Task TestXD(InputFileChangeEventArgs e) {
         Console.WriteLine("Det er her");
         Stream stream = e.File.OpenReadStream();
