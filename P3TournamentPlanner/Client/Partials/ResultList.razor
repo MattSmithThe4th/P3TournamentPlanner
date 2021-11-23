@@ -57,14 +57,14 @@
         if (search == "division")
         {
             Console.WriteLine("Get Send");
-            matches = await client.GetFromJsonAsync<List<Match>>("api/match?division=" + ID);
+            matches = await client.GetFromJsonAsync<List<Match>>("api/match/matches?division=" + ID);
             Console.WriteLine("På den anden side");
             Console.WriteLine(matches);
         }
         else if (search == "team")
         {
             Console.WriteLine("Get Send");
-            matches = await client.GetFromJsonAsync<List<Match>>("api/match?teamID=" + ID);
+            matches = await client.GetFromJsonAsync<List<Match>>("api/match/matches?teamID=" + ID);
             Console.WriteLine("På den anden side");
             Console.WriteLine(matches);
         }
