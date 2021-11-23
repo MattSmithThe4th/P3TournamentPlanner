@@ -48,7 +48,7 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpPost]
-        public void Post(ClubManager cm)
+        public void Post(ClubManager cm, Contactinfo ci)
         {
             Console.WriteLine("Post Received!");
 

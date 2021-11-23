@@ -82,5 +82,52 @@ namespace P3TournamentPlanner.Server.Controllers
 
             return matchList;
         }
+
+        [HttpPost]
+        public void Post(Match match) {
+            Console.WriteLine("Post Recieved!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            SqlCommand command = new SqlCommand("insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
+                "values(@matchDivisionID, @leagueID, @team1ID, @team2ID, @team1Score, @team2Score, @startTime, " +
+                "@playedFlag, @hostClubID, @serverIP)");
+            command.Parameters.Add(new SqlParameter("matchDivisionID", match.divisionID));
+            command.Parameters.Add(new SqlParameter("leagueID", match.leagueID));
+            command.Parameters.Add(new SqlParameter("team1ID", match.teams[0]));
+            command.Parameters.Add(new SqlParameter("team2ID", match.teams[1]));
+            command.Parameters.Add(new SqlParameter("team1Score", match.resultTeam1));
+            command.Parameters.Add(new SqlParameter("team2Score", match.resultTeam2));
+            command.Parameters.Add(new SqlParameter("startTime", match.startTime));
+            command.Parameters.Add(new SqlParameter("playedFlag", match.playedFlag));
+            command.Parameters.Add(new SqlParameter("hostClubID", match.clubHostID));
+            command.Parameters.Add(new SqlParameter("serverIP", match.serverIP));
+
+            db.InsertToTable(command);
+        }
+
+        [HttpPut]
+        public void Put(Match match, int matchID) {
+            Console.WriteLine("Put Recieved!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            SqlCommand command = new SqlCommand("update MatchDB set divisionID = @matchDivisionID, leagueID = @leagueID, team1ID = @team1ID, team2ID = @team2ID, " +
+                $"team1Score = @team1Score, team2Score = @team2Score, startTime = @startTime, " +
+                $"playedFlag = @playedFlag, hostClubID = @hostClubID, serverIP = @serverIP where matchID = @matchID)");
+            command.Parameters.Add(new SqlParameter("matchDivisionID", match.divisionID));
+            command.Parameters.Add(new SqlParameter("leagueID", match.leagueID));
+            command.Parameters.Add(new SqlParameter("team1ID", match.teams[0]));
+            command.Parameters.Add(new SqlParameter("team2ID", match.teams[1]));
+            command.Parameters.Add(new SqlParameter("team1Score", match.resultTeam1));
+            command.Parameters.Add(new SqlParameter("team2Score", match.resultTeam2));
+            command.Parameters.Add(new SqlParameter("startTime", match.startTime));
+            command.Parameters.Add(new SqlParameter("playedFlag", match.playedFlag));
+            command.Parameters.Add(new SqlParameter("hostClubID", match.clubHostID));
+            command.Parameters.Add(new SqlParameter("serverIP", match.serverIP));
+            command.Parameters.Add(new SqlParameter("matchID", matchID));
+
+            db.InsertToTable(command);
+        }
     }
 }
