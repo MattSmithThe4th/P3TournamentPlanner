@@ -16,11 +16,11 @@ else
                 <h1 class="header">@teams[0].teamName</h1>
                 @if (match.playedFlag)
                 {
-                    <h1 class="header" id="center">VS</h1>
+                    <h1 class="header" id="center">@match.team1Score - @match.team2Score</h1>
                 }
                 else
                 {
-                    <h1 class="header" id="center">@match.team1Score - @match.team2Score</h1>
+                    <h1 class="header" id="center">VS</h1>
                 }
                 <h1 class="header">@teams[1].teamName</h1>
             </div>
@@ -113,6 +113,7 @@ else
 
     async Task PutMatch()
     {
+        Console.WriteLine(match.map);
         match.playedFlag = true;
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
@@ -126,8 +127,8 @@ else
     {
         if (match.playedFlag)
         {
-            return "csgo-gerneric-maps.jpg";
+            return match.map + ".jpg";
         }
-        return match.map + ".jpg";
+        return "csgo-gerneric-maps.jpg";
     }
 }
