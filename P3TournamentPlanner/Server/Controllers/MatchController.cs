@@ -138,7 +138,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             if(match.playedFlag && !Convert.ToBoolean(dt.Rows[0][0])) {
                 // her når en kamp blev færdig
                 updateDivisionStandings(match);
-            } else if(match.playedFlag && Convert.ToBoolean(dt.Rows[0][0])) {
+            } else if(Convert.ToBoolean(dt.Rows[0][0])) {
                 // her hvis spilled kamp havde forkert resultat
                 reverseDivisionStandings(match.matchID);
                 updateDivisionStandings(match);
