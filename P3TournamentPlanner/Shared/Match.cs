@@ -21,6 +21,12 @@ namespace P3TournamentPlanner.Shared {
 
         }
 
+        //Bruges til rettelse af resultater af allerede spillet kamp
+        public Match(int team1Score, int team2Score) {
+            this.team1Score = team1Score;
+            this.team2Score = team2Score;
+        }
+
         public Match(int matchID, List<Team> teams, string startTime, bool playedFlag, int team1Score, int team2Score, int clubHostID, string serverIP, string map)
         {
             this.matchID = matchID;

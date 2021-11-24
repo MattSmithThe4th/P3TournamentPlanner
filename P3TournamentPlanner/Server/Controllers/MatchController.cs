@@ -140,19 +140,76 @@ namespace P3TournamentPlanner.Server.Controllers {
 
         private void reverseDivisionStandings(int matchID) {
             DatabaseQuerys db = new DatabaseQuerys();
-            DataTable dt;
+            DataTable matchdt;
             Match match;
+            DataTable teamdt;
             List<Team> teams = new List<Team>();
             SqlCommand command;
 
             command = new SqlCommand("select * from MatchDB where matchID = @matchID");
             command.Parameters.Add(new SqlParameter("matchID", matchID));
-            dt = db.PullTable(command);
-            //pull teams hvis id'er er i dt
-            //lav teams objecter
-            //lav match object
-            //reverse udregninger som de er lavet i updateDivisionStandings();
-            //update TeamDB
+            matchdt = db.PullTable(command);
+            //pull teams hvis id'er er i dt - DONE
+            for(int i = 0; i < 2; i++) {
+                command = new SqlCommand("select * from TeamDB where teamID = @teamID");
+                command.Parameters.Add(new SqlParameter("teamID", matchdt.Rows[0][3 + i]));
+                teamdt = db.PullTable(command);
+                foreach(DataRow r in teamdt.Rows) {
+                    teams.Add(new Team((int)r[0], (int)r[11], (int)r[12], (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[13]));
+                }
+            }
+
+            match = new Match((int)matchdt.Rows[0][5], (int)matchdt.Rows[0][6]);
+
+            teams[0].roundsWon -= match.team1Score;
+            teams[0].roundsLost -= match.team2Score;
+
+            teams[1].roundsWon -= match.team2Score;
+            teams[1].roundsLost -= match.team1Score;
+
+            teams[0].matchesPlayed--;
+            teams[1].matchesPlayed--;
+
+            if(match.team1Score > match.team2Score) {
+                teams[0].matchesWon--;
+                teams[1].matchesLost--;
+
+                teams[0].points -= 3;
+            } else if(match.team1Score < match.team2Score) {
+                teams[0].matchesLost--;
+                teams[1].matchesWon--;
+
+                teams[1].points -= 3;
+            } else if(match.team1Score == match.team2Score) {
+                teams[0].matchesDraw--;
+                teams[0].points--;
+
+                teams[1].matchesDraw--;
+                teams[1].points--;
+            }
+
+
+            foreach(Team t in teams) {
+                command = new SqlCommand("update TeamDB set matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points where teamID = @teamID");
+                command.Parameters.Add(new SqlParameter("matchPlayed", t.matchesPlayed));
+                command.Parameters.Add(new SqlParameter("matchesWon", t.matchesWon));
+                command.Parameters.Add(new SqlParameter("matchesDraw", t.matchesDraw));
+                command.Parameters.Add(new SqlParameter("matchesLost", t.matchesLost));
+                command.Parameters.Add(new SqlParameter("roundsWon", t.roundsWon));
+                command.Parameters.Add(new SqlParameter("roundsLost", t.roundsLost));
+                command.Parameters.Add(new SqlParameter("points", t.points));
+                command.Parameters.Add(new SqlParameter("teamID", t.teamID));
+
+                db.InsertToTable(command);
+            }
+
+
+
+
+            //lav teams objecter - DONE
+            //lav match object - DONE
+            //reverse udregninger som de er lavet i updateDivisionStandings(); - DONE
+            //update TeamDB - DONE
         }
 
         private void updateDivisionStandings(Match match) {
@@ -187,12 +244,12 @@ namespace P3TournamentPlanner.Server.Controllers {
                 teams[1].matchesLost++;
 
                 teams[0].points += 3;
-            } else if (match.team1Score < match.team2Score) {
+            } else if(match.team1Score < match.team2Score) {
                 teams[0].matchesLost++;
                 teams[1].matchesWon++;
 
                 teams[1].points += 3;
-            } else if (match.team1Score == match.team2Score) {
+            } else if(match.team1Score == match.team2Score) {
                 teams[0].matchesDraw++;
                 teams[0].points++;
 
@@ -201,7 +258,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
 
             foreach(Team t in teams) {
-                command = new SqlCommand("update MatchDB set matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points where teamID = @teamID");
+                command = new SqlCommand("update TeamDB set matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points where teamID = @teamID");
                 command.Parameters.Add(new SqlParameter("matchPlayed", t.matchesPlayed));
                 command.Parameters.Add(new SqlParameter("matchesWon", t.matchesWon));
                 command.Parameters.Add(new SqlParameter("matchesDraw", t.matchesDraw));
