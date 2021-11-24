@@ -89,6 +89,11 @@ else
             </div>
         </EditForm>
     </section>
+    <div id="blazor-gemt-ui" style="display: @messageDisplay">
+        Gemt!
+        <a @onclick="reloadPage" class="reload">Reload</a>
+        <a class="dismiss" @onclick="showMessage">🗙</a>
+    </div>
 }
 @code {
     [Parameter]
@@ -97,6 +102,25 @@ else
     public Match match = new Match();
 
     public List<Team> teams;
+
+    string messageDisplay = "none";
+
+    void showMessage()
+    {
+        if (messageDisplay == "none")
+        {
+            messageDisplay = "block";
+        }
+        else
+        {
+            messageDisplay = "none";
+        }
+    }
+
+    void reloadPage()
+    {
+        NavigationManager.NavigateTo($"/kamp/{match.matchID}");
+    }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -107,7 +131,7 @@ else
 
         teams = match.teams;
 
-        Console.WriteLine("div" +match.divisionID);
+        Console.WriteLine("div" + match.divisionID);
         Console.WriteLine("league" + match.leagueID);
     }
 
@@ -121,6 +145,8 @@ else
         Console.WriteLine("Put Send");
         await client.PutAsJsonAsync<Match>("api/Match", match);
         Console.WriteLine("På den anden side");
+
+        showMessage();
     }
 
     public string GetMap()
