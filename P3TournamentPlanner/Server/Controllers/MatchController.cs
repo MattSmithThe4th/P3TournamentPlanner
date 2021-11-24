@@ -57,7 +57,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
                 teams.Add(new Team((int)r[4], (int)teamTable.Rows[0][0], teamTable.Rows[0][1].ToString()));
 
-                matches.Add(new Match((int)r[0], teams, r[7].ToString(), (int)r[8], (int)r[5], (int)r[6], (int)r[9], r[10].ToString(), r[11].ToString()));
+                matches.Add(new Match((int)r[0], teams, r[7].ToString(), Convert.ToBoolean(r[8]), (int)r[5], (int)r[6], (int)r[9], r[10].ToString(), r[11].ToString()));
             }
             return matches;
         }
@@ -94,7 +94,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             teams.Add(new Team((int)dt.Rows[0][4], (int)teamTable.Rows[0][0], teamTable.Rows[0][1].ToString()));
 
-            match = new Match((int)dt.Rows[0][0], teams, dt.Rows[0][7].ToString(), (int)dt.Rows[0][8], (int)dt.Rows[0][5], (int)dt.Rows[0][6], (int)dt.Rows[0][9], dt.Rows[0][10].ToString(), dt.Rows[0][11].ToString());
+            match = new Match((int)dt.Rows[0][0], teams, dt.Rows[0][7].ToString(), Convert.ToBoolean(dt.Rows[0][8]), (int)dt.Rows[0][5], (int)dt.Rows[0][6], (int)dt.Rows[0][9], dt.Rows[0][10].ToString(), dt.Rows[0][11].ToString());
 
             Console.WriteLine(match.teams[0].teamName);
 

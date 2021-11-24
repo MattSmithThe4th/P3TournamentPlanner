@@ -14,7 +14,7 @@ else
         <section class="kamp-background">
             <div class="team-div">
                 <h1 class="header">@teams[0].teamName</h1>
-                @if (match.playedFlag == 0)
+                @if (match.playedFlag)
                 {
                     <h1 class="header" id="center">VS</h1>
                 }
@@ -122,7 +122,7 @@ else
 
     public string GetMap()
     {
-        if (match.playedFlag == 0)
+        if (match.playedFlag)
         {
             return "csgo-gerneric-maps.jpg";
         }
