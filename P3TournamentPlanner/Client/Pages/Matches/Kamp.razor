@@ -112,6 +112,7 @@ else
 
     async Task PutMatch()
     {
+        match.playedFlag = true;
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
