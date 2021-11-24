@@ -178,7 +178,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             matchdt = db.PullTable(command);
             //pull teams hvis id'er er i dt - DONE
             for(int i = 0; i < 2; i++) {
-                command = new SqlCommand("select * from TeamDB where teamID = @teamID");
+                command = new SqlCommand("select * from TeamsDB where teamID = @teamID");
                 command.Parameters.Add(new SqlParameter("teamID", matchdt.Rows[0][3 + i]));
                 teamdt = db.PullTable(command);
                 foreach(DataRow r in teamdt.Rows) {
@@ -217,7 +217,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
 
             foreach(Team t in teams) {
-                command = new SqlCommand("update TeamDB set matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points where teamID = @teamID");
+                command = new SqlCommand("update TeamsDB set matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points where teamID = @teamID");
                 command.Parameters.Add(new SqlParameter("matchPlayed", t.matchesPlayed));
                 command.Parameters.Add(new SqlParameter("matchesWon", t.matchesWon));
                 command.Parameters.Add(new SqlParameter("matchesDraw", t.matchesDraw));
@@ -236,7 +236,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             //lav teams objecter - DONE
             //lav match object - DONE
             //reverse udregninger som de er lavet i updateDivisionStandings(); - DONE
-            //update TeamDB - DONE
+            //update TeamsDB - DONE
         }
 
         private void updateDivisionStandings(Match match) {
@@ -248,7 +248,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             //gets list of teams involved in the match
             foreach(Team t in match.teams) {
-                command = new SqlCommand("select * from TeamDB where teamID = @teamID");
+                command = new SqlCommand("select * from TeamsDB where teamID = @teamID");
                 command.Parameters.Add(new SqlParameter("teamID", t.teamID));
                 DataTable tmpTable = db.PullTable(command);
 
@@ -285,7 +285,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
 
             foreach(Team t in teams) {
-                command = new SqlCommand("update TeamDB set matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points where teamID = @teamID");
+                command = new SqlCommand("update TeamsDB set matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, roundsLost = @roundsLost, points = @points where teamID = @teamID");
                 command.Parameters.Add(new SqlParameter("matchPlayed", t.matchesPlayed));
                 command.Parameters.Add(new SqlParameter("matchesWon", t.matchesWon));
                 command.Parameters.Add(new SqlParameter("matchesDraw", t.matchesDraw));
