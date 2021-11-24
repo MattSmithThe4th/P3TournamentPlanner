@@ -1,8 +1,4 @@
-﻿h3 {
-    font-size: 40px;
-}
-
-.ny-admin-div {
+﻿.ny-admin-div {
     justify-content: space-evenly;
     background-color: #3e3e3e;
     color: white;
@@ -21,6 +17,11 @@
     flex-direction:column;
     background-color: lightgrey;
     width:100%;
+}
+
+.header-div {
+    display: flex;
+    justify-content: space-between;
 }
 
 #container {
@@ -88,4 +89,8 @@ tbody tr {
 #hold tr:hover {
     background-color: #4e4e4e;
     cursor: pointer;
+}
+
+.manager-form {
+    display: flex;
 }

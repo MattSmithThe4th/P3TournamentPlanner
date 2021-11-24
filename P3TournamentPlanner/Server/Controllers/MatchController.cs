@@ -19,6 +19,8 @@ namespace P3TournamentPlanner.Server.Controllers
             Console.WriteLine("Get Recieved!");
 
             DatabaseQuerys db = new DatabaseQuerys();
+            Console.WriteLine("div" + division);
+            Console.WriteLine("team" + teamID);
 
             SqlCommand command = new SqlCommand();
 
@@ -27,16 +29,16 @@ namespace P3TournamentPlanner.Server.Controllers
 
             DataTable dt, teamTable;
 
-            if (division != null)
+            if (division != null && teamID == null)
             {
                 command = new SqlCommand("select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
                     "startTime, playedFlag, hostClubID, serverIP, map from MatchDB where divisionID = @divisionID");
                 command.Parameters.Add(new SqlParameter("divisionID", division));
             }
-            else if (teamID != null)
+            else if (teamID != null && division == null)
             {
                 command = new SqlCommand("select matchID, divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, " +
-                    "startTime, playedFlag, hostClubID, serverIP, map from MatchDB where teamID = @teamID");
+                    "startTime, playedFlag, hostClubID, serverIP, map from MatchDB where team1ID = @teamID or team2ID = @teamID");
                 command.Parameters.Add(new SqlParameter("teamID", teamID));
             }
 

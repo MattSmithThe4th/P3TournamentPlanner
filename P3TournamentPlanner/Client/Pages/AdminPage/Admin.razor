@@ -1,45 +1,122 @@
 ﻿@using P3TournamentPlanner.Shared;
 @using P3TournamentPlanner.Client.Pages.AdminPage.AdminPartials;
 @page "/admin"
-<h3>ADMIN</h3>
-<!--<div class="Containers" id="information">
-    <h3>Username</h3>
-    <h3>Password</h3>
-    <h3>Email</h3>
-</div>-->
+<h1>Administrator</h1>
 
-
-
-<div class="Containers2">
-    @for (int i = 0; i < 4; i++)
-    {
-        <div id="container">
-            <table>
+<section class="klub-section">
+    <div class="header-div">
+        <h2>Klub administratorer</h2>
+        <div class="btn-div">
+            <button class="btn-primary btn-klubadmin" @onclick='() => ShowNewAdmin("blcok")'>Opret ny administrator</button>
+        </div>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
                 <tr>
-                    <td>Navn</td>
-                    <td>Email</td>
-                    <td>Discord</td>
-                    <td>Phone</td>
-                    <td class="Btns">Edit</td>
-                    <td class="Btns">Remove</td>
+                    <th>Navn</th>
+                    <th>Email</th>
+                    <th>Telefon</th>
+                    <th>Discord</th>
                 </tr>
-            </table>
-        </div>
-    }
-</div>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 3; i++)
+                {
+                    <tr>
+                        <td>Lasse</td>
+                        <td>lasse@dgi.dk</td>
+                        <td>12345678</td>
+                        <td>lasse#1234</td>
+                    </tr>
+                }
+            </tbody>
+            @*<tbody>
+                @foreach (ClubManager clubManager in clubManagers)
+                {
+                    <tr>
+                        <td>@clubManager.contactinfo.name</td>
+                        <td>@clubManager.contactinfo.email</td>
+                        <td>@clubManager.contactinfo.tlfNr</td>
+                        <td>@clubManager.contactinfo.discordID</td>
+                        <td class="btn-td">
+                            <div class="td-div">
+                                <button class="btn" @onclick="() => ShowMananger(clubManager)">Rediger</button>
+                            </div>
+                        </td>
+                        <td class="btn-td">
+                            <div class="td-div">
+                                <button class="btn" @onclick="() => Delete(clubManager)">Slet</button>
+                            </div>
+                        </td>
+                    </tr>
 
-<div class="ny-admin-div">
-    <form class="dingdonger" action="" method="post">
-        <div id="input-felter">
-            <label>Ny admin</label>
-            <input id="username" type="text" placeholder="Username her" />
-            <input id="password" type="text" placeholder="Password her" />
-            <input id="email" type="text" placeholder="Email her" />
-            <button class="Btns"> Opret ny Admin </button>
-            <b></b>
+                    @if (userID == clubManager.userID)
+                    {
+                        <tr class="edittr" id="@clubManager.userID">
+                            <td class="edit">
+                                <label>Navn:</label>
+                                <input @bind="clubManager.contactinfo.name" />
+                            </td>
+                            <td class="edit">
+                                <label>Email:</label>
+                                <input @bind="clubManager.contactinfo.email" />
+                            </td>
+                            <td class="edit">
+                                <label>Telefon:</label>
+                                <input @bind="clubManager.contactinfo.tlfNr" />
+                            </td>
+                            <td class="edit">
+                                <label>Discord:</label>
+                                <input @bind="clubManager.contactinfo.discordID" />
+                            </td>
+                            <td class="btn-td">
+                                <div class="td-div">
+                                    <button class="btn" @onclick="() => HandleManagerPut(clubManager)">Gem</button>
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+            </tbody>*@
+        </table>
+    </div>
+    <div style="display: @newAdminDisplay">
+        <div class="header-div">
+            <h3>Ny klub administrator</h3>
         </div>
-    </form>
-</div>
+        <form>
+            <div class="manager-form">
+                <div>
+                    <label>Navn:</label>
+                    <input type="text" />
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input type="text" />
+                </div>
+                <div>
+                    <label>Telefon:</label>
+                    <input type="text" />
+                </div>
+                <div>
+                    <label>Discord:</label>
+                    <input type="text" />
+                </div>
+                <div>
+                    <label>Username:</label>
+                    <input type="text" />
+                </div>
+                <div class="btn-div">
+                    <button class="btn-primary" type="button" @onclick='() => ShowNewAdmin("none")'>Opret</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<hr />
 
 <section class="table_container">
     <section class="table_container_background">
@@ -71,10 +148,13 @@
 @code {
     string Display = "ligaer";
 
+    string newAdminDisplay = "none";
 
-
-
-
+    void ShowNewAdmin(string display)
+    {
+        newAdminDisplay = display;
+        StateHasChanged();
+    }
 
     public void ChangeDisplay(string display)
     {
