@@ -147,7 +147,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             //put to matchDB
             command = new SqlCommand("update MatchDB set divisionID = @matchDivisionID, leagueID = @leagueID, team1ID = @team1ID, team2ID = @team2ID, " +
                 $"team1Score = @team1Score, team2Score = @team2Score, startTime = @startTime, " +
-                $"playedFlag = @playedFlag, hostClubID = @hostClubID, serverIP = @serverIP where matchID = @matchID)");
+                $"playedFlag = @playedFlag, hostClubID = @hostClubID, serverIP = @serverIP where matchID = @matchID");
             command.Parameters.Add(new SqlParameter("matchDivisionID", match.divisionID));
             command.Parameters.Add(new SqlParameter("leagueID", match.leagueID));
             command.Parameters.Add(new SqlParameter("team1ID", match.teams[0].teamID));
