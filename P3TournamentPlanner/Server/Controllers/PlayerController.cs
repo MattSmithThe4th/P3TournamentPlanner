@@ -33,7 +33,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
             else if (clubID != null)
             {
-                command = new SqlCommand("select playerID teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where clubID = @clubID");
+                command = new SqlCommand("select playerID, teamID, clubID, IRLName, IGName, steamID, csgoRank, skillRating from PlayerDB where clubID = @clubID");
                 command.Parameters.Add(new SqlParameter("clubID", clubID));
             }
 

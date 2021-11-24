@@ -39,7 +39,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
                 foreach (DataRow row in dt2.Rows)
                 {
-                    contactinfo = new Contactinfo(row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString());
+                    contactinfo = new Contactinfo((string)r[0], row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString());
                 }
 
                 clubManagers.Add(new ClubManager(contactinfo, r[0].ToString(), clubID));

@@ -6,6 +6,7 @@ namespace P3TournamentPlanner.Shared {
         public List<Match> matches { get; set; }
         public DivisionFormat divisionFormat { get; set; }
         public int divisionID { get; set; }
+        public int leagueID { get; set; }
 
         //Måske
         public bool archiveFlag { get; set; }
