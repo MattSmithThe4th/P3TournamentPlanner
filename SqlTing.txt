@@ -85,14 +85,14 @@ insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) value
 --Creating Matches
 --Division 1 matches played
 insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 1, 3, 16, 10, 'Dette er Start time', 1, 1, 'Dette er server IP', 'Inferno')
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 3, 1, 16, 10, 'Dette er Start time', 1, 3, 'Dette er server IP', 'Mirage')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 3, 1, 16, 10, 'Dette er Start time', 1, 2, 'Dette er server IP', 'Mirage')
 --Division 1 matches unplayed
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 3, 1, 0, 0, 'Dette er Start time', 0, 3, 'Dette er server IP', 'Dust 2')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 3, 1, 0, 0, 'Dette er Start time', 0, 2, 'Dette er server IP', 'Dust 2')
 insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (1, 1, 1, 3, 0, 0, 'Dette er Start time', 0, 1, 'Dette er server IP', 'Vertigo')
 
 --Division 2 matches played
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 2, 4, 16, 10, 'Dette er Start time', 1, 2, 'Dette er server IP', 'Nuke')
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 4, 2, 16, 10, 'Dette er Start time', 1, 4, 'Dette er server IP', 'Ancient')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 2, 4, 16, 10, 'Dette er Start time', 1, 1, 'Dette er server IP', 'Nuke')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 4, 2, 16, 10, 'Dette er Start time', 1, 2, 'Dette er server IP', 'Ancient')
 --Division 2 matches unplayed
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 4, 2, 0, 0, 'Dette er Start time', 0, 4, 'Dette er server IP', 'Inferno')
-insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 2, 4, 0, 0, 'Dette er Start time', 0, 2, 'Dette er server IP', 'Nuke')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 4, 2, 0, 0, 'Dette er Start time', 0, 2, 'Dette er server IP', 'Inferno')
+insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP, map) values (2, 1, 2, 4, 0, 0, 'Dette er Start time', 0, 1, 'Dette er server IP', 'Nuke')
