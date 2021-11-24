@@ -45,27 +45,11 @@ tbody tr {
     margin-top: 30px;
 }
 
-/*button {
-    background-color: var(--main-lilla);
-    border: none;
-    color: white;
-    padding: 10px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-} */
 
     button:hover {
         background-color: var(--penta-lilla);
         cursor: pointer;
     }
-
-.streg {
-    width:100%;
-    background-color:black;
-    height:2px;
-}
 
 .fix {
     padding: 10px 25px;
@@ -96,16 +80,19 @@ tbody tr {
     font-size: 18px;
 }
 
-.flex {display: flex; justify-content: space-between;}
+.flex {
+    display: flex; 
+    justify-content: space-between;
+}
 
 .tilføjHold{
     width:100%;
-    margin-bottom:50px; 
     display:flex;
     justify-content: space-between; 
 }
 
-.workPLZ { justify-content: center; margin-top: 9px; margin-right: 10px; padding-left: 10px;}
+.workPLZ { 
+    justify-content: center; margin-top: 9px; margin-right: 10px; padding-left: 10px;}
 
 button {
     background-color: var(--main-lilla);
@@ -119,3 +106,16 @@ button {
 }
 
 .navn{ float:left;}
+
+#genererkampe {
+    float: right;
+}
+
+h2{margin-bottom:0px;}
+.wrapper{
+    margin-bottom:2px;
+}
+
+table{
+    margin-bottom:50px;
+}
