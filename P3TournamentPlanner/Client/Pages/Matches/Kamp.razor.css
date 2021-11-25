@@ -3,7 +3,6 @@
 }
 
 .kamp-section {
-    background-image: url(/images/maps/csgo-gerneric-maps.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -56,6 +55,35 @@
 
 .item-div p {
     margin: 0;
+}
+
+.edit-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.edit-div {
+    width: 15vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.edit-div h3 { 
+    text-align: center;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2vh;
+}
+
+.container {
+    margin-top: 5vh;
+    display: flex;
+    justify-content:space-between;
 }
 
 #adresse {

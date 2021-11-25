@@ -2,18 +2,18 @@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
-<h3>Admin Ligaer</h3>
+<h1>Ligaer</h1>
 <div id="matchSection" style="width: 100%">
-    <h1> Ligaer </h1>
     <table class="boxes">
-        <tbody>
+        <thead>
             <tr>
                 <th>  Liga Navn  </th>
                 <th>  Spil  </th>
                 <th>  Antal Hold  </th>
                 <th>  Status  </th>
-                <th> ------ </th>
             </tr>
+        </thead>
+        <tbody>
             @foreach (League liga in ligas)
             {
 

@@ -50,5 +50,20 @@ namespace P3TournamentPlanner.Shared {
             this.team1Score = team1Score;
             this.team2Score = team2Score;
         }
+
+        public Match(int leagueID, int divisionID, int matchID, List<Team> teams, string startTime, bool playedFlag, int team1Score, int team2Score, int clubHostID, string serverIP, string map) : this(leagueID, divisionID)
+        {
+            this.leagueID = leagueID;
+            this.divisionID = divisionID;
+            this.matchID = matchID;
+            this.teams = teams;
+            this.startTime = startTime;
+            this.playedFlag = playedFlag;
+            this.team1Score = team1Score;
+            this.team2Score = team2Score;
+            this.clubHostID = clubHostID;
+            this.serverIP = serverIP;
+            this.map = map;
+        }
     }
 }

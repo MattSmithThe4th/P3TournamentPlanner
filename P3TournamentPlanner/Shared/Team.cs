@@ -85,6 +85,13 @@ namespace P3TournamentPlanner.Shared {
             this.points = points;
         }
 
+        public Team(int teamID, int clubID, string teamName)
+        {
+            this.teamID = teamID;
+            this.clubID = clubID;
+            this.teamName = teamName;
+        }
+
         public Team(ClubManager manager, Club club, List<Player> players) {
             this.manager = manager;
             this.club = club;

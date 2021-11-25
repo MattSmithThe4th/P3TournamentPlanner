@@ -15,29 +15,49 @@
     <div class="header-div">
         <h3>Ny spiller</h3>
     </div>
-    <form>
+    <EditForm Model="player">
         <div class="manager-form">
-            <div>
+            <div class="item-div">
                 <label>Navn:</label>
                 <input type="text" @bind="player.IRLName" />
             </div>
-            <div>
-                <label>Email:</label>
+            <div class="item-div">
+                <label>In-Game navn:</label>
                 <input type="text" @bind="player.IGName" />
             </div>
-            <div>
-                <label>Telefon:</label>
+            <div class="item-div">
+                <label>STEAM-ID:</label>
                 <input type="text" @bind="player.steamID" />
             </div>
-            <div>
-                <label>Discord:</label>
-                <input type="text" @bind="player.CSGORank" />
+            <div class="item-div">
+                <label>Rank:</label>
+                <InputSelect @bind-Value="player.CSGORank">
+                    <option value="">Vælg rank</option>
+                    <option value="Silver 1">Silver 1</option>
+                    <option value="Silver 2">Silver 2</option>
+                    <option value="Silver 3">Silver 3</option>
+                    <option value="Silver 4">Silver 4</option>
+                    <option value="Silver Elite">Silver Elite</option>
+                    <option value="Silver Elite Master">Silver Elite Master</option>
+                    <option value="Gold Nova 1">Gold Nova 1</option>
+                    <option value="Gold Nova 2">Gold Nova 2</option>
+                    <option value="Gold Nova 3">Gold Nova 3</option>
+                    <option value="Gold Nova Master">Gold Nova Master</option>
+                    <option value="Master Guardian 1">Master Guardian 1</option>
+                    <option value="Master Guardian 2">Master Guardian 2</option>
+                    <option value="Master Guardian Elite">Master Guardian Elite</option>
+                    <option value="Distingquished Master Guardian">Distingquished Master Guardian</option>
+                    <option value="Legendary Eagle">Legendary Eagle</option>
+                    <option value="Legendary Eagle Master">Legendary Eagle Master</option>
+                    <option value="Supreme Master First Class">Supreme Master First Class</option>
+                    <option value="The Global Elite">The Global Elite</option>
+                </InputSelect>
             </div>
-            <div class="btn-div">
+            <div class="btn-div item-div">
                 <button class="btn-primary" type="submit" @onclick="HandlePlayerPost">Opret</button>
             </div>
         </div>
-    </form>
+    </EditForm>
 </div>
 
 @code {

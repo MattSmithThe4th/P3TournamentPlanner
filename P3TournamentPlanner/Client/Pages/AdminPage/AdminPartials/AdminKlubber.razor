@@ -5,8 +5,12 @@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
-<h3>Admin</h3>
-<button @onclick="CreateClub">Lav ny klub</button>
+<div class="header-div">
+    <h1>Klubber</h1>
+    <div class="wrapper">
+        <button class="btn-primary" @onclick="CreateClub">Lav ny klub</button>
+    </div>
+</div>
 <div class="mainTable">
     <table class="table-style" style=" border-collapse: separate; border-spacing: 0 10px; width: 90%; font-size: larger;">
         <thead>
