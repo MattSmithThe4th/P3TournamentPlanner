@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
 using System;
@@ -11,6 +12,8 @@ namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class MatchController : ControllerBase {
+
+        [HttpGet]
         public List<Match> Get(int? division, int? teamID) {
             Console.WriteLine("Get Recieved!");
             Console.WriteLine(division);
@@ -74,6 +77,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return matchList;
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(Match match) {
             Console.WriteLine("Post Recieved!");
@@ -97,6 +101,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
+        [Authorize]
         [HttpPut]
         public void Put(Match match) {
             Console.WriteLine("Put Recieved!");

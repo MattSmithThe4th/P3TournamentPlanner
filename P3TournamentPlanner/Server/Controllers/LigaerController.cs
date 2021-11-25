@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
@@ -59,6 +60,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return leagueList;
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(League liga) {
             Console.WriteLine("Post Recieved!");
@@ -76,6 +78,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
+        [Authorize]
         [HttpPut]
         public void Put(League liga, int leagueID) {
             Console.WriteLine("Put Recieved!");
