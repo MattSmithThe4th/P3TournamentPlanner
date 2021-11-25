@@ -29,17 +29,20 @@
             i = 1;
             @foreach (Team team in teams)
             {
-                <tr @onclick="() => ShowTeam(team)">
-                    <td class="placement">@i</td>
-                    <td class="team">@team.teamName</td>
-                    <td class="number">@team.matchesPlayed</td>
-                    <td class="number">@team.matchesWon</td>
-                    <td class="number">@team.matchesDraw</td>
-                    <td class="number">@team.matchesLost</td>
-                    <td class="number">-----</td>
-                    <td class="points">@team.points</td>
-                </tr>
-                i++;
+                @if (team.leagueID == 1)
+                {
+                    <tr @onclick="() => ShowTeam(team)">
+                        <td class="placement">@i</td>
+                        <td class="team">@team.teamName</td>
+                        <td class="number">@team.matchesPlayed</td>
+                        <td class="number">@team.matchesWon</td>
+                        <td class="number">@team.matchesDraw</td>
+                        <td class="number">@team.matchesLost</td>
+                        <td class="number">-----</td>
+                        <td class="points">@team.points</td>
+                    </tr>
+                    i++;
+                }
             }
         }
     </tbody>
@@ -61,7 +64,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("api/Stilling?league=" + liga + "&division=" + ID);
+        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation?divisionID=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
         teams.Sort((x, y) => y.points.CompareTo(x.points));
