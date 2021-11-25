@@ -16,7 +16,7 @@
                 <div class="match-container-background" @onclick="() => ShowMatch(match)">
                     <div id="topPart">
                         <h1 class="match-header"> @match.teams[0].teamName</h1>
-                        <h1 class="match-header" id="center"> VS </h1>
+                        <h1 class="match-header" id="center">@match.team1Score - @match.team2Score</h1>
                         <h1 class="match-header"> @match.teams[1].teamName</h1>
                     </div>
                     <div id="lowPart">

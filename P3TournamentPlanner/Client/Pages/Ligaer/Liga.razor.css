@@ -1,8 +1,4 @@
-﻿body {
-    font: normal medium/1.4 sans-serif;
-}
-
-.main {
+﻿.main {
     margin-top: 7vh;
     margin-bottom: 5vh;
     display: flex;
