@@ -13,10 +13,6 @@
     border-radius: 20px;
 }
 
-.container {
-
-}
-
 .container h2 {
     margin: 0;
     padding: 0;
@@ -32,7 +28,6 @@
     margin: auto;
     color: white;
     background-color: var(--main-lilla);
-    transform: translateY(-400%);
     margin: auto;
     padding: 10px;
     border-radius: 5px;
@@ -62,8 +57,73 @@
 .img-div h1 {
     margin: 0;
     padding: 0;
-    transform: translateY(-500%);
     font-size: 35px;
+}
+
+.header-div {
+    display: flex;
+}
+
+.header-div h3{
+    margin: 0;
+    padding: 7px 25px 7px 25px;
+    background-color: var(--main-lilla);
+    border-radius: 2px;
+}
+
+.header-div2 {
+    display: flex;
+    margin-top: 80px;
+}
+
+.header-div2 h3 {
+    margin: 0;
+    padding: 7px 25px 7px 25px;
+    background-color: var(--main-lilla);
+    border-radius: 2px;
+}
+
+#stilling-line {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 2px solid #642882;
+    margin: 0;
+    padding: 0;
+}
+
+#line {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 2px solid #642882;
+    padding: 0;
+    margin: 0;
+}
+
+.stilling-section {
+    margin-top: 500px;
+}
+
+.stilling {
+    display: flex;
+    justify-content: space-between;
+}
+
+.division-div {
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(/images/gray-background2.jpg);
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    padding: 1vw;
+    background-color: #2d2d2d;
+    border-top: none;
+    width: 29vw;
+    margin-top: 2vh;
+}
+
+.division-div h2 {
+    margin-left: 20px;  
 }
 
 @media only screen and (max-width: 1111px) {
