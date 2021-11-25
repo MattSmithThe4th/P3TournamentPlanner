@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using P3TournamentPlanner.Server.Models;
 using P3TournamentPlanner.Shared;
 using System;
 using System.Collections.Generic;
@@ -12,6 +15,14 @@ namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     public class ClubManagerController : ControllerBase {
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+
+        public ClubManagerController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) {
+            this.userManager = userManager;
+            this.roleManager = roleManager;
+        }
+
         [HttpGet]
         public List<ClubManager> Get(int clubID)
         {
@@ -39,7 +50,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
                 foreach (DataRow row in dt2.Rows)
                 {
-                    contactinfo = new Contactinfo(row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString());
+                    contactinfo = new Contactinfo((string)r[0], row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString());
                 }
 
                 clubManagers.Add(new ClubManager(contactinfo, r[0].ToString(), clubID));
@@ -47,17 +58,30 @@ namespace P3TournamentPlanner.Server.Controllers {
             return clubManagers;
         }
 
+        [Authorize]
         [HttpPost]
-        public void Post(ClubManager cm)
+        public async Task Post(ClubManager cm)
         {
-            Console.WriteLine("Post Received!");
+            Console.WriteLine("ClubManager Controller enter!<---------->!!!!!!!!!!!!!!!!!!!!");
 
             DatabaseQuerys db = new DatabaseQuerys();
+
+            var newUser = new ApplicationUser {
+                UserName = cm.contactinfo.email,
+                Email = cm.contactinfo.email
+            };
+
+            Console.WriteLine("IM GONNA FUCKING PREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+
+            await userManager.CreateAsync(newUser, "123Password");
+
+            Console.WriteLine("POOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOST shit");
+
 
             SqlCommand command = new SqlCommand("insert into ClubManagerDB(clubID, userID) values (@clubID, @userID)");
 
             command.Parameters.Add(new SqlParameter("clubID", cm.ClubID));
-            command.Parameters.Add(new SqlParameter("userID", cm.userID));
+            command.Parameters.Add(new SqlParameter("userID", newUser.Id));
 
             db.InsertToTable(command);
 
@@ -68,11 +92,12 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("tlfNumber", cm.contactinfo.tlfNr));
             command.Parameters.Add(new SqlParameter("discordID", cm.contactinfo.discordID));
             command.Parameters.Add(new SqlParameter("email", cm.contactinfo.email));
-            command.Parameters.Add(new SqlParameter("userID", cm.userID));
+            command.Parameters.Add(new SqlParameter("userID", newUser.Id));
 
             db.InsertToTable(command);
         }
 
+        [Authorize]
         [HttpPut]
         public void Put(ClubManager cm)
         {
@@ -103,6 +128,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("Delete/{userID}")]
         public void Delete(string userID)

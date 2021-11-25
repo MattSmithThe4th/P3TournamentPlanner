@@ -2,3 +2,9 @@
     display: flex;
     margin-bottom: 5vh;
 }
+
+.item-div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2vh;
+}

@@ -126,6 +126,15 @@
     public async Task HandleTeamPost()
     {
         team.club.clubID = clubID;
+        team.teamSkillRating = 0;
+        team.matchesPlayed = 0;
+        team.placement = 0;
+        team.matchesWon = 0;
+        team.matchesDraw = 0;
+        team.matchesLost = 0;
+        team.roundsWon = 0;
+        team.roundsLost = 0;
+        team.points = 0;
 
         foreach (Player player in team.players)
         {

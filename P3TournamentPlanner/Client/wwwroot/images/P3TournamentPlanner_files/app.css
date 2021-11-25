@@ -62,10 +62,6 @@ a, .btn-link {
     color: red;
 }
 
-.transition {
-    display: none;
-}
-
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

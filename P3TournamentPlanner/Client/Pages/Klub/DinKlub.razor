@@ -124,7 +124,7 @@
                     <input type="text" @bind="clubManager1.userID" />
                 </div>
                 <div class="btn-div">
-                    <button class="btn-primary" type="submit" @onclick="HandleManagerPost">Opret</button>
+                    <button class="btn-primary" type="button" @onclick="HandleManagerPost">Opret</button>
                 </div>
             </div>
         </form>
@@ -255,7 +255,7 @@
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        await client.PostAsJsonAsync<ClubManager>("api/ClubManager", clubManager1);
+        await Http.PostAsJsonAsync<ClubManager>("api/ClubManager", clubManager1);
     }
 
     void ShowMananger(ClubManager clubManager)

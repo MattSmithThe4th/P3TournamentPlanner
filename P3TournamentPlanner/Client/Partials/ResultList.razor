@@ -9,7 +9,7 @@
 <div id="matchSection" style="width: 100%">
     @foreach (Match match in matches)
     {
-        @if (match.playedFlag == 1)
+        @if (match.playedFlag)
         {
             <div class="match-container" id="@match.map"
                  style="background-image: url(/images/maps/@match.map)">
@@ -57,14 +57,14 @@
         if (search == "division")
         {
             Console.WriteLine("Get Send");
-            matches = await client.GetFromJsonAsync<List<Match>>("api/match?division=" + ID);
+            matches = await client.GetFromJsonAsync<List<Match>>("api/match/matches?division=" + ID);
             Console.WriteLine("På den anden side");
             Console.WriteLine(matches);
         }
         else if (search == "team")
         {
             Console.WriteLine("Get Send");
-            matches = await client.GetFromJsonAsync<List<Match>>("api/match?teamID=" + ID);
+            matches = await client.GetFromJsonAsync<List<Match>>("api/match/matches?teamID=" + ID);
             Console.WriteLine("På den anden side");
             Console.WriteLine(matches);
         }
@@ -83,6 +83,6 @@
     public void ShowMatch(Match match)
     {
         MatchService.match = match;
-        NavigationManager.NavigateTo($"/resultat/{match.matchID}");
+        NavigationManager.NavigateTo($"/kamp/{match.matchID}");
     }
 }
