@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
 using System;
@@ -57,6 +58,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return divList;
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(Division division) {
             Console.WriteLine("Post Recieved!");
@@ -72,6 +74,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
+        [Authorize]
         [HttpPut]
         public void Put(Division division, int divisionID) {
             Console.WriteLine("Put Recieved!");

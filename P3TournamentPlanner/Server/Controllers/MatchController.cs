@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
 using System;
@@ -101,6 +102,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return match;
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(Match match) {
             Console.WriteLine("Post Recieved!");
@@ -124,6 +126,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
+        [Authorize]
         [HttpPut]
         public void Put(Match match) {
             Console.WriteLine("Put Recieved!");

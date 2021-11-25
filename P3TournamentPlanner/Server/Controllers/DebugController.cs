@@ -6,10 +6,12 @@
 //using System.Data;
 //using System.Linq;
 //using System.Threading.Tasks;
+//using Microsoft.AspNetCore.Authorization;
 
 //namespace P3TournamentPlanner.Server.Controllers {
 //    [Route("api/[controller]")]
 //    [ApiController]
+//    [Authorize]
 //    public class DebugController : ControllerBase {
 
 //        [HttpGet]

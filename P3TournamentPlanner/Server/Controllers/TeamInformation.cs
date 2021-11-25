@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using P3TournamentPlanner.Shared;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Authorization;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
@@ -161,6 +162,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return teamList;
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(Team team)
         {

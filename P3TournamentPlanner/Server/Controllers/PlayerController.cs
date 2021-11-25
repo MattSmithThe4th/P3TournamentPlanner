@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Authorization;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
@@ -56,6 +57,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return playerList;
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(Player player) {
             Console.WriteLine("Post Enter");
@@ -84,6 +86,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             Console.WriteLine("Post Done");
         }
 
+        [Authorize]
         [HttpPut]
         public void Put(Player player) {
             DatabaseQuerys db = new DatabaseQuerys();

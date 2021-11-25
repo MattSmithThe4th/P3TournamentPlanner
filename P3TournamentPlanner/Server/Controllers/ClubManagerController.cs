@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
@@ -47,6 +48,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return clubManagers;
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(ClubManager cm)
         {
@@ -73,6 +75,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
+        [Authorize]
         [HttpPut]
         public void Put(ClubManager cm)
         {
@@ -103,6 +106,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("Delete/{userID}")]
         public void Delete(string userID)

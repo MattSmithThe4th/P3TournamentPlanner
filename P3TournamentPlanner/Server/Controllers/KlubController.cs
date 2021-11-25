@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
 using System;
@@ -88,6 +89,7 @@ namespace P3TournamentPlanner.Server.Controllers {
         //    db.InsertToTable(command);
         //}
 
+        [Authorize]
         [HttpPut]
         public void Put(Club club)
         {
@@ -111,6 +113,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             Console.WriteLine("Put End");
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(Club club)
         {
