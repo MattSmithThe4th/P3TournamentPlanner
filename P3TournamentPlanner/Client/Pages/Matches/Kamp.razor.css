@@ -27,14 +27,15 @@
     justify-content: space-evenly;
 }
 
+.team-div h1 {
+    width: 20vw;
+    text-align: center;
+}
+
 .team-div #center {
     width: 5vw;
 }
 
-.header {
-    width: 20vw;
-    text-align: center;
-}
 
 .info-div {
     display: flex;

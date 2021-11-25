@@ -13,16 +13,16 @@ else
     <section class="kamp-section" style="background-image: url(/images/maps/@GetMap())">
         <section class="kamp-background">
             <div class="team-div">
-                <h1 class="header">@teams[0].teamName</h1>
+                <h1>@teams[0].teamName</h1>
                 @if (match.playedFlag)
                 {
-                    <h1 class="header" id="center">@match.team1Score - @match.team2Score</h1>
+                    <h1 id="center">@match.team1Score - @match.team2Score</h1>
                 }
                 else
                 {
-                    <h1 class="header" id="center">VS</h1>
+                    <h1 id="center">VS</h1>
                 }
-                <h1 class="header">@teams[1].teamName</h1>
+                <h1>@teams[1].teamName</h1>
             </div>
             <div class="info-div">
                 <div class="item-div date-div"><time datetime="2021-02-11">@match.startTime</time></div>
