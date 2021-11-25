@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System;
@@ -29,6 +30,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
         }
 
+        [Authorize]
         [HttpGet("isManager")]
         public bool GetManBool(string ID1, string ID2) {
             //Jeg sværger.. Det er ikk scuffed
@@ -52,7 +54,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             foreach(string clubID in clubIDList) {
                 foreach(DataRow r in dt.Rows) {
-                    if((string)r[0] == clubID) {
+                    if(r[0].ToString() == clubID) {
                         isManager = true;
                         break;
                     }

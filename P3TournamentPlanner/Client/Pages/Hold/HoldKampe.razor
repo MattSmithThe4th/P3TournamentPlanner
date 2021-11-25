@@ -2,6 +2,7 @@
 @using System;
 @using System.Collections.Generic;
 @using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using System.Linq;
 @using System.Net.Http;
 @using System.Net.Http.Json;
@@ -25,17 +26,20 @@ else
     <p>Kontaktperson: @team.manager.contactinfo.name - @team.manager.contactinfo.tlfNr</p>
     <p>Klublokale: Amerikavej 22, 9500 Hobro</p>
 
-    <h3>Ændre hold</h3>
-    <div class="hold-info">
-        <div class="name-input-div">
-            <label>Hold navn:</label>
-            <input type="text" @bind-value="team.teamName" />
+    @if (IsManager)
+    {
+        <h3>Ændre hold</h3>
+        <div class="hold-info">
+            <div class="name-input-div">
+                <label>Hold navn:</label>
+                <input type="text" @bind-value="team.teamName" />
+            </div>
+            <div>
+                <button class="btn-primary" @onclick="PutTeam">Gem Hold</button>
+                <button class="btn-primary" @onclick="DeleteTeam">Slet hold</button>
+            </div>
         </div>
-        <div>
-            <button class="btn-primary" @onclick="PutTeam">Gem Hold</button>
-            <button class="btn-primary" @onclick="DeleteTeam">Slet hold</button>
-        </div>
-    </div>
+    }
 
     <section class="table_container">
         <div class="table_menu">
@@ -197,6 +201,8 @@ else
     [Parameter]
     public Nullable<int> teamID { get; set; }
 
+    public bool IsManager { get; set; }
+
     public string kontaktperson;
 
     string IGName;
@@ -234,6 +240,16 @@ else
             await GetClub();
 
             await GetPlayers();
+
+            try
+            {
+                IsManager = await Http.GetFromJsonAsync<bool>($"api/Authentication/isManager?ID1={team.clubID.ToString()}&ID2=0");
+            }
+            catch (AccessTokenNotAvailableException exception)
+            {
+                Console.WriteLine(exception.Message);
+                IsManager = false;
+            }
         }
     }
 
