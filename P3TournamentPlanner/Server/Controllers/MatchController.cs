@@ -7,12 +7,10 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace P3TournamentPlanner.Server.Controllers
-{
+namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    public class MatchController : ControllerBase
-    {
+    public class MatchController : ControllerBase {
         public List<Match> Get(int? division, int? teamID)
         {
             Console.WriteLine("Get Recieved!");
@@ -82,5 +80,6 @@ namespace P3TournamentPlanner.Server.Controllers
 
             return matchList;
         }
+        //}
     }
 }

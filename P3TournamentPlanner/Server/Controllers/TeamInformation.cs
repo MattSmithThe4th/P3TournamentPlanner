@@ -169,10 +169,17 @@ namespace P3TournamentPlanner.Server.Controllers {
             DatabaseQuerys db = new DatabaseQuerys();
             DataTable dt;
 
-            SqlCommand command = new SqlCommand("insert into TeamsDB(clubID, teamName, managerID) values(@clubID, @teamName, @managerID)");
+            int teamRanking = 0;
+            foreach(Player player in team.players)
+            {
+                teamRanking += player.playerSkllRating;
+            }
+
+            SqlCommand command = new SqlCommand("insert into TeamsDB(clubID, teamName, managerID, teamRating) values(@clubID, @teamName, @managerID, @teamRating)");
             command.Parameters.Add(new SqlParameter("clubID", team.club.clubID));
             command.Parameters.Add(new SqlParameter("teamName", team.teamName));
             command.Parameters.Add(new SqlParameter("managerID", team.manager.userID));
+            command.Parameters.Add(new SqlParameter("teamRating", teamRanking));
 
             db.InsertToTable(command);
 

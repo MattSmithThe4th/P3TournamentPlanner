@@ -20,7 +20,8 @@
         public Player() {
         }
 
-        public Player(string iRLName, string iGName, string steamID, string cSGORank, int playerSkllRating, int playerID) : this(iRLName, iGName, steamID, cSGORank, playerSkllRating) {
+        public Player(string iRLName, string iGName, string steamID, string cSGORank, int playerSkllRating, int playerID) : this(iRLName, iGName, steamID, cSGORank, playerSkllRating)
+        {
             this.playerID = playerID;
         }
 

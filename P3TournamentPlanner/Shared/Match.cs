@@ -5,6 +5,8 @@ namespace P3TournamentPlanner.Shared {
     public class Match
     {
         public int matchID { get; set; }
+        public int divisionID { get; set; }
+        public int leagueID { get; set; }
         public List<Team> teams { get; set; }
         public string startTime { get; set; }
         public int playedFlag { get; set; }
