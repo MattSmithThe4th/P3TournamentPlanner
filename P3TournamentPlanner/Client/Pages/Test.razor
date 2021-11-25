@@ -15,6 +15,7 @@
 <button @onclick="GenerateDivisions">Gen Div Test</button>
 <button @onclick="GetLogo">Get Logo</button>
 <button @onclick="PutLogo">Put Logo</button>
+<button @onclick="IsManTest">isMan</button>
 
 <img src="data:image/png;base64, @imgSrc">
 
@@ -34,6 +35,8 @@
     List<Team> teamsToDivide = new List<Team>();
 
     Club debugClub = new Club(1, "Hobro Vikings", "Amerikavej 22, 9500 Hobro", "");
+
+    List<string> dbgClubID = new List<string>();
 
     string imgSrc = "";
     string base64 = null;
@@ -178,5 +181,17 @@
         base64 = Convert.ToBase64String(imgByte);
 
         Console.WriteLine(base64);
+    }
+
+    private async Task IsManTest() {
+        dbgClubID.Add("1");
+        dbgClubID.Add("2");
+
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        bool isManager = await client.GetFromJsonAsync<bool>($"api/Authentication/isManager?ID1={dbgClubID[0]}&ID2={dbgClubID[1]}");
+
+        Console.WriteLine("is manager " + isManager);
     }
 }
