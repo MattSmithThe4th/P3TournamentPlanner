@@ -51,3 +51,9 @@ tbody tr {
     margin-top: 5px;
     background-color: #3e3e3e;
 }
+
+.hold-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

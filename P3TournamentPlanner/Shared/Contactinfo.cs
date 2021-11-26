@@ -10,13 +10,15 @@ namespace P3TournamentPlanner.Shared {
 
         }
 
-        public Contactinfo(string name, string tlfNr, string discordID, string email) {
+        public Contactinfo(string userID, string name, string tlfNr, string discordID, string email) {
+            this.userID = userID;
             this.name = name;
             this.tlfNr = tlfNr;
             this.discordID = discordID;
             this.email = email;
         }
 
+        public string userID { get; set; }
         public string name { set; get; }
         public string tlfNr { set; get; }
         public string discordID { set; get; }

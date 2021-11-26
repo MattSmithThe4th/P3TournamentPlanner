@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using P3TournamentPlanner.Shared;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Authorization;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
@@ -43,7 +44,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                 //teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (string)r2[0], (int)r[6],
                 //    (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], (string)r[14], (int)r[15]));
 
-                Contactinfo contactInfo = new Contactinfo((string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
+                Contactinfo contactInfo = new Contactinfo(r[3].ToString(), (string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
                 ClubManager manager = new ClubManager(contactInfo, r[3].ToString());
                 team = new Team((int)r[0], (int)r[1], r[2].ToString(), manager);
 
@@ -96,7 +97,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                 //teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (string)r2[0], (int)r[6],
                 //    (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], (string)r[14], (int)r[15]));
 
-                Contactinfo contactInfo = new Contactinfo((string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
+                Contactinfo contactInfo = new Contactinfo((string)r[14], (string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
                 ClubManager manager = new ClubManager(contactInfo, (string)r[14]);
                 teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], manager, Convert.ToBoolean(r[15])));
 
@@ -151,7 +152,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                 //teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (string)r2[0], (int)r[6],
                 //    (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], (string)r[14], (int)r[15]));
 
-                Contactinfo contactInfo = new Contactinfo((string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
+                Contactinfo contactInfo = new Contactinfo((string)r[3], (string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
                 ClubManager manager = new ClubManager(contactInfo, r[3].ToString());
                 teamList.Add(new Team((int)r[0], (int)r[1], r[2].ToString(), manager));
 
@@ -161,6 +162,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return teamList;
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(Team team)
         {
@@ -194,6 +196,52 @@ namespace P3TournamentPlanner.Server.Controllers {
 
                 db.InsertToTable(command);
             }
+        }
+
+        [HttpPut]
+        public void Put(Team team)
+        {
+            Console.WriteLine("Put Recivied");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            SqlCommand command = new SqlCommand("update TeamsDB set clubID = @clubID, divisionID = @divisionID, leagueID = @leagueID, teamName = @teamName, teamRating = @teamRating, " +
+                "placement = @placement, matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, " +
+                "roundsLost = @roundsLost, points = @points, managerID = @managerID, archiveFlag = @archiveFlag where teamID = @teamID");
+
+            command.Parameters.Add(new SqlParameter("clubID", team.clubID));
+            command.Parameters.Add(new SqlParameter("divisionID", team.divisionID));
+            command.Parameters.Add(new SqlParameter("leagueID", team.leagueID));
+            command.Parameters.Add(new SqlParameter("teamName", team.teamName));
+            command.Parameters.Add(new SqlParameter("teamRating", team.teamSkillRating));
+            command.Parameters.Add(new SqlParameter("placement", team.placement));
+            command.Parameters.Add(new SqlParameter("matchPlayed", team.matchesPlayed));
+            command.Parameters.Add(new SqlParameter("matchesWon", team.matchesWon));
+            command.Parameters.Add(new SqlParameter("matchesDraw", team.matchesDraw));
+            command.Parameters.Add(new SqlParameter("matchesLost", team.matchesLost));
+            command.Parameters.Add(new SqlParameter("roundsWon", team.roundsWon));
+            command.Parameters.Add(new SqlParameter("roundsLost", team.roundsLost));
+            command.Parameters.Add(new SqlParameter("points", team.points));
+            command.Parameters.Add(new SqlParameter("managerID", team.manager.userID));
+            command.Parameters.Add(new SqlParameter("archiveFlag", team.archiveFlag));
+            command.Parameters.Add(new SqlParameter("teamID", team.teamID));
+
+            db.InsertToTable(command);
+        }
+
+        [HttpDelete]
+        [Route("Delete/{teamID}")]
+        public void Delete(int teamID)
+        {
+            Console.WriteLine("Delete Received!");
+            Console.WriteLine(teamID);
+
+            DatabaseQuerys db = new();
+
+            SqlCommand command = new("delete from TeamsDB where teamID = @teamID");
+            command.Parameters.Add(new SqlParameter("teamID", teamID));
+
+            db.DeleteRow(command);
         }
     }
 }

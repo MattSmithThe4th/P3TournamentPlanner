@@ -9,12 +9,11 @@
 <body>
     <div>
         <div class="navn">
-            <div class="vertical">
+            <div class="bokse">
                 <form class="fix" action="/" method="post">
                     <label> Divisions Navn</label>
                     <input type="text" placeholder="Divisions navn" />
                 </form>
-                <button id="genererkampe">Generer Kampe</button>
             </div>
 
         </div>
@@ -42,27 +41,38 @@
             </table>
         </div>
         <div class="tilføjHold">
-            <form ="/" method="post">
-                <select>
-                    <option> Placeholder</option>
-                    @foreach (Team team in teams)
-                    {
-                        <option> @team.teamName </option>
-                    }
-                </select>
-
-            </form>
-            <button>Tilføj hold</button>
+            <div class="bokse">
+                <form ="/" method="post" class="formBund">
+                    <div class="flex">
+                        <div class="workPLZ">
+                            <select>
+                                <option> Placeholder</option>
+                                @foreach (Team team in teams)
+                                {
+                                    <option> @team.teamName </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="tilføj">
+                            <button>Tilføj hold</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="bokse">
+                <button id="genererkampe">Generer Kampe</button>
+            </div>
         </div>
         <div class="table_menu">
             <button id="kampe-btn" @onclick='() => ChangeDisplay("kampe")'>Kampe</button>
             <button id="resultater-btn" @onclick='() => ChangeDisplay("")'>Resultater</button>
         </div>
+        <div class="streg"></div>
         @if (display == "kampe")
         {
             <style>
-                #kampe-btn {
-                    background-color: var(--penta-lilla)
+                /*#kampe-btn {*/
+                background-color: var(--penta-lilla)
                 }
             </style>
             <MatchList ID="divisionID" search="division" />
@@ -77,6 +87,7 @@
             <ResultList ID="divisionID" search="division" />
         }
     </div>
+    
 </body>
 
 

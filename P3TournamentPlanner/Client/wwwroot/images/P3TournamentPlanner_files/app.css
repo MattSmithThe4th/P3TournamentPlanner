@@ -62,50 +62,6 @@ a, .btn-link {
     color: red;
 }
 
-.transition {
-    display: none;
-}
-
-.info-text {
-    font-size: 17px;
-    line-height: 1.4;
-}
-
-.header {
-    height: 36px;
-    background-color: var(--main-lilla);
-}
-
-.header h3 {
-    height: 36px;
-    margin: 0;
-    padding: 7px 25px 7px 25px;
-    background-color: var(--main-lilla);
-    border-top-left-radius: 2px;
-}
-
-.header::after {
-    content: '';
-    display: inline-block;
-    position: relative;
-    bottom: 36px;
-    left: 100%;
-    border-top: 36px solid transparent;
-    border-bottom: 0px solid transparent;
-    border-left: 36px solid var(--main-lilla);
-    z-index: 1;
-}
-
-#line {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 2px solid #642882;
-    border-bottom-left-radius: 2px;
-    padding: 0;
-    margin: 0;
-}
-
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

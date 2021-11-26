@@ -1,38 +1,43 @@
-﻿.main {
+﻿.main-header {
     margin-top: 2em;
 }
 
-.main-container {
-    margin-top: 2em;
+.main-header h1 {
+    margin: 0 0 20px 0;
+    font-size: 1.7em;
+}
+
+.main-header h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.1em;
+}
+
+.info-section {
+    margin-top: 50px;
+}
+
+.info {
+    margin-top: 2vh;
     margin-bottom: 2em;
     display: flex;
 }
 
-.main-container img {
-    width: 400px;
+.info-section img {
+    max-width: 400px;
     border-radius: 20px;
 }
 
-.container {
-
-}
-
-.container h2 {
-    margin: 0;
-    padding: 0;
-}
-
-.container h3 {
-    display: block;
-    margin-top: 3em;
-    padding: 0;
+.img-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
 }
 
 .btn-link {
     margin: auto;
     color: white;
     background-color: var(--main-lilla);
-    transform: translateY(-400%);
     margin: auto;
     padding: 10px;
     border-radius: 5px;
@@ -45,13 +50,6 @@
     background-color: var(--penta-lilla);
 }
 
-.img-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center; 
-}
-
 .img-div-2 {
     display: flex;
     flex-direction: row;
@@ -59,20 +57,47 @@
     text-align: center;
 }
 
-.img-div h1 {
-    margin: 0;
-    padding: 0;
-    transform: translateY(-500%);
-    font-size: 35px;
+.header-div {
+    display: flex;
+}
+
+.stilling-section {
+    margin-top: 525px;
+}
+
+.stilling {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.division-div {
+    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(/images/gray-pattern.png);
+    background-position: center;
+    background-repeat: repeat;
+    background-size: cover;
+    padding: 1vw;
+    background-color: #2d2d2d;
+    border-top: none;
+    width: 29vw;
+    border-radius: 5px;
+}
+
+.division-div h2 {
+    margin-left: 20px;  
+}
+
+.info-text {
+    margin: 0 0 0 2vw;
 }
 
 @media only screen and (max-width: 1111px) {
-    .main-container {
+    .info-section {
         margin-top: 7em;
         flex-direction: column-reverse;
     }
 
-    .container {
+    .info-section {
         margin: 2em 0;
     }
 }

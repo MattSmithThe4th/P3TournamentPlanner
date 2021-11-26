@@ -5,15 +5,19 @@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
+
 <table class="Stilling">
     <thead>
         <tr>
             <th class="placement">#</th>
             <th class="team">Hold</th>
-            <th class="number">K</th>
-            <th class="number">V</th>
-            <th class="number">U</th>
-            <th class="number">T</th>
+            @if (design != "frontPage")
+            {
+                <th class="number">K</th>
+                <th class="number">V</th>
+                <th class="number">U</th>
+                <th class="number">T</th>
+            }
             <th class="number">Diff</th>
             <th class="points">Points</th>
         </tr>
@@ -29,24 +33,34 @@
             i = 1;
             @foreach (Team team in teams)
             {
-                <tr @onclick="() => ShowTeam(team)">
-                    <td class="placement">@i</td>
-                    <td class="team">@team.teamName</td>
-                    <td class="number">@team.matchesPlayed</td>
-                    <td class="number">@team.matchesWon</td>
-                    <td class="number">@team.matchesDraw</td>
-                    <td class="number">@team.matchesLost</td>
-                    <td class="number">-----</td>
-                    <td class="points">@team.points</td>
-                </tr>
-                i++;
+                @if (team.leagueID == 1)
+                {
+                    <tr class="test" @onclick="() => ShowTeam(team)">
+                        <td class="placement">@i</td>
+                        <td class="team">@team.teamName</td>
+                        @if (design != "frontPage")
+                        {
+                            <td class="number">@team.matchesPlayed</td>
+                            <td class="number">@team.matchesWon</td>
+                            <td class="number">@team.matchesDraw</td>
+                            <td class="number">@team.matchesLost</td>
+                        }
+                        <td class="number">-----</td>
+                        <td class="points">@team.points</td>
+                    </tr>
+                    i++;
+                }
             }
         }
     </tbody>
 </table>
+
 @code {
     [Parameter]
     public int ID { get; set; }
+
+    [Parameter]
+    public string design { get; set; }
 
     public int i = 1;
 
@@ -61,7 +75,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await Http.GetFromJsonAsync<List<Team>>("api/Stilling?league=" + liga + "&division=" + ID);
+        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation?divisionID=" + ID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
         teams.Sort((x, y) => y.points.CompareTo(x.points));

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using P3TournamentPlanner.Shared;
@@ -41,7 +42,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                 command.Parameters.Add(new SqlParameter("userID", r[3]));
                 DataTable ciTable = db.PullTable(command);
 
-                Contactinfo ci = new Contactinfo((string)ciTable.Rows[0][1], (string)ciTable.Rows[0][2], (string)ciTable.Rows[0][3], (string)ciTable.Rows[0][4]);
+                Contactinfo ci = new Contactinfo((string)r[3], (string)ciTable.Rows[0][1], (string)ciTable.Rows[0][2], (string)ciTable.Rows[0][3], (string)ciTable.Rows[0][4]);
                 SiteAdmin admin = new SiteAdmin(ci);
 
                 if(r[2].ToString() == "CS:GO") {
@@ -59,24 +60,38 @@ namespace P3TournamentPlanner.Server.Controllers {
             return leagueList;
         }
 
+        [Authorize]
         [HttpPost]
         public void Post(League liga) {
             Console.WriteLine("Post Recieved!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values('{liga.name}, {liga.game}, {liga.admin}, {liga.archiveFlag}')";
+            //string command = $"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values('{liga.name}, {liga.game}, {liga.admin}, {liga.archiveFlag}')";
+            
+            SqlCommand command = new SqlCommand($"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values(@name, @game, @admin, @flag)");
+            command.Parameters.Add(new SqlParameter("name", liga.name));
+            command.Parameters.Add(new SqlParameter("game", liga.game));
+            command.Parameters.Add(new SqlParameter("admin", liga.admin));
+            command.Parameters.Add(new SqlParameter("flag", liga.archiveFlag));
 
             db.InsertToTable(command);
         }
 
+        [Authorize]
         [HttpPut]
         public void Put(League liga, int leagueID) {
             Console.WriteLine("Put Recieved!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            string command = $"update LeagueDB set leagueName = {liga.name}, game = {liga.game}, adminID = {liga.admin}, archiveFlag = {liga.archiveFlag} where LeagueID = {leagueID}";
+            //string command = $"update LeagueDB set leagueName = {liga.name}, game = {liga.game}, adminID = {liga.admin}, archiveFlag = {liga.archiveFlag} where LeagueID = {leagueID}";
+            SqlCommand command = new SqlCommand($"update LeagueDB set leagueName = @name, game = @game, adminID = @admin, archiveFlag = @flag where LeagueID = @leagueID");
+            command.Parameters.Add(new SqlParameter("name", liga.name));
+            command.Parameters.Add(new SqlParameter("game", liga.game));
+            command.Parameters.Add(new SqlParameter("admin", liga.admin));
+            command.Parameters.Add(new SqlParameter("flag", liga.archiveFlag));
+            command.Parameters.Add(new SqlParameter("leagueID", leagueID));
 
             db.InsertToTable(command);
         }

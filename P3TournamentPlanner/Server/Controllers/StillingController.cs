@@ -54,6 +54,8 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         //PUT
+        /*
+        [Authorize]
         [HttpPut]
         public void Put(Team team) {
             Console.WriteLine("Put Got!");
@@ -84,6 +86,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             Console.WriteLine("Put End");
         }
+        */
 
         //Tror ikke den har behov for POST
         //[HttpPost]

@@ -9,14 +9,14 @@
 <div id="matchSection" style="width: 100%">
     @foreach (Match match in matches)
     {
-        @if (match.playedFlag == 1)
+        @if (match.playedFlag)
         {
             <div class="match-container" id="@match.map"
                  style="background-image: url(/images/maps/@match.map)">
                 <div class="match-container-background" @onclick="() => ShowMatch(match)">
                     <div id="topPart">
                         <h1 class="match-header"> @match.teams[0].teamName</h1>
-                        <h1 class="match-header" id="center"> VS </h1>
+                        <h1 class="match-header" id="center">@match.team1Score - @match.team2Score</h1>
                         <h1 class="match-header"> @match.teams[1].teamName</h1>
                     </div>
                     <div id="lowPart">
@@ -57,14 +57,14 @@
         if (search == "division")
         {
             Console.WriteLine("Get Send");
-            matches = await client.GetFromJsonAsync<List<Match>>("api/match?division=" + ID);
+            matches = await client.GetFromJsonAsync<List<Match>>("api/match/matches?division=" + ID);
             Console.WriteLine("På den anden side");
             Console.WriteLine(matches);
         }
         else if (search == "team")
         {
             Console.WriteLine("Get Send");
-            matches = await client.GetFromJsonAsync<List<Match>>("api/match?teamID=" + ID);
+            matches = await client.GetFromJsonAsync<List<Match>>("api/match/matches?teamID=" + ID);
             Console.WriteLine("På den anden side");
             Console.WriteLine(matches);
         }
@@ -83,6 +83,6 @@
     public void ShowMatch(Match match)
     {
         MatchService.match = match;
-        NavigationManager.NavigateTo($"/resultat/{match.matchID}");
+        NavigationManager.NavigateTo($"/kamp/{match.matchID}");
     }
 }

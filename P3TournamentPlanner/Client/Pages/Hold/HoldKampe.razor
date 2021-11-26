@@ -2,6 +2,7 @@
 @using System;
 @using System.Collections.Generic;
 @using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using System.Linq;
 @using System.Net.Http;
 @using System.Net.Http.Json;
@@ -10,6 +11,7 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
+@inject IJSRuntime JsRuntime
 @page "/hold/{teamID:int}"
 
 @if (team == null)
@@ -23,6 +25,21 @@ else
     <p>Klub: @team.club.name</p>
     <p>Kontaktperson: @team.manager.contactinfo.name - @team.manager.contactinfo.tlfNr</p>
     <p>Klublokale: Amerikavej 22, 9500 Hobro</p>
+
+    @if (IsManager)
+    {
+        <h3>Ændre hold</h3>
+        <div class="hold-info">
+            <div class="name-input-div">
+                <label>Hold navn:</label>
+                <input type="text" @bind-value="team.teamName" />
+            </div>
+            <div>
+                <button class="btn-primary" @onclick="PutTeam">Gem Hold</button>
+                <button class="btn-primary" @onclick="DeleteTeam">Slet hold</button>
+            </div>
+        </div>
+    }
 
     <section class="table_container">
         <div class="table_menu">
@@ -119,7 +136,7 @@ else
                                 </td>
                                 <td class="btn-td">
                                     <div class="td-div">
-                                        <button class="btn" @onclick="() => Delete(player)">Slet</button>
+                                        <button class="btn" @onclick="() => DeletePlayer(player)">Slet</button>
                                     </div>
                                 </td>
                             </tr>
@@ -132,16 +149,36 @@ else
                                         <input @bind="player.IRLName" />
                                     </td>
                                     <td class="edit">
-                                        <label>Email:</label>
+                                        <label>In-Game navn:</label>
                                         <input @bind="player.IGName" />
                                     </td>
                                     <td class="edit">
-                                        <label>Telefon:</label>
+                                        <label>STEAM-ID:</label>
                                         <input @bind="player.steamID" />
                                     </td>
                                     <td class="edit">
-                                        <label>Discord:</label>
-                                        <input @bind="player.CSGORank" />
+                                        <label>Rank:</label>
+                                        <select @bind="player.CSGORank">
+                                            <option value="">Vælg rank</option>
+                                            <option value="Silver 1">Silver 1</option>
+                                            <option value="Silver 2">Silver 2</option>
+                                            <option value="Silver 3">Silver 3</option>
+                                            <option value="Silver 4">Silver 4</option>
+                                            <option value="Silver Elite">Silver Elite</option>
+                                            <option value="Silver Elite Master">Silver Elite Master</option>
+                                            <option value="Gold Nova 1">Gold Nova 1</option>
+                                            <option value="Gold Nova 2">Gold Nova 2</option>
+                                            <option value="Gold Nova 3">Gold Nova 3</option>
+                                            <option value="Gold Nova Master">Gold Nova Master</option>
+                                            <option value="Master Guardian 1">Master Guardian 1</option>
+                                            <option value="Master Guardian 2">Master Guardian 2</option>
+                                            <option value="Master Guardian Elite">Master Guardian Elite</option>
+                                            <option value="Distingquished Master Guardian">Distingquished Master Guardian</option>
+                                            <option value="Legendary Eagle">Legendary Eagle</option>
+                                            <option value="Legendary Eagle Master">Legendary Eagle Master</option>
+                                            <option value="Supreme Master First Class">Supreme Master First Class</option>
+                                            <option value="The Global Elite">The Global Elite</option>
+                                        </select>
                                     </td>
                                     <td class="btn-td">
                                         <div class="td-div">
@@ -155,7 +192,7 @@ else
                     </tbody>
                 </table>
             </div>
-            <NySpiller clubID="team.club.clubID" teamID="teamID" display="@playerDisplay"/>
+            <NySpiller clubID="team.club.clubID" teamID="teamID" display="@playerDisplay" />
         </section>
     }
 }
@@ -163,6 +200,8 @@ else
 @code {
     [Parameter]
     public Nullable<int> teamID { get; set; }
+
+    public bool IsManager { get; set; }
 
     public string kontaktperson;
 
@@ -201,6 +240,16 @@ else
             await GetClub();
 
             await GetPlayers();
+
+            try
+            {
+                IsManager = await Http.GetFromJsonAsync<bool>($"api/Authentication/isManager?ID1={team.clubID.ToString()}&ID2=0");
+            }
+            catch (AccessTokenNotAvailableException exception)
+            {
+                Console.WriteLine(exception.Message);
+                IsManager = false;
+            }
         }
     }
 
@@ -221,9 +270,10 @@ else
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        team.club = await client.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + team.teamID);
+        team.club = await client.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + team.club.clubID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(team.club);
+        team.clubID = team.club.clubID;
     }
 
     async Task GetPlayers()
@@ -239,6 +289,9 @@ else
 
     async Task HandlePlayerPut(Player player)
     {
+        player.teamID = teamID;
+        player.clubID = team.clubID;
+
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
@@ -247,7 +300,7 @@ else
         await client.PutAsJsonAsync<Player>("api/Player", player);
     }
 
-    async Task Alert(Player player)
+    async void DeleteTeam()
     {
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Er du sikker?");
 
@@ -256,14 +309,33 @@ else
             HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
             client.BaseAddress = new Uri("https://localhost:44341/");
 
-            await client.DeleteAsync("api/Player/Delete/" + player.IGName);
-            NavigationManager.NavigateTo($"/nythold/{teamID}", forceLoad: true);
+            await client.DeleteAsync("api/TeamInformation/Delete/" + teamID);
+
+            NavigationManager.NavigateTo($"/dinklub/{team.club.clubID}", forceLoad: true);
         }
     }
 
-    public async void Delete(Player player)
+    async void PutTeam()
     {
-        await Alert(player);
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        await client.PutAsJsonAsync<Team>("api/TeamInformation", team);
+        NavigationManager.NavigateTo($"/hold/{teamID}", forceLoad: true);
+    }
+
+    async void DeletePlayer(Player player)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Er du sikker?");
+
+        if (confirmed == true)
+        {
+            HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+            client.BaseAddress = new Uri("https://localhost:44341/");
+
+            await client.DeleteAsync("api/Player/Delete/" + player.playerID);
+            NavigationManager.NavigateTo($"/hold/{teamID}", forceLoad: true);
+        }
     }
 
     void ShowPlayer(Player player)

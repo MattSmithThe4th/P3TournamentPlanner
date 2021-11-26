@@ -1,17 +1,66 @@
 ﻿@page "/"
-<section class="main">
-    <div class="img-div col-12">
-        <h1>DGI Nordjysk liga</h1>
-        <a class="btn-link">Tilmeld her</a>
+
+<style>
+    .page {
+        background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(/images/NordjyskligaCover2.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: absolute;
+        height: 700px;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+    }
+    .transition{
+        display: block;
+    }
+</style>
+
+<section class="main-header">
+    <div class="img-div">
+        <h1>Finalestævne i CS:GO</h1>
+        <h3>5. December på Hobro stadion</h3>
+        <a class="btn-link">Se mere her</a>
     </div>
 </section>
-<section class="main main-container col-12">
-    <div class="img-div-2 col-12">
-        <img src="/images/esport-landsmesterskab-28-april-2018.jpg" />
+
+<section class="stilling-section">
+    <div class="header-div">
+        <div class="header">
+            <h3>Nuværende stilling</h3>
+        </div>
     </div>
-      
-    <div class="container">
-        <h2>Om Nordjysk liga</h2>
-        <p>Foreninger vil gerne mødes lokalt og spille kampe – dette ønsker DGI Nordjylland at understøtte så meget som muligt, ved at lave stævner ude i jeres klubber.   Hvis dette ikke er muligt grundet covid-19 så afvikler vi kampene online</p>
+    <hr id="line" />
+    <div class="stilling">
+        <div class="division-div">
+            <h2>1. Division</h2>
+            <StillingTable ID="1" design="frontPage" />
+        </div>
+
+        <div class="division-div">
+            <h2>2. Division</h2>
+            <StillingTable ID="2" design="frontPage" />
+        </div>
+    </div>
+</section>
+
+<section class="info-section">
+    <div class="header-div">
+        <div class="header">
+            <h3>Om Nordjysk liga</h3>
+        </div>
+    </div>
+    <hr id="line" />
+
+    <div class="info">
+        <div class="img-div-2">
+            <img src="/images/esport-landsmesterskab-28-april-2018.jpg" />
+        </div>
+
+        <div class="container">
+            <p class="info-text">Foreninger vil gerne mødes lokalt og spille kampe – dette ønsker DGI Nordjylland at understøtte så meget som muligt, ved at lave stævner ude i jeres klubber.   Hvis dette ikke er muligt grundet covid-19 så afvikler vi kampene online.</p>
+        </div>
     </div>
 </section>

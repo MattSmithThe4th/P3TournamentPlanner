@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrator")]
     public class AdminController : ControllerBase {
 
         private readonly UserManager<ApplicationUser> userManager;
@@ -60,7 +62,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                         teamsInMatch.Add(division.teams[i]);
                         teamsInMatch.Add(division.teams[j]);
 
-                        division.matches.Add(new Match(teamsInMatch, "This is the start time", 0, teamsInMatch[rand.Next(0, 2)].clubID, "This is the ServerIP", "This is the map", 0, 0));
+                        division.matches.Add(new Match(teamsInMatch, "This is the start time", false, teamsInMatch[rand.Next(0, 2)].clubID, "This is the ServerIP", "This is the map", 0, 0));
                     }
                 }
             }
@@ -88,7 +90,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                 command.Parameters.Add(new SqlParameter("managerID", (string)r[4]));
                 DataTable manInfo = db.PullTable(command);
 
-                teamList.Add(new Team((int)r[0], (int)r[1], 0, leagueID, (string)r[2], (int)r[3], 0, 0, 0, 0, 0, 0, 0, 0, new ClubManager(new Contactinfo((string)manInfo.Rows[0][0], (string)manInfo.Rows[0][1], (string)manInfo.Rows[0][2], (string)manInfo.Rows[0][3]), (string)r[4]), false));
+                teamList.Add(new Team((int)r[0], (int)r[1], 0, leagueID, (string)r[2], (int)r[3], 0, 0, 0, 0, 0, 0, 0, 0, new ClubManager(new Contactinfo((string)r[4], (string)manInfo.Rows[0][0], (string)manInfo.Rows[0][1], (string)manInfo.Rows[0][2], (string)manInfo.Rows[0][3]), (string)r[4]), false));
             }
 
             //Division Generation
