@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace P3TournamentPlanner.Server {
     public class GenerateLeague {
         int deadline { get; set; }
-        League liga { get; set; }
         LigaerController ligaController = new LigaerController();
 
         List<int> teamIDs = new List<int>();
@@ -26,37 +25,36 @@ namespace P3TournamentPlanner.Server {
             teamIDs.Add(teamID);
         }
 
-        void CreateLeague() {
-            ligaController.Post(liga);
-
-            CreateDivision();
+        public void CreateLeague(int leagueID, DivisionFormat divFormat) {
+            CreateDivision(leagueID, divFormat);
         }
 
-        void CreateDivision() {
+        void CreateDivision(int leagueID, DivisionFormat divFormat) {
             DivisionController divcon = new DivisionController();
             teams = GrabTeam();
+
             foreach (Division div in divs) {
                 List<Team> sortedTeamList = new List<Team>(); //ny liste af hold der kan sorteres efter teamranking
-                List<int> roundRobin = new List<int>();
+                List<int> sortedTeamIDs = new List<int>();
 
                 //Tager kun holdene i den bestemte division
                 foreach(Team team in teams) if (team.divisionID == div.divisionID) {
                         sortedTeamList.Add(team);
-                    
                 }
 
-                //Sorterer listen af hold i divisionen og tilføjer dem derefter til roundrobin
+                //Sorterer listen af hold i divisionen og tilføjer dem derefter til sorteret liste af IDer
                 sortedTeamList.OrderBy(o => o.teamSkillRating).ToList();
                 foreach (Team sortedTeam in sortedTeamList) {
-                    roundRobin.Add(sortedTeam.teamID);
+                    sortedTeamIDs.Add(sortedTeam.teamID);
                 }
-                //divcon.Post(div);
-                CreateMatches(div.divisionID);
+                
+                CreateMatches(div.divisionID, sortedTeamIDs);
+                divcon.Post(div);
             }
             
         }
 
-        void CreateMatches(int divID) {
+        void CreateMatches(int divID, List<int> teamIDs) {
 
         }
 
