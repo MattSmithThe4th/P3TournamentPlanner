@@ -26,7 +26,8 @@ namespace P3TournamentPlanner.Shared {
             this.matches = matches;
         }
 
-        public Division(List<Team> teams) {
+        public Division(int divisionID, List<Team> teams) {
+            this.divisionID = divisionID;
             this.teams = teams;
         }
     }

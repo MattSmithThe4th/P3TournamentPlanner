@@ -13,6 +13,7 @@
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
+@attribute [Authorize]
 
 <h1>Din klub - @club.name</h1>
 <section class="klub-section">
@@ -185,7 +186,7 @@
             client.BaseAddress = new Uri("https://localhost:44341/");
 
             Console.WriteLine("Get Send");
-            club = await client.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + id);
+            club = await Http.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + id);
             Console.WriteLine("På den anden side");
             Console.WriteLine(club);
 
@@ -199,7 +200,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation/teamTest?clubID=" + id);
+        teams = await Http.GetFromJsonAsync<List<Team>>("api/TeamInformation/teamTest?clubID=" + id);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
 
@@ -212,7 +213,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        clubManagers = await client.GetFromJsonAsync<List<ClubManager>>("api/ClubManager?clubID=" + id);
+        clubManagers = await Http.GetFromJsonAsync<List<ClubManager>>("api/ClubManager?clubID=" + id);
         Console.WriteLine("På den anden side");
         Console.WriteLine(clubManagers);
     }
@@ -226,12 +227,12 @@
 
         if (id == null)
         {
-            await client.PostAsJsonAsync<Club>("api/klub", club);
+            await Http.PostAsJsonAsync<Club>("api/klub", club);
             NavigationManager.NavigateTo("admin");
         }
         else
         {
-            await client.PutAsJsonAsync<Club>("api/Klub", club);
+            await Http.PutAsJsonAsync<Club>("api/Klub", club);
         }
     }
 
@@ -244,7 +245,7 @@
 
         Console.WriteLine(clubManager.userID);
 
-        await client.PutAsJsonAsync<ClubManager>("api/ClubManager", clubManager);
+        await Http.PutAsJsonAsync<ClubManager>("api/ClubManager", clubManager);
     }
 
     async Task HandleManagerPost()
@@ -301,7 +302,7 @@
             HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
             client.BaseAddress = new Uri("https://localhost:44341/");
 
-            await client.DeleteAsync("api/ClubManager/Delete/" + clubManager.userID);
+            await Http.DeleteAsync("api/ClubManager/Delete/" + clubManager.userID);
             NavigationManager.NavigateTo($"/dinklub/{club.clubID}", forceLoad: true);
         }
     }

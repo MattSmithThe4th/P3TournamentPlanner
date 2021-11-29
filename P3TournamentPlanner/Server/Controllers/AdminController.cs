@@ -51,8 +51,28 @@ namespace P3TournamentPlanner.Server.Controllers {
             //Waht ever.. Det må sp vente xd
             //Datacollection
             DatabaseQuerys db = new DatabaseQuerys();
-            DataTable dt;
-            SqlCommand command = new SqlCommand("select ");
+            DataTable divTable;
+            DataTable teamTable;
+
+            SqlCommand command = new SqlCommand("select * from DivisionsDB where leagueID = @leagueID");
+            command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+            divTable = db.PullTable(command);
+
+            foreach(DataRow r in divTable.Rows) {
+                divisions.Add(new Division());
+            }
+
+            command = new SqlCommand("select * from TeamsDB where leagueID = @leagueID");
+            command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+            teamTable = db.PullTable(command);
+
+
+            // LAV DET HER SHIT FÆRDIG :))))
+            foreach(DataRow r in teamTable.Rows) {
+                divisions[(int)r[2] - 1].teams.Add(new Team()
+            }
+
+
 
             //Logic
             foreach(Division division in divisions) {
@@ -101,7 +121,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
 
             for(int i = 0; i < divisionAmount; i++) {
-                divisions.Add(new Division(new List<Team>()));
+                divisions.Add(new Division(i, new List<Team>()));
                 Console.WriteLine("Teams left pre: " + teamsLeft);
                 Console.WriteLine($"Division left pre: {divisionAmount - i}");
                 Console.WriteLine($"There are {Math.Ceiling(((float)teamsLeft / ((float)divisionAmount - i)))} teams in division {i + 1}");
@@ -116,7 +136,6 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             return divisions;
         }
-
 
         [HttpPost("changeRole")]
         public async Task PostRole([FromBody] User user, [FromHeader] bool toBecomeAdmin) {

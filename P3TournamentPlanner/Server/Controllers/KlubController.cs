@@ -13,6 +13,7 @@ namespace P3TournamentPlanner.Server.Controllers {
     [ApiController]
     public class KlubController : ControllerBase {
 
+        [Authorize]
         [HttpGet("klub")]
         public Club Get(int clubID)
         {

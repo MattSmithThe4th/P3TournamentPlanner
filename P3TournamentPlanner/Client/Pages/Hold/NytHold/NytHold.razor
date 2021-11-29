@@ -154,7 +154,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        clubManagers = await client.GetFromJsonAsync<List<ClubManager>>("api/ClubManager?clubID=" + clubID);
+        clubManagers = await Http.GetFromJsonAsync<List<ClubManager>>("api/ClubManager?clubID=" + clubID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(clubManagers);
     }
@@ -165,7 +165,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        teams = await client.GetFromJsonAsync<List<Team>>("api/TeamInformation/teamTest?clubID=" + clubID);
+        teams = await Http.GetFromJsonAsync<List<Team>>("api/TeamInformation/teamTest?clubID=" + clubID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(teams);
     }
