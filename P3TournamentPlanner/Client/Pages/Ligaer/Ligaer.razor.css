@@ -2,24 +2,14 @@
     margin-top: 4vh;
 }
 
-.liga-section h2 {
-    margin: 0;
-}
-
 .liga-container {
-    background-color: #3e3e3e;
-    padding: 10px;
-    max-width: 500px;
-}
-
-.liga-div {
     display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
 }
 
 .btn-primary {
-    padding: 5px;
-    height: 30px;
-    margin-left: 3vw;
+    height: 36px;
 }
 
 h1 {
@@ -30,6 +20,27 @@ h1 {
 #explainer {
     margin: 0;
     font-size: large;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    width: 100%;
+    font-size: medium;
+}
+
+td, th {
+    padding: 0.35rem;
+    text-align: left;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #3e3e3e;
+}
+
+tbody tr {
+    margin-top: 5px;
+    background-color: #3e3e3e;
 }
 
 @media only screen and (max-width: 700px) {

@@ -1,6 +1,7 @@
 ﻿.header-div {
     margin-top: 5vh;
     display: flex;
+    justify-content: space-between;
 }
 
 .header-div h2 {
@@ -56,4 +57,8 @@ tbody tr {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.btn-primary {
+    height: 36px;
 }

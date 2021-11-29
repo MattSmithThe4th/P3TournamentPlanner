@@ -75,8 +75,11 @@ else
         </style>
         <section class="manager-section">
             <div class="header-div">
-                <h2>Trænere</h2>
+                <div class="header">
+                    <h3>Trænere</h3>
+                </div>
             </div>
+            <hr id="line" />
             <div class="table-container">
                 <table>
                     <thead>
@@ -97,20 +100,19 @@ else
                     </tbody>
                 </table>
             </div>
-            <div>
-                @*<EditForm>
-                        <label>Tilføj træner</label>
-                    </EditForm>*@
-            </div>
         </section>
 
         <section class="player-section">
             <div class="header-div">
-                <h2>Spillere</h2>
-                <div class="btn-div">
-                    <button class="btn-primary btn-klubadmin" @onclick="ShowNewPlayer">Opret ny spiller</button>
+                <div class="header">
+                    <h3>Spillere</h3>
                 </div>
+                @if (IsManager)
+                {
+                    <button class="btn-primary" @onclick="ShowNewPlayer">Opret ny spiller</button>
+                }
             </div>
+            <hr id="line" />
             <div class="table-container">
                 <table>
                     <thead>
@@ -129,16 +131,19 @@ else
                                 <td>@player.IGName</td>
                                 <td>@player.steamID</td>
                                 <td>@player.CSGORank</td>
-                                <td class="btn-td">
-                                    <div class="td-div">
-                                        <button class="btn" @onclick="() => ShowPlayer(player)">Rediger</button>
-                                    </div>
-                                </td>
-                                <td class="btn-td">
-                                    <div class="td-div">
-                                        <button class="btn" @onclick="() => DeletePlayer(player)">Slet</button>
-                                    </div>
-                                </td>
+                                @if (IsManager)
+                                {
+                                    <td class="btn-td">
+                                        <div class="td-div">
+                                            <button class="btn" @onclick="() => ShowPlayer(player)">Rediger</button>
+                                        </div>
+                                    </td>
+                                    <td class="btn-td">
+                                        <div class="td-div">
+                                            <button class="btn" @onclick="() => DeletePlayer(player)">Slet</button>
+                                        </div>
+                                    </td>
+                                }
                             </tr>
 
                             @if (IGName == player.IGName)
