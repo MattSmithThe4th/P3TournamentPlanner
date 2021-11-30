@@ -4,12 +4,46 @@ using System.Collections.Generic;
 namespace P3TournamentPlanner.Shared {
     public class Club {
 
-        public int clubID { get; set; }
-        public string name { get; set; }
+        private int _clubid;
+        public int clubID { 
+            get {
+                return _clubid;
+            }
+            set {
+                if(value < 1) {
+                    throw new ArgumentException("ClubID can not be less than 1");
+                } else {
+                    _clubid = value;
+                }
+            } 
+        }
+        private string _name;
+        public string name {
+            get {
+                return _name;
+            } set {
+                if((value == "") || (value == null)) {
+                    throw new ArgumentException("Name cannot be null or an empty string");
+                } else {
+                    _name = value;
+                }
+            }
+        }
         public List<Player> players { get; set; }
         public List<Team> teams { get; set; }
         public List<ClubManager> clubManagers { get; set; }
-        public string address { get; set; }
+        private string _address;
+        public string address {
+            get {
+                return _address;
+            } set {
+                if((value == "") || (value == null)) {
+                    throw new ArgumentException("Address cannot be null or an empty string");
+                } else {
+                    _address = value;
+                }
+            }
+        }
         public string base64Logo { get; set; }
 
         public Club() {

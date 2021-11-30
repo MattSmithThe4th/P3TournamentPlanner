@@ -3,26 +3,193 @@ using System.Collections.Generic;
 
 namespace P3TournamentPlanner.Shared {
     public class Team {
-        public int teamID { get; set; }
-        public int clubID { get; set; }
-        public int divisionID { get; set; }
-        public int leagueID { get; set; }
-        public string teamName { get; set; }
-        public int teamSkillRating { get; set; }
+        private int _teamid;
+        public int teamID {
+            get {
+                return _teamid;
+            }
+            set {
+                if(value < 1) {
+                    throw new ArgumentException("TeamID can not be less than 1");
+                } else {
+                    _teamid = value;
+                }
+            }
+        }
+        private int _clubid;
+        public int clubID {
+            get {
+                return _clubid;
+            }
+            set {
+                if(value < 1) {
+                    throw new ArgumentException("ClubID can not be less than 1");
+                } else {
+                    _clubid = value;
+                }
+            }
+        }
+        private int _divisionid;
+        public int divisionID {
+            get {
+                return _divisionid;
+            }
+            set {
+                if(value < 1) {
+                    throw new ArgumentException("DivisionID can not be less than 1");
+                } else {
+                    _divisionid = value;
+                }
+            }
+        }
+        private int _leagueid;
+        public int leagueID {
+            get {
+                return _leagueid;
+            }
+            set {
+                if(value < 1) {
+                    throw new ArgumentException("LeagueID can not be less than 1");
+                } else {
+                    _leagueid = value;
+                }
+            }
+        }
+        private string _teamname;
+        public string teamName {
+            get {
+                return _teamname;
+            }
+            set {
+                if((value == "") || (value == null)) {
+                    throw new ArgumentException("TeamName cannot be null or an empty string");
+                } else {
+                    _teamname = value;
+                }
+            }
+        }
+        private int _teamskillrating;
+        public int teamSkillRating {
+            get {
+                return _teamskillrating;
+            }
+            set {
+                if(value < 0) {
+                    throw new ArgumentException("TeamSkillRating cannot be less than 0");
+                } else {
+                    _teamskillrating = value;
+                }
+            }
+        }
         public ClubManager manager { get; set; }
         public Club club { get; set; }
         public List<Player> players = new List<Player>();
-        public int roundsWon { get; set; }
-        public int roundsLost { get; set; }
+        private int _roundswon;
+        public int roundsWon {
+            get {
+                return _roundswon;
+            } set {
+                if(value < 0) {
+                    throw new ArgumentException("RoundsWon cannot be less than 0");
+                } else {
+                    _roundswon = value;
+                }
+            }
+        }
+        private int _roundslost;
+        public int roundsLost {
+            get {
+                return _roundslost;
+            }
+            set {
+                if(value < 0) {
+                    throw new ArgumentException("RoundsLost cannot be less than 0");
+                } else {
+                    _roundslost = value;
+                }
+            }
+        }
         public bool archiveFlag { get; set; }
 
         //stillings ting
-        public int placement { get; set; }
-        public int matchesPlayed { get; set; }
-        public int matchesWon { get; set; }
-        public int matchesDraw { get; set; }
-        public int matchesLost { get; set; }
-        public int points { get; set; }
+        private int _placement;
+        public int placement {
+            get {
+                return _placement;
+            }
+            set {
+                if(value < 1) {
+                    throw new ArgumentException("Placement can not be less than 1");
+                } else {
+                    _placement = value;
+                }
+            }
+        }
+        private int _matchesplayed;
+        public int matchesPlayed {
+            get {
+                return _matchesplayed;
+            }
+            set {
+                if(value < 0) {
+                    throw new ArgumentException("MatchesPlayed can not be less than 1");
+                } else {
+                    _matchesplayed = value;
+                }
+            }
+        }
+        private int _matcheswon;
+        public int matchesWon {
+            get {
+                return _matcheswon;
+            }
+            set {
+                if(value < 0) {
+                    throw new ArgumentException("MatchesWon can not be less than 1");
+                } else {
+                    _matcheswon = value;
+                }
+            }
+        }
+        private int _matchesdraw;
+        public int matchesDraw {
+            get {
+                return _matchesdraw;
+            }
+            set {
+                if(value < 0) {
+                    throw new ArgumentException("MatchesDraw can not be less than 1");
+                } else {
+                    _matchesdraw = value;
+                }
+            }
+        }
+        private int _matcheslost;
+        public int matchesLost {
+            get {
+                return _matcheslost;
+            }
+            set {
+                if(value < 0) {
+                    throw new ArgumentException("MatchesLost can not be less than 1");
+                } else {
+                    _matcheslost = value;
+                }
+            }
+        }
+        private int _points;
+        public int points {
+            get {
+                return _points;
+            }
+            set {
+                if(value < 0) {
+                    throw new ArgumentException("Points can not be less than 1");
+                } else {
+                    _points = value;
+                }
+            }
+        }
 
         public Team(string name) {
             this.teamName = name;
