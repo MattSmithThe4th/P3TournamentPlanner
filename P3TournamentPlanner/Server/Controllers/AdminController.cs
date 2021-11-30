@@ -47,9 +47,6 @@ namespace P3TournamentPlanner.Server.Controllers {
             Random rand = new Random();
             List<Division> divisions = new List<Division>();
 
-            //DET KAN IKKE LAVES FØR VI FOR LAVET EN POST AF HOLD.d
-            //Waht ever.. Det må sp vente xd
-            //Datacollection
             DatabaseQuerys db = new DatabaseQuerys();
             DataTable divTable;
             DataTable teamTable;
@@ -69,10 +66,12 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             // LAV DET HER SHIT FÆRDIG :))))
             foreach(DataRow r in teamTable.Rows) {
-                divisions[(int)r[2] - 1].teams.Add(new Team()
+                command = new SqlCommand("select * from ContactInfoDB where userID = @userID");
+                command.Parameters.Add(new SqlParameter("userID", (int)r[14]));
+                DataTable ciTable = db.PullTable(command);
+
+                divisions[(int)r[2] - 1].teams.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], new ClubManager(new Contactinfo((string)ciTable.Rows[0][0], (string)ciTable.Rows[0][1], (string)ciTable.Rows[0][2], (string)ciTable.Rows[0][3], (string)ciTable.Rows[0][4]))));
             }
-
-
 
             //Logic
             foreach(Division division in divisions) {

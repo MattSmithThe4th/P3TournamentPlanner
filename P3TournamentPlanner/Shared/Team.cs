@@ -297,6 +297,17 @@ namespace P3TournamentPlanner.Shared {
             this.points = points;
         }
 
+        //Used in genMatches
+        public Team(int teamID, int clubID, int divisionID, int leagueID, string teamName, int teamSkillRating, ClubManager manager) {
+            this.teamID = teamID;
+            this.clubID = clubID;
+            this.divisionID = divisionID;
+            this.leagueID = leagueID;
+            this.teamName = teamName;
+            this.teamSkillRating = teamSkillRating;
+            this.manager = manager;
+        }
+
         //den nemme løsning. hvis vi vil være fancy kan vi lave et weighted system
         private int calculateTeamSkillRating(List<Player> players) {
             int rating = 0;
