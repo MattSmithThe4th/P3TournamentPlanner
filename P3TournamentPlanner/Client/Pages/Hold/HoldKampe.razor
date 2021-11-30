@@ -32,6 +32,8 @@ else
         <h3>Ændre hold</h3>
         <div>
             <EditForm Model="team" OnValidSubmit="PutTeam">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
                 <div class="hold-form">
                     <div class="name-input-div">
                         <label>Hold navn:</label>
@@ -42,8 +44,6 @@ else
                         <button class="btn-primary" @onclick="DeleteTeam">Slet hold</button>
                     </div>
                 </div>
-                <DataAnnotationsValidator />
-                <ValidationSummary />
             </EditForm>
         </div>
     }
@@ -156,6 +156,8 @@ else
 
                                 @if (p.IGName == player.IGName)
                                 {
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
                                     <tr class="edittr">
                                         <td class="edit">
                                             <label>Navn:</label>
@@ -205,8 +207,6 @@ else
                             }
                         </tbody>
                     </table>
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
                 </EditForm>
                         </div>
             <NySpiller clubID="team.club.clubID" teamID="teamID" display="@playerDisplay" />
