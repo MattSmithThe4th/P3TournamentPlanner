@@ -99,26 +99,31 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpGet("genDivisions")]
-        public List<Division> GenerateDivisions(int leagueID, int divisionAmount) {
+        public List<Division> GenerateDivisions(int leagueID, int divisionAmount, bool? testing, List<Team>? testTeamList) {
             List<Division> divisions = new List<Division>();
             List<Team> teamList = new List<Team>();
 
             //Datacollection
-            DatabaseQuerys db = new DatabaseQuerys();
-            DataTable dt;
 
-            SqlCommand command = new SqlCommand("select teamID, clubID, teamName, teamRating, managerID from TeamsDB where leagueID = @leagueID and divisionID = 0");
-            command.Parameters.Add(new SqlParameter("leagueID", leagueID));
-            //command.Parameters.Add(new SqlParameter("divisionID", (bigint)0));
-            dt = db.PullTable(command);
+            if(testing == true) {
+                teamList = testTeamList;
+            } else {
+                DatabaseQuerys db = new DatabaseQuerys();
+                DataTable dt;
 
-            //1teamID, 2clubID, 3teamName, 4teamRating, 5managerID
-            foreach(DataRow r in dt.Rows) {
-                command = new SqlCommand("select contactName, tlfNumber, discordID, email from ContactInfoDB where userID = @managerID");
-                command.Parameters.Add(new SqlParameter("managerID", (string)r[4]));
-                DataTable manInfo = db.PullTable(command);
+                SqlCommand command = new SqlCommand("select teamID, clubID, teamName, teamRating, managerID from TeamsDB where leagueID = @leagueID and divisionID = 0");
+                command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+                //command.Parameters.Add(new SqlParameter("divisionID", (bigint)0));
+                dt = db.PullTable(command);
 
-                teamList.Add(new Team((int)r[0], (int)r[1], 0, leagueID, (string)r[2], (int)r[3], 0, 0, 0, 0, 0, 0, 0, 0, new ClubManager(new Contactinfo((string)r[4], (string)manInfo.Rows[0][0], (string)manInfo.Rows[0][1], (string)manInfo.Rows[0][2], (string)manInfo.Rows[0][3]), (string)r[4]), false));
+                //1teamID, 2clubID, 3teamName, 4teamRating, 5managerID
+                foreach(DataRow r in dt.Rows) {
+                    command = new SqlCommand("select contactName, tlfNumber, discordID, email from ContactInfoDB where userID = @managerID");
+                    command.Parameters.Add(new SqlParameter("managerID", (string)r[4]));
+                    DataTable manInfo = db.PullTable(command);
+
+                    teamList.Add(new Team((int)r[0], (int)r[1], 0, leagueID, (string)r[2], (int)r[3], 0, 0, 0, 0, 0, 0, 0, 0, new ClubManager(new Contactinfo((string)r[4], (string)manInfo.Rows[0][0], (string)manInfo.Rows[0][1], (string)manInfo.Rows[0][2], (string)manInfo.Rows[0][3]), (string)r[4]), false));
+                }
             }
 
             //Division Generation

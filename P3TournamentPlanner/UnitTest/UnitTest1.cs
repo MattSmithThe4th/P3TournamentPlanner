@@ -123,6 +123,108 @@ namespace UnitTest {
             }
         };
 
+        //ID, TeamList
+        private static readonly object[] genDivSource = {
+            new object[] {
+                1,
+                2,
+                true,
+                new List<Team> {
+                    new Team {
+                        teamID = 1,
+                        clubID = 1,
+                        teamName = "Team1",
+                        teamSkillRating = 420,
+                        manager = new ClubManager {
+                            contactinfo = new Contactinfo {
+                                userID = "Team1ManID",
+                                name = "Team1ManName",
+                                tlfNr = "Team1ManTlf",
+                                discordID = "Team1ManDisc",
+                                email = "Team1ManMail"
+                            }
+                        }
+                    },
+                    new Team {
+                        teamID = 2,
+                        clubID = 2,
+                        teamName = "Team2",
+                        teamSkillRating = 415,
+                        manager = new ClubManager {
+                            contactinfo = new Contactinfo {
+                                userID = "Team2ManID",
+                                name = "Team2ManName",
+                                tlfNr = "Team2ManTlf",
+                                discordID = "Team2ManDisc",
+                                email = "Team2ManMail"
+                            }
+                        }
+                    },
+                    new Team {
+                        teamID = 3,
+                        clubID = 1,
+                        teamName = "Team3",
+                        teamSkillRating = 400,
+                        manager = new ClubManager {
+                            contactinfo = new Contactinfo {
+                                userID = "Team3ManID",
+                                name = "Team3ManName",
+                                tlfNr = "Team3ManTlf",
+                                discordID = "Team3ManDisc",
+                                email = "Team3ManMail"
+                            }
+                        }
+                    },
+                    new Team {
+                        teamID = 4,
+                        clubID = 2,
+                        teamName = "Team4",
+                        teamSkillRating = 370,
+                        manager = new ClubManager {
+                            contactinfo = new Contactinfo {
+                                userID = "Team4ManID",
+                                name = "Team4ManName",
+                                tlfNr = "Team4ManTlf",
+                                discordID = "Team4ManDisc",
+                                email = "Team4ManMail"
+                            }
+                        }
+                    },
+                    new Team {
+                        teamID = 5,
+                        clubID = 1,
+                        teamName = "Team5",
+                        teamSkillRating = 320,
+                        manager = new ClubManager {
+                            contactinfo = new Contactinfo {
+                                userID = "Team5ManID",
+                                name = "Team5ManName",
+                                tlfNr = "Team5ManTlf",
+                                discordID = "Team5ManDisc",
+                                email = "Team5ManMail"
+                            }
+                        }
+                    },
+                },
+                new List<int> {
+                    3,
+                    2
+                },
+                new List<List<string>> {
+                    new List<string> {
+                        "Team1",
+                        "Team2",
+                        "Team3"
+                    },
+                    new List<string> {
+                        "Team4",
+                        "Team5"
+                    }
+                }
+
+            }
+        };
+
         //[TestCase(1, true, testDivList)]
         [TestCaseSource("genMatchSource")]
         public void GenMatchTest(int leagueID, bool testing, List<Division> testDivList, List<int> expectedMatchAmount) {
@@ -131,6 +233,25 @@ namespace UnitTest {
             testDivList = sut.GenerateMatches(leagueID, testing, testDivList);
             foreach(Division div in testDivList) {
                 Assert.That(div.matches.Count, Is.EqualTo(expectedMatchAmount[count]));
+                count++;
+            }
+        }
+
+        [TestCaseSource("genDivSource")]
+        public void GenDivTest(int leagueID, int divisionAmount, bool testing, List<Team> testTeamList, List<int> expectedTeamAmount, List<List<string>> expectedTeamNames) {
+            var sut = new AdminController();
+
+            List<Division> res = sut.GenerateDivisions(leagueID, divisionAmount, testing, testTeamList);
+
+            int count = 0;
+
+            foreach(List<string> sList in expectedTeamNames) {
+                Assert.That(res[count].teams.Count, Is.EqualTo(expectedTeamAmount[count]));
+                int count2 = 0;
+                foreach(string s in sList) {
+                    Assert.That(res[count].teams[count2].teamName, Is.EqualTo(s));
+                    count2++;
+                }
                 count++;
             }
         }
