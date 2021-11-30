@@ -14,5 +14,6 @@ namespace P3TournamentPlanner.Shared {
         public string ID { get; set; }
         public string email { get; set; }
         public List<string> roles { get; set; }
+
     }
 }

@@ -30,6 +30,9 @@ namespace P3TournamentPlanner.Server.Controllers {
             this.roleManager = roleManager;
         }
 
+        public AdminController() {
+        }
+
         [HttpGet("users")]
         public List<User> GetUsersAsync() {
             //List<ApplicationUser> appUserList = userManager.Users.ToList<ApplicationUser>();
@@ -43,34 +46,40 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpGet("genMatches")]
-        public List<Division> GenerateMatches(int leagueID) {
+        public List<Division> GenerateMatches(int leagueID, bool? testing, List<Division>? testDivList) {
             Random rand = new Random();
             List<Division> divisions = new List<Division>();
 
-            DatabaseQuerys db = new DatabaseQuerys();
-            DataTable divTable;
-            DataTable teamTable;
+            if(testing == true) {
+                //For Unit Testing
+                divisions = testDivList;
+            } else {
+                //Production
+                DatabaseQuerys db = new DatabaseQuerys();
+                DataTable divTable;
+                DataTable teamTable;
 
-            SqlCommand command = new SqlCommand("select * from DivisionsDB where leagueID = @leagueID");
-            command.Parameters.Add(new SqlParameter("leagueID", leagueID));
-            divTable = db.PullTable(command);
+                SqlCommand command = new SqlCommand("select * from DivisionsDB where leagueID = @leagueID");
+                command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+                divTable = db.PullTable(command);
 
-            foreach(DataRow r in divTable.Rows) {
-                divisions.Add(new Division());
-            }
+                foreach(DataRow r in divTable.Rows) {
+                    divisions.Add(new Division());
+                }
 
-            command = new SqlCommand("select * from TeamsDB where leagueID = @leagueID");
-            command.Parameters.Add(new SqlParameter("leagueID", leagueID));
-            teamTable = db.PullTable(command);
+                command = new SqlCommand("select * from TeamsDB where leagueID = @leagueID");
+                command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+                teamTable = db.PullTable(command);
 
 
-            // LAV DET HER SHIT FÆRDIG :))))
-            foreach(DataRow r in teamTable.Rows) {
-                command = new SqlCommand("select * from ContactInfoDB where userID = @userID");
-                command.Parameters.Add(new SqlParameter("userID", (int)r[14]));
-                DataTable ciTable = db.PullTable(command);
+                // LAV DET HER SHIT FÆRDIG :))))
+                foreach(DataRow r in teamTable.Rows) {
+                    command = new SqlCommand("select * from ContactInfoDB where userID = @userID");
+                    command.Parameters.Add(new SqlParameter("userID", (int)r[14]));
+                    DataTable ciTable = db.PullTable(command);
 
-                divisions[(int)r[2] - 1].teams.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], new ClubManager(new Contactinfo((string)ciTable.Rows[0][0], (string)ciTable.Rows[0][1], (string)ciTable.Rows[0][2], (string)ciTable.Rows[0][3], (string)ciTable.Rows[0][4]))));
+                    divisions[(int)r[2] - 1].teams.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], new ClubManager(new Contactinfo((string)ciTable.Rows[0][0], (string)ciTable.Rows[0][1], (string)ciTable.Rows[0][2], (string)ciTable.Rows[0][3], (string)ciTable.Rows[0][4]))));
+                }
             }
 
             //Logic
