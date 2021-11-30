@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace P3TournamentPlanner.Shared {
     public class Team {
@@ -7,6 +10,8 @@ namespace P3TournamentPlanner.Shared {
         public int clubID { get; set; }
         public int divisionID { get; set; }
         public int leagueID { get; set; }
+
+        [Required(ErrorMessage = "Navn mangler")]
         public string teamName { get; set; }
         public int teamSkillRating { get; set; }
         public ClubManager manager { get; set; }

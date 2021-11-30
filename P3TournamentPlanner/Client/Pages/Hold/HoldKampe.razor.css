@@ -53,12 +53,11 @@ tbody tr {
     background-color: #3e3e3e;
 }
 
-.hold-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
 .btn-primary {
     height: 36px;
+}
+
+.hold-form {
+    display: flex;
+    justify-content: space-between;
 }

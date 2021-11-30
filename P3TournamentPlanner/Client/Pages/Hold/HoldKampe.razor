@@ -1,6 +1,7 @@
 ﻿@using P3TournamentPlanner.Shared;
 @using System;
 @using System.Collections.Generic;
+@using System.Net;
 @using Microsoft.AspNetCore.Authorization;
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using System.Linq;
@@ -29,15 +30,21 @@ else
     @if (IsManager)
     {
         <h3>Ændre hold</h3>
-        <div class="hold-info">
-            <div class="name-input-div">
-                <label>Hold navn:</label>
-                <input type="text" @bind-value="team.teamName" />
-            </div>
-            <div>
-                <button class="btn-primary" @onclick="PutTeam">Gem Hold</button>
-                <button class="btn-primary" @onclick="DeleteTeam">Slet hold</button>
-            </div>
+        <div>
+            <EditForm Model="team" OnValidSubmit="PutTeam">
+                <div class="hold-form">
+                    <div class="name-input-div">
+                        <label>Hold navn:</label>
+                        <input type="text" @bind-value="team.teamName" />
+                    </div>
+                    <div>
+                        <button class="btn-primary" type="submit">Gem Hold</button>
+                        <button class="btn-primary" @onclick="DeleteTeam">Slet hold</button>
+                    </div>
+                </div>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+            </EditForm>
         </div>
     }
 
@@ -325,8 +332,14 @@ else
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        await client.PutAsJsonAsync<Team>("api/TeamInformation", team);
-        NavigationManager.NavigateTo($"/hold/{teamID}", forceLoad: true);
+        var result = await client.PutAsJsonAsync<Team>("api/TeamInformation", team);
+
+        if (result.StatusCode == HttpStatusCode.Forbidden)
+        {
+            Console.WriteLine("Navn allerede taget");
+        }
+        else
+            NavigationManager.NavigateTo($"/hold/{teamID}", forceLoad: true);
     }
 
     async void DeletePlayer(Player player)
