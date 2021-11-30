@@ -121,89 +121,94 @@ else
             </div>
             <hr id="line" />
             <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Navn</th>
-                            <th>In-game navn</th>
-                            <th>STEAM_ID</th>
-                            <th>Rank</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (Player player in team.players)
-                        {
+                <EditForm Model="p" OnValidSubmit="HandlePlayerPut">
+                    <table>
+                        <thead>
                             <tr>
-                                <td>@player.IRLName</td>
-                                <td>@player.IGName</td>
-                                <td>@player.steamID</td>
-                                <td>@player.CSGORank</td>
-                                @if (IsManager)
-                                {
-                                    <td class="btn-td">
-                                        <div class="td-div">
-                                            <button class="btn" @onclick="() => ShowPlayer(player)">Rediger</button>
-                                        </div>
-                                    </td>
-                                    <td class="btn-td">
-                                        <div class="td-div">
-                                            <button class="btn" @onclick="() => DeletePlayer(player)">Slet</button>
-                                        </div>
-                                    </td>
-                                }
+                                <th>Navn</th>
+                                <th>In-game navn</th>
+                                <th>STEAM_ID</th>
+                                <th>Rank</th>
                             </tr>
-
-                            @if (IGName == player.IGName)
+                        </thead>
+                        <tbody>
+                            @foreach (Player player in team.players)
                             {
-                                <tr class="edittr" id="@player.IGName">
-                                    <td class="edit">
-                                        <label>Navn:</label>
-                                        <input @bind="player.IRLName" />
-                                    </td>
-                                    <td class="edit">
-                                        <label>In-Game navn:</label>
-                                        <input @bind="player.IGName" />
-                                    </td>
-                                    <td class="edit">
-                                        <label>STEAM-ID:</label>
-                                        <input @bind="player.steamID" />
-                                    </td>
-                                    <td class="edit">
-                                        <label>Rank:</label>
-                                        <select @bind="player.CSGORank">
-                                            <option value="">Vælg rank</option>
-                                            <option value="Silver 1">Silver 1</option>
-                                            <option value="Silver 2">Silver 2</option>
-                                            <option value="Silver 3">Silver 3</option>
-                                            <option value="Silver 4">Silver 4</option>
-                                            <option value="Silver Elite">Silver Elite</option>
-                                            <option value="Silver Elite Master">Silver Elite Master</option>
-                                            <option value="Gold Nova 1">Gold Nova 1</option>
-                                            <option value="Gold Nova 2">Gold Nova 2</option>
-                                            <option value="Gold Nova 3">Gold Nova 3</option>
-                                            <option value="Gold Nova Master">Gold Nova Master</option>
-                                            <option value="Master Guardian 1">Master Guardian 1</option>
-                                            <option value="Master Guardian 2">Master Guardian 2</option>
-                                            <option value="Master Guardian Elite">Master Guardian Elite</option>
-                                            <option value="Distingquished Master Guardian">Distingquished Master Guardian</option>
-                                            <option value="Legendary Eagle">Legendary Eagle</option>
-                                            <option value="Legendary Eagle Master">Legendary Eagle Master</option>
-                                            <option value="Supreme Master First Class">Supreme Master First Class</option>
-                                            <option value="The Global Elite">The Global Elite</option>
-                                        </select>
-                                    </td>
-                                    <td class="btn-td">
-                                        <div class="td-div">
-                                            <button class="btn" @onclick="() => HandlePlayerPut(player)">Gem</button>
-                                        </div>
-                                    </td>
-                                    <td></td>
+                                <tr>
+                                    <td>@player.IRLName</td>
+                                    <td>@player.IGName</td>
+                                    <td>@player.steamID</td>
+                                    <td>@player.CSGORank</td>
+                                    @if (IsManager)
+                                    {
+                                        <td class="btn-td">
+                                            <div class="td-div">
+                                                <button class="btn" type="button" @onclick="() => ShowPlayer(player)">Rediger</button>
+                                            </div>
+                                        </td>
+                                        <td class="btn-td">
+                                            <div class="td-div">
+                                                <button class="btn" @onclick="() => DeletePlayer(player)">Slet</button>
+                                            </div>
+                                        </td>
+                                    }
                                 </tr>
+
+                                @if (p.IGName == player.IGName)
+                                {
+                                    <tr class="edittr">
+                                        <td class="edit">
+                                            <label>Navn:</label>
+                                            <input @bind-value="player.IRLName" />
+                                        </td>
+                                        <td class="edit">
+                                            <label>In-Game navn:</label>
+                                            <input @bind-value="player.IGName" />
+                                        </td>
+                                        <td class="edit">
+                                            <label>STEAM-ID:</label>
+                                            <input @bind-value="player.steamID" />
+                                        </td>
+                                        <td class="edit">
+                                            <label>Rank:</label>
+                                            <InputSelect @bind-Value="player.CSGORank">
+                                                <option value="">Vælg rank</option>
+                                                <option value="Silver 1">Silver 1</option>
+                                                <option value="Silver 2">Silver 2</option>
+                                                <option value="Silver 3">Silver 3</option>
+                                                <option value="Silver 4">Silver 4</option>
+                                                <option value="Silver Elite">Silver Elite</option>
+                                                <option value="Silver Elite Master">Silver Elite Master</option>
+                                                <option value="Gold Nova 1">Gold Nova 1</option>
+                                                <option value="Gold Nova 2">Gold Nova 2</option>
+                                                <option value="Gold Nova 3">Gold Nova 3</option>
+                                                <option value="Gold Nova Master">Gold Nova Master</option>
+                                                <option value="Master Guardian 1">Master Guardian 1</option>
+                                                <option value="Master Guardian 2">Master Guardian 2</option>
+                                                <option value="Master Guardian Elite">Master Guardian Elite</option>
+                                                <option value="Distingquished Master Guardian">Distingquished Master Guardian</option>
+                                                <option value="Legendary Eagle">Legendary Eagle</option>
+                                                <option value="Legendary Eagle Master">Legendary Eagle Master</option>
+                                                <option value="Supreme Master First Class">Supreme Master First Class</option>
+                                                <option value="The Global Elite">The Global Elite</option>
+                                            </InputSelect>
+                                        </td>
+                                        <td class="btn-td">
+                                            <div class="td-div">
+                                                <button type="submit" class="btn">Gem</button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                </EditForm>
+                        </div>
             <NySpiller clubID="team.club.clubID" teamID="teamID" display="@playerDisplay" />
         </section>
     }
@@ -212,6 +217,8 @@ else
 @code {
     [Parameter]
     public Nullable<int> teamID { get; set; }
+
+    public Player p = new Player();
 
     public bool IsManager { get; set; }
 
@@ -297,19 +304,20 @@ else
         team.players = await client.GetFromJsonAsync<List<Player>>("api/Player?teamID=" + teamID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(team.players);
+        StateHasChanged();
     }
 
-    async Task HandlePlayerPut(Player player)
+    async Task HandlePlayerPut()
     {
-        player.teamID = teamID;
-        player.clubID = team.clubID;
+        p.teamID = teamID;
+        p.clubID = team.clubID;
 
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        ShowPlayer(player);
+        await client.PutAsJsonAsync<Player>("api/Player", p);
 
-        await client.PutAsJsonAsync<Player>("api/Player", player);
+        ShowPlayer(p);
     }
 
     async void DeleteTeam()
@@ -361,9 +369,12 @@ else
         if (player.IGName == IGName)
         {
             IGName = "";
+            p = new Player();
+            InvokeAsync(GetPlayers);
         }
         else
         {
+            p = player;
             IGName = player.IGName;
         }
     }

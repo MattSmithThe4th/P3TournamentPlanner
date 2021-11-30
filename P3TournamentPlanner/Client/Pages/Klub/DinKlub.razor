@@ -17,7 +17,9 @@
 <h1>Din klub - @club.name</h1>
 <section class="klub-section">
     <div class="klub-info">
-        <EditForm Model="club" OnSubmit="HandleClubSubmit">
+        <EditForm Model="club" OnValidSubmit="HandleClubSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
             <label for="navn">Navn:</label>
             <InputText @bind-Value="club.name" id="navn" type="text" />
 
@@ -37,65 +39,72 @@
         </div>
     </div>
     <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Navn</th>
-                    <th>Email</th>
-                    <th>Telefon</th>
-                    <th>Discord</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (ClubManager clubManager in clubManagers)
-                {
+        <EditForm Model="cm" OnValidSubmit="HandleManagerPut">
+            <table>
+                <thead>
                     <tr>
-                        <td>@clubManager.contactinfo.name</td>
-                        <td>@clubManager.contactinfo.email</td>
-                        <td>@clubManager.contactinfo.tlfNr</td>
-                        <td>@clubManager.contactinfo.discordID</td>
-                        <td class="btn-td">
-                            <div class="td-div">
-                                <button class="btn" @onclick="() => ShowMananger(clubManager)">Rediger</button>
-                            </div>
-                        </td>
-                        <td class="btn-td">
-                            <div class="td-div">
-                                <button class="btn" @onclick="() => Delete(clubManager)">Slet</button>
-                            </div>
-                        </td>
+                        <th>Navn</th>
+                        <th>Email</th>
+                        <th>Telefon</th>
+                        <th>Discord</th>
                     </tr>
-
-                    @if (userID == clubManager.userID)
+                </thead>
+                <tbody>
+                    @foreach (ClubManager clubManager in clubManagers)
                     {
-                        <tr class="edittr" id="@clubManager.userID">
-                            <td class="edit">
-                                <label>Navn:</label>
-                                <input @bind="clubManager.contactinfo.name" />
-                            </td>
-                            <td class="edit">
-                                <label>Email:</label>
-                                <input @bind="clubManager.contactinfo.email" />
-                            </td>
-                            <td class="edit">
-                                <label>Telefon:</label>
-                                <input @bind="clubManager.contactinfo.tlfNr" />
-                            </td>
-                            <td class="edit">
-                                <label>Discord:</label>
-                                <input @bind="clubManager.contactinfo.discordID" />
+                        <tr>
+                            <td>@clubManager.contactinfo.name</td>
+                            <td>@clubManager.contactinfo.email</td>
+                            <td>@clubManager.contactinfo.tlfNr</td>
+                            <td>@clubManager.contactinfo.discordID</td>
+                            <td class="btn-td">
+                                <div class="td-div">
+                                    <button class="btn" type="button" @onclick="() => ShowMananger(clubManager)">Rediger</button>
+                                </div>
                             </td>
                             <td class="btn-td">
                                 <div class="td-div">
-                                    <button class="btn" @onclick="() => HandleManagerPut(clubManager)">Gem</button>
-                                </div>  
+                                    <button class="btn" type="button" @onclick="() => Delete(clubManager)">Slet</button>
+                                </div>
                             </td>
-                            <td></td>
                         </tr>
+                        @if (userID == clubManager.userID)
+                        {
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                            <tr class="edittr">
+                                <td class="edit">
+                                    <label>Navn:</label>
+                                    <InputText @bind-Value="cm.contactinfo.name" />
+                                </td>
+                                <td class="edit">
+                                    <label>Email:</label>
+                                    <InputText @bind-Value="cm.contactinfo.email" />
+                                </td>
+                                <td class="edit">
+                                    <label>Telefon:</label>
+                                    <InputText @bind-Value="cm.contactinfo.tlfNr" />
+                                </td>
+                                <td class="edit">
+                                    <label>Discord:</label>
+                                    <InputText @bind-Value="cm.contactinfo.discordID" />
+                                </td>
+                                <td class="btn-td">
+                                    <div class="td-div">
+                                        <button class="btn" type="submit">Gem</button>
+                                    </div>
+                                </td>
+                                <td class="btn-td">
+                                    <div class="td-div">
+                                        <button class="btn" type="reset" @onclick="() => ShowMananger(cm)">Anullér</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </EditForm>
     </div>
     <div style="display: @display">
         <div class="header-div">
@@ -105,23 +114,23 @@
             <div class="manager-form">
                 <div>
                     <label>Navn:</label>
-                    <input type="text" @bind="clubManager1.contactinfo.name" />
+                    <input type="text" @bind="cm.contactinfo.name" />
                 </div>
                 <div>
                     <label>Email:</label>
-                    <input type="text" @bind="clubManager1.contactinfo.email" />
+                    <input type="text" @bind="cm.contactinfo.email" />
                 </div>
                 <div>
                     <label>Telefon:</label>
-                    <input type="text" @bind="clubManager1.contactinfo.tlfNr" />
+                    <input type="text" @bind="cm.contactinfo.tlfNr" />
                 </div>
                 <div>
                     <label>Discord:</label>
-                    <input type="text" @bind="clubManager1.contactinfo.discordID" />
+                    <input type="text" @bind="cm.contactinfo.discordID" />
                 </div>
                 <div>
                     <label>Username:</label>
-                    <input type="text" @bind="clubManager1.userID" />
+                    <input type="text" @bind="cm.userID" />
                 </div>
                 <div class="btn-div">
                     <button class="btn-primary" type="button" @onclick="HandleManagerPost">Opret</button>
@@ -173,7 +182,8 @@
     public string userID;
 
     Club club = new Club();
-    ClubManager clubManager1 = new ClubManager(new Contactinfo());
+
+    ClubManager cm = new ClubManager(new Contactinfo());
     List<Team> teams = new List<Team>();
     List<ClubManager> clubManagers = new List<ClubManager>();
 
@@ -208,6 +218,8 @@
 
     async Task GetManagers()
     {
+        clubManagers = new List<ClubManager>();
+
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
@@ -215,6 +227,8 @@
         clubManagers = await client.GetFromJsonAsync<List<ClubManager>>("api/ClubManager?clubID=" + id);
         Console.WriteLine("På den anden side");
         Console.WriteLine(clubManagers);
+
+        StateHasChanged();
     }
 
     async Task HandleClubSubmit()
@@ -235,27 +249,28 @@
         }
     }
 
-    async Task HandleManagerPut(ClubManager clubManager)
+    async Task HandleManagerPut()
     {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        ShowMananger(clubManager);
+        Console.WriteLine(cm.userID);
 
-        Console.WriteLine(clubManager.userID);
+        await client.PutAsJsonAsync<ClubManager>("api/ClubManager", cm);
 
-        await client.PutAsJsonAsync<ClubManager>("api/ClubManager", clubManager);
+        ShowMananger(cm);
     }
 
     async Task HandleManagerPost()
     {
-        clubManager1.ClubID = club.clubID;
-        ShowNewManager();
+        cm.ClubID = club.clubID;
 
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        await Http.PostAsJsonAsync<ClubManager>("api/ClubManager", clubManager1);
+        await Http.PostAsJsonAsync<ClubManager>("api/ClubManager", cm);
+
+        ShowNewManager();
     }
 
     void ShowMananger(ClubManager clubManager)
@@ -263,9 +278,12 @@
         if (clubManager.userID == userID)
         {
             userID = "";
+            cm = new ClubManager(new Contactinfo());
+            InvokeAsync(GetManagers);
         }
         else
         {
+            cm = clubManager;
             userID = clubManager.userID;
         }
     }
@@ -279,6 +297,7 @@
         else
         {
             display = "none";
+            cm = new ClubManager(new Contactinfo());
         }
     }
 

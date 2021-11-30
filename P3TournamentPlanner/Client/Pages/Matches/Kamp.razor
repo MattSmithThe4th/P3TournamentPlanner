@@ -46,26 +46,28 @@ else
     @if (IsManager)
     {
         <section>
-            <EditForm Model="match">
+            <EditForm Model="match" OnValidSubmit="PutMatch">
                 <div class="container">
                     <div>
                         <h2>Rediger kamp</h2>
                     </div>
                     <div class="wrapper">
-                        <button class="btn-primary" @onclick="PutMatch">Gem</button>
+                        <button class="btn-primary" type="submit"> Gem</button>
                     </div>
                 </div>
                 <hr />
+                <DataAnnotationsValidator />
+                <ValidationSummary />
                 <div class="edit-section">
                     <div class="edit-div">
                         <h3>Ændre resultat</h3>
                         <div class="form-item">
                             <label>@match.teams[0].teamName:</label>
-                            <InputNumber @bind-Value="match.team1Score"></InputNumber>
+                            <InputNumber min="0" @bind-Value="match.team1Score"></InputNumber>
                         </div>
                         <div class="form-item">
                             <label>@match.teams[1].teamName:</label>
-                            <InputNumber @bind-Value="match.team2Score"></InputNumber>
+                            <InputNumber min="0" @bind-Value="match.team2Score"></InputNumber>
                         </div>
                     </div>
                     <div class="edit-div">

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace P3TournamentPlanner.Shared {
     public class Match
@@ -8,11 +9,15 @@ namespace P3TournamentPlanner.Shared {
         public int divisionID { get; set; }
         public int matchID { get; set; }
         public List<Team> teams { get; set; }
+
+        [Required(ErrorMessage = "Rank er påkrævet")]
         public string startTime { get; set; }
         public bool playedFlag { get; set; }
         public int team1Score { get; set; }
         public int team2Score { get; set; }
         public int clubHostID { get; set; }
+
+        [Required(ErrorMessage = "Rank er påkrævet")]
         public string serverIP { get; set; }
         public string map { get; set; }
 
