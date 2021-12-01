@@ -10,38 +10,71 @@
 @using System.Threading.Tasks;
 @page "/kamp/{id:int}"
 
-@if (teams == null)
+<style>
+    .page {
+        background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(/images/maps/@GetMap());
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+    }
+</style>
+
+@if (match.teams == null)
 {
     <p>Loading...</p>
 }
 else
 {
-    <section class="kamp-section" style="background-image: url(/images/maps/@GetMap())">
-        <section class="kamp-background">
-            <div class="team-div">
-                <h1>@teams[0].teamName</h1>
-                @if (match.playedFlag)
+    <section class="kamp-section">
+        <div class="team-div">
+            <div class="team-name match-header">
+                <h1>@match.teams[0].teamName</h1>
+                <img src="/images/Hobro-Logo-PNG.png" />
+            </div>
+
+            @if (match.playedFlag)
+            {
+                <div>
+                    <h1 class="match-header" id="center">@match.team1Score - @match.team2Score</h1>
+                    <p>@match.startTime</p>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h1 class="match-header" id="center">VS</h1>
+                    <p>@match.startTime</p>
+                </div>
+            }
+
+            <div class="team-name match-header">
+                <img src="/images/dvesport_logo.png" />
+                <h1>@match.teams[1].teamName</h1>
+            </div>
+        </div>
+
+        <div class="info-div">
+            <div class="item-div">
+                <p>Server ip:</p>
+                @if (IsManager)
                 {
-                    <h1 id="center">@match.team1Score - @match.team2Score</h1>
+                    <p>@match.serverIP</p>
                 }
                 else
                 {
-                    <h1 id="center">VS</h1>
+                    <p>Kun trænere kan se server ip</p>
                 }
-                <h1>@teams[1].teamName</h1>
             </div>
-            <div class="info-div">
-                <div class="item-div date-div"><time datetime="2021-02-11">@match.startTime</time></div>
-                <div class="item-div" id="center">
-                    <p>Server ip:</p>
-                    <p>@match.serverIP</p>
-                </div>
-                <div class="item-div" id="adresse">
-                    <p>Hobro Vikings</p>
-                    <p>Amerikavej 22, 9500 Hobro</p>
-                </div>
+            <div class="item-div" id="adresse">
+                <p>Hobro Vikings</p>
+                <p>Amerikavej 22, 9500 Hobro</p>
             </div>
-        </section>
+        </div>
     </section>
     @if (IsManager)
     {
@@ -114,8 +147,6 @@ else
 
     public Match match = new Match();
 
-    public List<Team> teams;
-
     string messageDisplay = "none";
 
     void showMessage()
@@ -140,9 +171,7 @@ else
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        match = await client.GetFromJsonAsync<Match>($"api/Match?matchID=" + ID);
-
-        teams = match.teams;
+        match = await client.GetFromJsonAsync<Match>($"api/Match?matchID=" + ID);;
 
         Console.WriteLine("div" + match.divisionID);
         Console.WriteLine("league" + match.leagueID);
@@ -157,19 +186,6 @@ else
             IsManager = false;
         }
     }
-
-    //protected override async Task OnParametersSetAsync()
-    //{
-    //    HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
-    //    client.BaseAddress = new Uri("https://localhost:44341/");
-
-    //    match = await client.GetFromJsonAsync<Match>($"api/Match?matchID=" + ID);
-
-    //    teams = match.teams;
-
-    //    Console.WriteLine("div" + match.divisionID);
-    //    Console.WriteLine("league" + match.leagueID);
-    //}
 
     async Task PutMatch()
     {
@@ -191,6 +207,6 @@ else
         {
             return match.map + ".jpg";
         }
-        return "csgo-gerneric-maps.jpg";
+        return "get-image-large.jpg";
     }
 }

@@ -1,6 +1,4 @@
-﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
-* {
+﻿* {
     box-sizing: border-box;
 }
 
@@ -11,6 +9,7 @@
     --quad-lilla: #794195;
     --penta-lilla: #9869B0;
     --light-cray: #767676;
+    --boxShadow: 0px 0px 8px rgba(0, 0, 0, 0.24), 0px 0px 1px rgba(0, 0, 0, 0.24);
 }
 
 html, body {
@@ -36,7 +35,7 @@ a, .btn-link {
 }
 
 .btn-primary:hover {
-    background-color: var(--quad-lilla);
+    background-color: var(--penta-lilla);
     cursor: pointer;
 }
 
