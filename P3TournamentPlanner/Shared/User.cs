@@ -18,7 +18,7 @@ namespace P3TournamentPlanner.Shared {
                 return _id;
             } set {
                 if((value == "")||(value == null)) {
-                    throw new ArgumentException("ID cannot be an empty string or NULL");
+                    throw new ArgumentException("User.ID cannot be an empty string or NULL");
                 } else {
                     _id = value;
                 }
@@ -31,7 +31,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("Email cannot be an empty string or NULL");
+                    throw new ArgumentException("User.Email cannot be an empty string or NULL");
                 } else {
                     _email = value;
                 }

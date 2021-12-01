@@ -25,7 +25,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("userID cannot be null or an empty string");
+                    throw new ArgumentException("ContactInfo.userID cannot be null or an empty string");
                 } else {
                     _userid = value;
                 }
@@ -38,7 +38,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("Name cannot be null or an empty string");
+                    throw new ArgumentException("ContactInfo.Name cannot be null or an empty string");
                 } else {
                     _name = value;
                 }
@@ -51,7 +51,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("tlfNr cannot be null or an empty string");
+                    throw new ArgumentException("ContactInfo.tlfNr cannot be null or an empty string");
                 } else {
                     _tlfnr = value;
                 }
@@ -64,7 +64,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("DiscordID cannot be null or an empty string");
+                    throw new ArgumentException("ContactInfo.DiscordID cannot be null or an empty string");
                 } else {
                     _discordid = value;
                 }
@@ -77,7 +77,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("Email cannot be null or an empty string");
+                    throw new ArgumentException("ContactInfo.Email cannot be null or an empty string");
                 } else {
                     _email = value;
                 }

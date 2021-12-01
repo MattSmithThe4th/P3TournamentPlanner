@@ -12,7 +12,7 @@ namespace P3TournamentPlanner.Shared {
                 return _divisionid;
             } set { 
                 if(value < 1) {
-                    throw new ArgumentException("DivisionID can not be less than 1");
+                    throw new ArgumentException("Division.DivisionID can not be less than 1");
                 } else {
                     _divisionid = value;
                 }
@@ -24,7 +24,7 @@ namespace P3TournamentPlanner.Shared {
                 return _leagueid;
             } set { 
                 if(value < 1) {
-                    throw new ArgumentException("LeagueID can not be less than 1");
+                    throw new ArgumentException("Division.LeagueID can not be less than 1");
                 } else {
                     _leagueid = value;
                 }

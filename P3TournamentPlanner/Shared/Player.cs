@@ -9,7 +9,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("ClubID can not be less than 1");
+                    throw new ArgumentException("Player.ClubID can not be less than 1");
                 } else {
                     _clubid = value;
                 }
@@ -23,7 +23,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("IRLName cannot be null or an empty string");
+                    throw new ArgumentException("Player.IRLName cannot be null or an empty string");
                 } else {
                     _irlname = value;
                 }
@@ -36,7 +36,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("IGName cannot be null or an empty string");
+                    throw new ArgumentException("Player.IGName cannot be null or an empty string");
                 } else {
                     _igname = value;
                 }
@@ -49,7 +49,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("SteamID cannot be null or an empty string");
+                    throw new ArgumentException("Player.SteamID cannot be null or an empty string");
                 } else {
                     _steamid = value;
                 }
@@ -127,7 +127,7 @@ namespace P3TournamentPlanner.Shared {
                 return _playerskillrating;
             } set {
                 if(value < 0) {
-                    throw new ArgumentException("PlayerSkillRating cannot be less than 0");
+                    throw new ArgumentException("Player.PlayerSkillRating cannot be less than 0");
                 } else {
                     _playerskillrating = value;
                 }
@@ -139,7 +139,7 @@ namespace P3TournamentPlanner.Shared {
                 return _playerid;
             } set {
                 if(value < 1) {
-                    throw new ArgumentException("playerId can not be less than 1");
+                    throw new ArgumentException("Player.playerId can not be less than 1");
                 } else {
                     _playerid = value;
                 }

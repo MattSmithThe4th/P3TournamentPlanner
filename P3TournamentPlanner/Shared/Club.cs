@@ -11,7 +11,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("ClubID can not be less than 1");
+                    throw new ArgumentException("Club.ClubID can not be less than 1");
                 } else {
                     _clubid = value;
                 }
@@ -23,7 +23,7 @@ namespace P3TournamentPlanner.Shared {
                 return _name;
             } set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("Name cannot be null or an empty string");
+                    throw new ArgumentException("Club.Name cannot be null or an empty string");
                 } else {
                     _name = value;
                 }
@@ -38,7 +38,7 @@ namespace P3TournamentPlanner.Shared {
                 return _address;
             } set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("Address cannot be null or an empty string");
+                    throw new ArgumentException("Club.Address cannot be null or an empty string");
                 } else {
                     _address = value;
                 }

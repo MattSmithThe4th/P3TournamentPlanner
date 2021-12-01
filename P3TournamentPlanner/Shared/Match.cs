@@ -11,7 +11,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("LeagueID can not be less than 1");
+                    throw new ArgumentException("Match.LeagueID can not be less than 1");
                 } else {
                     _leagueid = value;
                 }
@@ -24,7 +24,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("DivisionID can not be less than 1");
+                    throw new ArgumentException("Match.DivisionID can not be less than 1");
                 } else {
                     _divisionid = value;
                 }
@@ -36,7 +36,7 @@ namespace P3TournamentPlanner.Shared {
                 return _matchid;
             } set {
                 if(value < 1) {
-                    throw new ArgumentException("matchID can not be less than 1");
+                    throw new ArgumentException("Match.matchID can not be less than 1");
                 } else {
                     _matchid = value;
                 }
@@ -52,7 +52,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 0) {
-                    throw new ArgumentException("team1Score cannot be less than 0");
+                    throw new ArgumentException("Match.team1Score cannot be less than 0");
                 } else {
                     _team1score = value;
                 }
@@ -65,7 +65,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 0) {
-                    throw new ArgumentException("team2Score cannot be less than 0");
+                    throw new ArgumentException("Match.team2Score cannot be less than 0");
                 } else {
                     _team2score = value;
                 }
@@ -78,7 +78,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("clubHostID cannot be less than 1");
+                    throw new ArgumentException("Match.clubHostID cannot be less than 1");
                 } else {
                     _clubhostid = value;
                 }

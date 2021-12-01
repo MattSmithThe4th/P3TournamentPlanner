@@ -10,7 +10,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("TeamID can not be less than 1");
+                    throw new ArgumentException("Team.TeamID can not be less than 1");
                 } else {
                     _teamid = value;
                 }
@@ -23,7 +23,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("ClubID can not be less than 1");
+                    throw new ArgumentException("Team.ClubID can not be less than 1");
                 } else {
                     _clubid = value;
                 }
@@ -36,7 +36,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("DivisionID can not be less than 1");
+                    throw new ArgumentException("Team.DivisionID can not be less than 1");
                 } else {
                     _divisionid = value;
                 }
@@ -49,7 +49,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("LeagueID can not be less than 1");
+                    throw new ArgumentException("Team.LeagueID can not be less than 1");
                 } else {
                     _leagueid = value;
                 }
@@ -62,7 +62,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if((value == "") || (value == null)) {
-                    throw new ArgumentException("TeamName cannot be null or an empty string");
+                    throw new ArgumentException("Team.TeamName cannot be null or an empty string");
                 } else {
                     _teamname = value;
                 }
@@ -75,7 +75,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 0) {
-                    throw new ArgumentException("TeamSkillRating cannot be less than 0");
+                    throw new ArgumentException("Team.TeamSkillRating cannot be less than 0");
                 } else {
                     _teamskillrating = value;
                 }
@@ -90,7 +90,7 @@ namespace P3TournamentPlanner.Shared {
                 return _roundswon;
             } set {
                 if(value < 0) {
-                    throw new ArgumentException("RoundsWon cannot be less than 0");
+                    throw new ArgumentException("Team.RoundsWon cannot be less than 0");
                 } else {
                     _roundswon = value;
                 }
@@ -103,7 +103,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 0) {
-                    throw new ArgumentException("RoundsLost cannot be less than 0");
+                    throw new ArgumentException("Team.RoundsLost cannot be less than 0");
                 } else {
                     _roundslost = value;
                 }
@@ -119,7 +119,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 1) {
-                    throw new ArgumentException("Placement can not be less than 1");
+                    throw new ArgumentException("Team.Placement can not be less than 1");
                 } else {
                     _placement = value;
                 }
@@ -132,7 +132,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 0) {
-                    throw new ArgumentException("MatchesPlayed can not be less than 1");
+                    throw new ArgumentException("Team.MatchesPlayed can not be less than 1");
                 } else {
                     _matchesplayed = value;
                 }
@@ -145,7 +145,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 0) {
-                    throw new ArgumentException("MatchesWon can not be less than 1");
+                    throw new ArgumentException("Team.MatchesWon can not be less than 1");
                 } else {
                     _matcheswon = value;
                 }
@@ -158,7 +158,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 0) {
-                    throw new ArgumentException("MatchesDraw can not be less than 1");
+                    throw new ArgumentException("Team.MatchesDraw can not be less than 1");
                 } else {
                     _matchesdraw = value;
                 }
@@ -171,7 +171,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 0) {
-                    throw new ArgumentException("MatchesLost can not be less than 1");
+                    throw new ArgumentException("Team.MatchesLost can not be less than 1");
                 } else {
                     _matcheslost = value;
                 }
@@ -184,7 +184,7 @@ namespace P3TournamentPlanner.Shared {
             }
             set {
                 if(value < 0) {
-                    throw new ArgumentException("Points can not be less than 1");
+                    throw new ArgumentException("Team.Points can not be less than 1");
                 } else {
                     _points = value;
                 }
