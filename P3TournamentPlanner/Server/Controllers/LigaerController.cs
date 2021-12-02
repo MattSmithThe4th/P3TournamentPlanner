@@ -71,8 +71,8 @@ namespace P3TournamentPlanner.Server.Controllers {
             
             SqlCommand command = new SqlCommand($"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values(@name, @game, @admin, @flag)");
             command.Parameters.Add(new SqlParameter("name", liga.name));
-            command.Parameters.Add(new SqlParameter("game", liga.game));
-            command.Parameters.Add(new SqlParameter("admin", liga.admin));
+            command.Parameters.Add(new SqlParameter("game", liga.game.name));
+            command.Parameters.Add(new SqlParameter("admin", liga.admin.contactinfo.userID));
             command.Parameters.Add(new SqlParameter("flag", liga.archiveFlag));
 
             db.InsertToTable(command);

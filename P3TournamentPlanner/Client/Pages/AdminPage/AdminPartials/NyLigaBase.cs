@@ -10,9 +10,20 @@ namespace P3TournamentPlanner.Client.Pages.AdminPage.AdminPartials {
         [Parameter]
         public int leagueID { get; set; }
 
-        public League liga = new League();
+        public void GameSelect(string gameName) {
+            switch (gameName) {
+                case"CS:GO":
+                case"cs:go":
+                    liga.game = new CSGO();
+                    break;
+            }
+            
+        }
 
         public List<League> ligas = new List<League>();
+        public List<SiteAdmin> admins = new List<SiteAdmin>();
+
+        public League liga = new League(new List<Division>(), new VideoGame(), new SiteAdmin(new Contactinfo()));
 
     }
 }
