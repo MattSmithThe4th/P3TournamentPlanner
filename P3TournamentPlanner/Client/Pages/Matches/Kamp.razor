@@ -2,106 +2,150 @@
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @using P3TournamentPlanner.Shared;
+@using System;
+@using System.Collections.Generic;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Net.Http;
+@using System.Net.Http.Json;
+@using System.Threading.Tasks;
 @page "/kamp/{id:int}"
 
-@if (teams == null)
+<style>
+    .page {
+        background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(/images/maps/@GetMap());
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+    }
+</style>
+
+@if (match.teams == null)
 {
     <p>Loading...</p>
 }
 else
 {
-    <section class="kamp-section" style="background-image: url(/images/maps/@GetMap())">
-        <section class="kamp-background">
-            <div class="team-div">
-                <h1>@teams[0].teamName</h1>
-                @if (match.playedFlag)
+    <section class="kamp-section">
+        <div class="team-div">
+            <div class="team-name match-header">
+                <h1>@match.teams[0].teamName</h1>
+                <img src="/images/Hobro-Logo-PNG.png" />
+            </div>
+
+            @if (match.playedFlag)
+            {
+                <div>
+                    <h1 class="match-header" id="center">@match.team1Score - @match.team2Score</h1>
+                    <p>@match.startTime</p>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h1 class="match-header" id="center">VS</h1>
+                    <p>@match.startTime</p>
+                </div>
+            }
+
+            <div class="team-name match-header">
+                <img src="/images/dvesport_logo.png" />
+                <h1>@match.teams[1].teamName</h1>
+            </div>
+        </div>
+
+        <div class="info-div">
+            <div class="item-div">
+                <p>Server ip:</p>
+                @if (IsManager)
                 {
-                    <h1 id="center">@match.team1Score - @match.team2Score</h1>
+                    <p>@match.serverIP</p>
                 }
                 else
                 {
-                    <h1 id="center">VS</h1>
+                    <p>Kun trænere kan se server ip</p>
                 }
-                <h1>@teams[1].teamName</h1>
             </div>
-            <div class="info-div">
-                <div class="item-div date-div"><time datetime="2021-02-11">@match.startTime</time></div>
-                <div class="item-div" id="center">
-                    <p>Server ip:</p>
-                    <p>@match.serverIP</p>
-                </div>
-                <div class="item-div" id="adresse">
-                    <p>Hobro Vikings</p>
-                    <p>Amerikavej 22, 9500 Hobro</p>
-                </div>
+            <div class="item-div" id="adresse">
+                <p>Hobro Vikings</p>
+                <p>Amerikavej 22, 9500 Hobro</p>
             </div>
+        </div>
+    </section>
+    @if (IsManager)
+    {
+        <section>
+            <EditForm Model="match" OnValidSubmit="PutMatch">
+                <div class="container">
+                    <div>
+                        <h2>Rediger kamp</h2>
+                    </div>
+                    <div class="wrapper">
+                        <button class="btn-primary" type="submit"> Gem</button>
+                    </div>
+                </div>
+                <hr />
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="edit-section">
+                    <div class="edit-div">
+                        <h3>Ændre resultat</h3>
+                        <div class="form-item">
+                            <label>@match.teams[0].teamName:</label>
+                            <InputNumber min="0" @bind-Value="match.team1Score"></InputNumber>
+                        </div>
+                        <div class="form-item">
+                            <label>@match.teams[1].teamName:</label>
+                            <InputNumber min="0" @bind-Value="match.team2Score"></InputNumber>
+                        </div>
+                    </div>
+                    <div class="edit-div">
+                        <h3>Ændre map</h3>
+                        <div class="form-item">
+                            <label>Map:</label>
+                            <InputSelect @bind-Value="match.map">
+                                <option value="Ancient">Ancient</option>
+                                <option value="dust2">Dust 2</option>
+                                <option value="Inferno">Inferno</option>
+                                <option value="Mirage">Mirage</option>
+                                <option value="Nuke">Nuke</option>
+                                <option value="Overpass">Overpass</option>
+                                <option value="Vertigo">Vertigo</option>
+                            </InputSelect>
+                        </div>
+                    </div>
+                    <div class="edit-div">
+                        <h3>Admin</h3>
+                        <div class="form-item">
+                            <label>Server ip:</label>
+                            <InputText @bind-Value="match.serverIP"></InputText>
+                        </div>
+                        <div class="form-item">
+                            <label>Start tidspunkt:</label>
+                            <InputText @bind-Value="match.startTime"></InputText>
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
         </section>
-    </section>
-    <section>
-        <EditForm Model="match">
-            <div class="container">
-                <div>
-                    <h2>Rediger kamp</h2>
-                </div>
-                <div class="wrapper">
-                    <button class="btn-primary" @onclick="PutMatch">Gem</button>
-                </div>
-            </div>
-            <hr />
-            <div class="edit-section">
-                <div class="edit-div">
-                    <h3>Ændre resultat</h3>
-                    <div class="form-item">
-                        <label>@match.teams[0].teamName:</label>
-                        <InputNumber @bind-Value="match.team1Score"></InputNumber>
-                    </div>
-                    <div class="form-item">
-                        <label>@match.teams[1].teamName:</label>
-                        <InputNumber @bind-Value="match.team2Score"></InputNumber>
-                    </div>
-                </div>
-                <div class="edit-div">
-                    <h3>Ændre map</h3>
-                    <div class="form-item">
-                        <label>Map:</label>
-                        <InputSelect @bind-Value="match.map">
-                            <option value="Ancient">Ancient</option>
-                            <option value="dust2">Dust 2</option>
-                            <option value="Inferno">Inferno</option>
-                            <option value="Mirage">Mirage</option>
-                            <option value="Nuke">Nuke</option>
-                            <option value="Overpass">Overpass</option>
-                            <option value="Vertigo">Vertigo</option>
-                        </InputSelect>
-                    </div>
-                </div>
-                <div class="edit-div">
-                    <h3>Admin</h3>
-                    <div class="form-item">
-                        <label>Server ip:</label>
-                        <InputText @bind-Value="match.serverIP"></InputText>
-                    </div>
-                    <div class="form-item">
-                        <label>Start tidspunkt:</label>
-                        <InputText @bind-Value="match.startTime"></InputText>
-                    </div>
-                </div>
-            </div>
-        </EditForm>
-    </section>
-    <div id="blazor-gemt-ui" style="display: @messageDisplay">
-        Gemt!
-        <a @onclick="reloadPage" class="reload">Reload</a>
-        <a class="dismiss" @onclick="showMessage">🗙</a>
-    </div>
+        <div id="blazor-gemt-ui" style="display: @messageDisplay">
+            Gemt!
+            <a @onclick="reloadPage" class="reload">Reload</a>
+            <a class="dismiss" @onclick="showMessage">🗙</a>
+        </div>
+    }
 }
 @code {
     [Parameter]
     public int ID { get; set; }
 
-    public Match match = new Match();
+    public bool IsManager { get; set; }
 
-    public List<Team> teams;
+    public Match match = new Match();
 
     string messageDisplay = "none";
 
@@ -122,17 +166,25 @@ else
         NavigationManager.NavigateTo($"/kamp/{match.matchID}");
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        match = await client.GetFromJsonAsync<Match>($"api/Match?matchID=" + ID);
-
-        teams = match.teams;
+        match = await client.GetFromJsonAsync<Match>($"api/Match?matchID=" + ID);;
 
         Console.WriteLine("div" + match.divisionID);
         Console.WriteLine("league" + match.leagueID);
+
+        try
+        {
+            IsManager = await Http.GetFromJsonAsync<bool>($"api/Authentication/isManager?ID1={match.teams[0].clubID.ToString()}&ID2={match.teams[1].clubID.ToString()}");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            Console.WriteLine(exception.Message);
+            IsManager = false;
+        }
     }
 
     async Task PutMatch()
@@ -155,6 +207,6 @@ else
         {
             return match.map + ".jpg";
         }
-        return "csgo-gerneric-maps.jpg";
+        return "get-image-large.jpg";
     }
 }

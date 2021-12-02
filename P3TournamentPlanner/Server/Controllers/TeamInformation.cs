@@ -5,6 +5,10 @@ using P3TournamentPlanner.Shared;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
@@ -199,13 +203,29 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpPut]
-        public void Put(Team team)
+        public IActionResult Put(Team team)
         {
             Console.WriteLine("Put Recivied");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            SqlCommand command = new SqlCommand("update TeamsDB set clubID = @clubID, divisionID = @divisionID, leagueID = @leagueID, teamName = @teamName, teamRating = @teamRating, " +
+            DataTable dt;
+
+            SqlCommand command = new SqlCommand("select teamName from TeamsDB");
+
+            dt = db.PullTable(command);
+
+            foreach (DataRow r in dt.Rows)
+            {
+                if (r[0].ToString() == team.teamName)
+                {
+                    return StatusCode(403);
+                }
+            }
+
+            db = new DatabaseQuerys();
+
+            command = new SqlCommand("update TeamsDB set clubID = @clubID, divisionID = @divisionID, leagueID = @leagueID, teamName = @teamName, teamRating = @teamRating, " +
                 "placement = @placement, matchPlayed = @matchPlayed, matchesWon = @matchesWon, matchesDraw = @matchesDraw, matchesLost = @matchesLost, roundsWon = @roundsWon, " +
                 "roundsLost = @roundsLost, points = @points, managerID = @managerID, archiveFlag = @archiveFlag where teamID = @teamID");
 
@@ -227,6 +247,8 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("teamID", team.teamID));
 
             db.InsertToTable(command);
+
+            return Ok();
         }
 
         [HttpDelete]

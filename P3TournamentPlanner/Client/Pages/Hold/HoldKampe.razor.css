@@ -1,6 +1,7 @@
 ﻿.header-div {
     margin-top: 5vh;
     display: flex;
+    justify-content: space-between;
 }
 
 .header-div h2 {
@@ -52,8 +53,11 @@ tbody tr {
     background-color: #3e3e3e;
 }
 
-.hold-info {
+.btn-primary {
+    height: 36px;
+}
+
+.hold-form {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
 }

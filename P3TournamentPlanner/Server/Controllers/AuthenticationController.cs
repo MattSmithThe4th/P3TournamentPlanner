@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using P3TournamentPlanner.Shared;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
@@ -64,6 +65,26 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
 
             return isManager;
+        }
+
+        [Authorize]
+        [HttpGet("navbar")]
+        public ClubManager GetClubManager()
+        {
+            string curUserID;
+            curUserID = HttpContext.User.FindFirstValue("sub");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+            DataTable dt;
+
+            SqlCommand command = new SqlCommand("select clubID from ClubManagerDB where userID = @userID");
+            command.Parameters.Add(new SqlParameter("userID", curUserID));
+
+            dt = db.PullTable(command);
+
+            ClubManager clubManager = new ClubManager((int)dt.Rows[0][0], curUserID);
+
+            return clubManager;
         }
     }
 }
