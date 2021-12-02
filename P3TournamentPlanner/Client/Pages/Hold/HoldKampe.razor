@@ -21,11 +21,19 @@
 }
 else
 {
-    <h1>@team.teamName</h1>
+    <section class="header-section">
+        <div class="team-info-div">
+            <h1>@team.teamName</h1>
 
-    <p>Klub: @team.club.name</p>
-    <p>Kontaktperson: @team.manager.contactinfo.name - @team.manager.contactinfo.tlfNr</p>
-    <p>Klublokale: Amerikavej 22, 9500 Hobro</p>
+            <p>Klub: @team.club.name</p>
+            <p>Kontaktperson: @team.manager.contactinfo.name - @team.manager.contactinfo.tlfNr</p>
+            <p>Klublokale: Amerikavej 22, 9500 Hobro</p>
+        </div>
+        <div class="team-info-div">
+            <img src="data:image/png;base64, @team.club.base64Logo">
+        </div>
+    </section>
+
 
     @if (IsManager)
     {

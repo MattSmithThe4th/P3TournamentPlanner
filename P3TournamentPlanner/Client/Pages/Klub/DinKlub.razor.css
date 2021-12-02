@@ -64,3 +64,22 @@ tbody tr {
     display: flex;
 }
 
+.item-div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-div {
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    max-height: 150px;
+}
