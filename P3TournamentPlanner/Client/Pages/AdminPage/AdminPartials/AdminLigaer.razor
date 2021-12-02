@@ -1,8 +1,13 @@
 ﻿@using P3TournamentPlanner.Shared
+@inherits NyLigaBase
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
 <h1>Ligaer</h1>
+
+<div class="btn-div">
+    <button class="btn-primary btn-klubadmin" @onclick='() => ShowNewLiga("blcok")'>Opret ny liga</button>
+</div>
 <div id="matchSection" style="width: 100%">
     <table class="boxes">
         <thead>
@@ -14,8 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (League liga in ligas)
-            {
+            @foreach (League liga in ligas) {
 
                 <tr @onclick="ShowLiga">
                     <td>  @liga.name  </td>
@@ -26,19 +30,47 @@
             }
         </tbody>
     </table>
+
+
+
+    @*Ingen idé hvad der sker med det her, men det er hvad der ikke fungerer*@
+
+    <div style="display: @newLigaDisplay">
+        <div class="header-div">
+            <h3>Ny Liga</h3>
+        </div>
+        <EditForm Model="liga">
+            <div class="liga-form">
+                <div>
+                    <label>Liga Navn:</label>
+                    <InputText @bind-value="@liga.name" />
+                </div>
+                <div>
+                    <label>Spil:</label>
+                    <InputSelect @bind-Value="@liga.game">
+                        <option value="">Vælg spil</option>
+                        <option value="CS:GO">CS:GO</option>
+
+                    </InputSelect>
+                </div>
+                <div>
+                    <label>Antal Hold:</label>
+                    <InputText @bind-value="@liga.teamAmount" />
+                </div>
+                <div class="btn-div">
+                    <button class="btn-primary" type="button" @onclick='() => ShowNewLiga("none")'>Opret</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
 </div>
 
-@code {
-    [Parameter]
-    public int ID { get; set; }
-
-    public string MapSti = "Mirage";
 
 
-    List<League> ligas = new List<League>();
 
-    protected override async Task OnParametersSetAsync()
-    {
+@code {    
+
+    protected override async Task OnParametersSetAsync() {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
@@ -47,8 +79,22 @@
         Console.WriteLine("På den anden side");
     }
 
-    public void ShowLiga()
-    {
+    public void ShowLiga() {
         NavigationManager.NavigateTo("/admin/ligaer/1");
+    }
+
+
+    string Display = "ligaer";
+
+    string newLigaDisplay = "none";
+
+    void ShowNewLiga(string display) {
+        newLigaDisplay = display;
+        StateHasChanged();
+    }
+
+    public void ChangeDisplay(string display) {
+        Display = display;
+        StateHasChanged();
     }
 }

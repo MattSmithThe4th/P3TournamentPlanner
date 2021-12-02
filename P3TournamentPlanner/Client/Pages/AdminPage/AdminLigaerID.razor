@@ -28,7 +28,7 @@
         <div class="header-div">
             <h2>Liga</h2>
         </div>
-        <EditForm Model="league" OnSubmit="HandleSubmit">
+        <EditForm Model="league">
             <div>
                 <div class="item-div">
                     <label>Navn:</label>
@@ -68,7 +68,7 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn-primary"> Auto Generer</button>
+        <button class="btn-primary" onsubmit="HandleSubmitGenerate"> Auto Generer</button>
     </div>
 </section>
 
@@ -82,10 +82,7 @@
     League league = new League();
     VideoGame game = new VideoGame();
 
-    async Task HandleSubmit()
-    {
-
-    }
+    
 
     protected override async Task OnParametersSetAsync()
     {

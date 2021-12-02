@@ -96,12 +96,5 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
-        [HttpPost]
-        public void CreateLeague(League liga, DivisionFormat divisionFormat) {
-            GenerateLeague gl = new GenerateLeague();
-            Post(liga);
-
-            gl.CreateLeague(liga.leageID, divisionFormat);
-        }
     }
 }
