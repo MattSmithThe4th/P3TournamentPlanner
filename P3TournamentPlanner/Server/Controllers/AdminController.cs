@@ -112,6 +112,9 @@ namespace P3TournamentPlanner.Server.Controllers {
                 teamList.Add(new Team((int)r[0], (int)r[1], 0, leagueID, (string)r[2], (int)r[3], 0, 0, 0, 0, 0, 0, 0, 0, new ClubManager(new Contactinfo((string)r[4], (string)manInfo.Rows[0][0], (string)manInfo.Rows[0][1], (string)manInfo.Rows[0][2], (string)manInfo.Rows[0][3]), (string)r[4]), false));
             }
 
+            //Sorts the teams in decending order, based on the skill rating
+            teamList.Sort((x, y) => x.teamSkillRating.CompareTo(y.teamSkillRating));
+
             //Division Generation
             int teamsLeft = teamList.Count();
 
