@@ -29,6 +29,24 @@ namespace P3TournamentPlanner.Shared {
         public int matchesLost { get; set; }
         public int points { get; set; }
 
+
+        public int calculateTeamSkillRating() {
+            try {
+                int i = 0;
+
+                foreach(Player p in players) {
+                    i += p.CalculateSkillRating();
+                }
+                i /= this.players.Count;
+
+                return i;
+            } catch(DivideByZeroException e) {
+                Console.WriteLine("P3TournamentPlanner.Shared.Team: calculateTeamSkillRating tried to divide by 0. team.players is empty");
+                Console.WriteLine(e);
+                return 0;
+            }
+        }
+
         public Team(string name) {
             this.teamName = name;
         }
