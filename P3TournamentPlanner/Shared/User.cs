@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System;
 
 namespace P3TournamentPlanner.Shared {
     public class User {
@@ -12,31 +11,8 @@ namespace P3TournamentPlanner.Shared {
             this.roles = roles;
         }
 
-        private string _id;
-        public string ID {
-            get {
-                return _id;
-            } set {
-                if((value == "")||(value == null)) {
-                    throw new ArgumentException("User.ID cannot be an empty string or NULL");
-                } else {
-                    _id = value;
-                }
-            }
-        }
-        private string _email;
-        public string email {
-            get {
-                return _email;
-            }
-            set {
-                if((value == "") || (value == null)) {
-                    throw new ArgumentException("User.Email cannot be an empty string or NULL");
-                } else {
-                    _email = value;
-                }
-            }
-        }
+        public string ID { get; set; }
+        public string email { get; set; }
         public List<string> roles { get; set; }
     }
 }

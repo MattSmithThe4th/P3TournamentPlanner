@@ -1,37 +1,11 @@
-﻿using System;
-
-namespace P3TournamentPlanner.Shared {
+﻿namespace P3TournamentPlanner.Shared {
     public class ClubManager {
         //add login
         public Contactinfo contactinfo { get; set; }
 
-        private int _clubid;
-        public int ClubID {
-            get {
-                return _clubid;
-            }
-            set {
-                if(value < 1) {
-                    throw new ArgumentException("ClubManager.ClubID can not be less than 1");
-                } else {
-                    _clubid = value;
-                }
-            }
-        }
+        public int ClubID { get; set; }
         //Måske
-        private string _userid;
-        public string userID {
-            get {
-                return _userid;
-            }
-            set {
-                if((value == "") || (value == null)) {
-                    throw new ArgumentException("ClubManager.userID cannot be null or an empty string");
-                } else {
-                    _userid = value;
-                }
-            }
-        }
+        public string userID { get; set; }
 
         public ClubManager()
         {

@@ -4,86 +4,15 @@ using System;
 namespace P3TournamentPlanner.Shared {
     public class Match
     {
-        private int _leagueid;
-        public int leagueID {
-            get {
-                return _leagueid;
-            }
-            set {
-                if(value < 1) {
-                    throw new ArgumentException("Match.LeagueID can not be less than 1");
-                } else {
-                    _leagueid = value;
-                }
-            }
-        }
-        private int _divisionid;
-        public int divisionID {
-            get {
-                return _divisionid;
-            }
-            set {
-                if(value < 1) {
-                    throw new ArgumentException("Match.DivisionID can not be less than 1");
-                } else {
-                    _divisionid = value;
-                }
-            }
-        }
-        private int _matchid;
-        public int matchID { 
-            get {
-                return _matchid;
-            } set {
-                if(value < 1) {
-                    throw new ArgumentException("Match.matchID can not be less than 1");
-                } else {
-                    _matchid = value;
-                }
-            }
-        }
+        public int leagueID { get; set; }
+        public int divisionID { get; set; }
+        public int matchID { get; set; }
         public List<Team> teams { get; set; }
         public string startTime { get; set; }
         public bool playedFlag { get; set; }
-        private int _team1score;
-        public int team1Score {
-            get {
-                return _team1score;
-            }
-            set {
-                if(value < 0) {
-                    throw new ArgumentException("Match.team1Score cannot be less than 0");
-                } else {
-                    _team1score = value;
-                }
-            }
-        }
-        private int _team2score;
-        public int team2Score {
-            get {
-                return _team2score;
-            }
-            set {
-                if(value < 0) {
-                    throw new ArgumentException("Match.team2Score cannot be less than 0");
-                } else {
-                    _team2score = value;
-                }
-            }
-        }
-        private int _clubhostid;
-        public int clubHostID {
-            get {
-                return _clubhostid;
-            }
-            set {
-                if(value < 1) {
-                    throw new ArgumentException("Match.clubHostID cannot be less than 1");
-                } else {
-                    _clubhostid = value;
-                }
-            }
-        }
+        public int team1Score { get; set; }
+        public int team2Score { get; set; }
+        public int clubHostID { get; set; }
         public string serverIP { get; set; }
         public string map { get; set; }
 
