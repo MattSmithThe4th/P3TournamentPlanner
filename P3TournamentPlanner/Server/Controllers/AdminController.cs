@@ -126,6 +126,8 @@ namespace P3TournamentPlanner.Server.Controllers {
                 }
             }
 
+            teamList.Sort((x, y) => x.teamSkillRating.CompareTo(y.teamSkillRating));
+
             //Division Generation
             int teamsLeft = teamList.Count();
 

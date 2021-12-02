@@ -6,6 +6,9 @@ using System.Collections.Generic;
 namespace UnitTest {
     public class Tests {
 
+        //<----------AdminController Unit Tests---------->
+
+        //Test of the "GenerateMatches" function in AdminController
         private static readonly object[] genMatchSource = {
             new object[] {
                 1,
@@ -123,7 +126,18 @@ namespace UnitTest {
             }
         };
 
-        //ID, TeamList
+        [TestCaseSource("genMatchSource"), Category("AdminController Test")]
+        public void GenMatchTest(int leagueID, bool testing, List<Division> testDivList, List<int> expectedMatchAmount) {
+            var sut = new AdminController();
+            int count = 0;
+            testDivList = sut.GenerateMatches(leagueID, testing, testDivList);
+            foreach(Division div in testDivList) {
+                Assert.That(div.matches.Count, Is.EqualTo(expectedMatchAmount[count]));
+                count++;
+            }
+        }
+
+        //Test of the "GenerateDivisions" function in AdminController
         private static readonly object[] genDivSource = {
             new object[] {
                 1,
@@ -225,19 +239,7 @@ namespace UnitTest {
             }
         };
 
-        //[TestCase(1, true, testDivList)]
-        [TestCaseSource("genMatchSource")]
-        public void GenMatchTest(int leagueID, bool testing, List<Division> testDivList, List<int> expectedMatchAmount) {
-            var sut = new AdminController();
-            int count = 0;
-            testDivList = sut.GenerateMatches(leagueID, testing, testDivList);
-            foreach(Division div in testDivList) {
-                Assert.That(div.matches.Count, Is.EqualTo(expectedMatchAmount[count]));
-                count++;
-            }
-        }
-
-        [TestCaseSource("genDivSource")]
+        [TestCaseSource("genDivSource"), Category("AdminController Test")]
         public void GenDivTest(int leagueID, int divisionAmount, bool testing, List<Team> testTeamList, List<int> expectedTeamAmount, List<List<string>> expectedTeamNames) {
             var sut = new AdminController();
 
@@ -254,6 +256,139 @@ namespace UnitTest {
                 }
                 count++;
             }
+        }
+
+        //<----------MatchController Unit Tests---------->
+
+        //Test of the "ReverseDivisionStandings" function in Player
+        //Test of the "UpdateDivisionStandings" function in Player
+
+        //<----------Player Unit Tests---------->
+
+        //Test of the "CalculateSkillRating" function in Player
+        private static readonly object[] CalcSkillRatSource = {
+            new object[] {
+                new Player {
+                    CSGORank = "Silver 1" 
+                },
+                4
+            },
+            new object[] {
+                new Player {
+                    CSGORank = "Silver 4"
+                },
+                17
+            },
+            new object[] {
+                new Player {
+                    CSGORank = "Gold Nova 3"
+                },
+                58
+            },
+            new object[] {
+                new Player {
+                    CSGORank = "Master Guardian 1"
+                },
+                74
+            },
+            new object[] {
+                new Player {
+                    CSGORank = "Master Guardian Elite"
+                },
+                86
+            },
+            new object[] {
+                new Player {
+                    CSGORank = "Legendary Eagle Master"
+                },
+                96
+            },
+            new object[] {
+                new Player {
+                    CSGORank = "The Global Elite"
+                },
+                100
+            }
+        };
+
+        [TestCaseSource("CalcSkillRatSource"), Category("Player Test")]
+        public void CalcSkillRatTest(Player player, int expectedRating) {
+            player.CalculateSkillRating();
+
+            Assert.That(player.playerSkllRating, Is.EqualTo(expectedRating));
+        }
+
+        //<----------Team Unit Tests---------->
+
+        //Test of the "CalculateTeamSkillRating" function in Team
+        private static readonly object[] CalcTeamSkillRatSource = {
+            new object[] {
+                new List<Player> {
+                    new Player {
+                        playerSkllRating = 22
+                    },
+                    new Player {
+                        playerSkllRating = 43
+                    },
+                    new Player {
+                        playerSkllRating = 23
+                    },
+                    new Player {
+                        playerSkllRating = 45
+                    },
+                    new Player {
+                        playerSkllRating = 76
+                    }
+                },
+                209
+            },
+            new object[] {
+                new List<Player> {
+                    new Player {
+                        playerSkllRating = 100
+                    },
+                    new Player {
+                        playerSkllRating = 52
+                    },
+                    new Player {
+                        playerSkllRating = 67
+                    },
+                    new Player {
+                        playerSkllRating = 1
+                    },
+                    new Player {
+                        playerSkllRating = 6
+                    }
+                },
+                226
+            },
+            new object[] {
+                new List<Player> {
+                    new Player {
+                        playerSkllRating = 14
+                    },
+                    new Player {
+                        playerSkllRating = 74
+                    },
+                    new Player {
+                        playerSkllRating = 36
+                    },
+                    new Player {
+                        playerSkllRating = 93
+                    },
+                    new Player {
+                        playerSkllRating = 27
+                    }
+                },
+                244
+            }
+        };
+
+        [TestCaseSource("CalcTeamSkillRatSource"), Category("Team Test")]
+        public void CalcTeamSkillRatTest(List<Player> tl, int expectedRating) {
+            var sut = new Team();
+
+            Assert.That(sut.calculateTeamSkillRating(tl), Is.EqualTo(expectedRating));
         }
     }
 }

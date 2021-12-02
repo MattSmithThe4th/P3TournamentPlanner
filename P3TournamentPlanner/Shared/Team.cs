@@ -142,7 +142,7 @@ namespace P3TournamentPlanner.Shared {
         }
 
         //den nemme løsning. hvis vi vil være fancy kan vi lave et weighted system
-        private int calculateTeamSkillRating(List<Player> players) {
+        public int calculateTeamSkillRating(List<Player> players) {
             int rating = 0;
             foreach(Player p in players) {
                 rating += p.playerSkllRating;
