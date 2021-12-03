@@ -20,8 +20,10 @@ namespace P3TournamentPlanner.Client.Pages.AdminPage.AdminPartials {
             
         }
 
+        public Contactinfo contactinfo { get; set; }
         public List<League> ligas = new List<League>();
         public List<SiteAdmin> admins = new List<SiteAdmin>();
+        public List<User> users = new List<User>();
 
         public League liga = new League(new List<Division>(), new VideoGame(), new SiteAdmin(new Contactinfo()));
 

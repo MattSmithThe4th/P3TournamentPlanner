@@ -53,7 +53,16 @@
                     <label>Antal Hold:</label>
                     <input @bind="liga.teamAmount" />
                 </div>
-                
+                <div>
+                    <label>Admin:</label>
+                    <select @onchange="SetAdmin">
+                        <option value="">Vælg admin</option>
+                        @foreach (SiteAdmin admin in admins) {
+                            <option value="@admin.contactinfo.userID "> @admin.contactinfo.name </option>
+                        }
+
+                    </select>
+                </div>
                 <div class="btn-div">
                     <button class="btn-primary" type="button" @onclick='() => ShowNewLiga("none")'>Cancel</button>
                 </div>
@@ -77,6 +86,8 @@
         Console.WriteLine("Get Send");
         ligas = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
         Console.WriteLine("På den anden side");
+
+        await GetAdmin();
     }
 
     public void ShowLiga() {
@@ -84,7 +95,7 @@
     }
 
     async Task PostLiga() {
-        liga.admin.contactinfo.userID = "AdminID";  //Skal erstattes
+        
 
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
@@ -114,9 +125,31 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        admins = await client.GetFromJsonAsync<List<SiteAdmin>>("api/Admin/users");
+        users = await client.GetFromJsonAsync<List<User>>("api/Admin/users");
         Console.WriteLine("På den anden side");
+
+
+
+        foreach (User user in users) if (user.roles.Contains("Administrator")) {
+                contactinfo = new Contactinfo(user.ID);
+                await GetContactInfo(contactinfo.userID);
+                admins.Add(new SiteAdmin(contactinfo));
+            }
+
         StateHasChanged();
+    }
+
+    async Task GetContactInfo(string UserID) {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        Console.WriteLine("Get Send");
+        contactinfo = await client.GetFromJsonAsync<Contactinfo>("api/User");
+        Console.WriteLine("På den anden side");
+    }
+
+    public void SetAdmin(ChangeEventArgs e) {
+        liga.admin.contactinfo.userID = e.Value.ToString();
     }
 
 

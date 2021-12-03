@@ -10,6 +10,10 @@ namespace P3TournamentPlanner.Shared {
 
         }
 
+        public Contactinfo(string userID) {
+            this.userID = userID ?? throw new ArgumentNullException(nameof(userID));
+        }
+
         public Contactinfo(string userID, string name, string tlfNr, string discordID, string email) {
             this.userID = userID;
             this.name = name;
