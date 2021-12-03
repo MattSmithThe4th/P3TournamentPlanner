@@ -139,6 +139,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return divisions;
         }
 
+        [Authorize(Roles = "SuperAdministrator")]
         [HttpPost("changeRole")]
         public async Task PostRole([FromBody] User user, [FromHeader] bool toBecomeAdmin) {
             Console.WriteLine("PUT ENTERED!!!!!!!");

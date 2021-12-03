@@ -203,6 +203,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
         }
 
+        [Authorize]
         [HttpPut]
         public IActionResult Put(Team team)
         {
