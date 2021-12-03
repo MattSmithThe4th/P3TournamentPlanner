@@ -1,5 +1,8 @@
 ﻿@using P3TournamentPlanner.Shared
 @using P3TournamentPlanner.Client.Partials;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize(Roles = "Administrator")]
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
@@ -28,8 +31,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (Team team in teams)
-                    {
+                    @foreach(Team team in teams) {
                         <tr @onclick="() => ShowTeam(team)">
                             <td>@team.teamName</td>
                             <td> navn på kontakt person</td>
@@ -47,8 +49,7 @@
                         <div class="workPLZ">
                             <select>
                                 <option> Placeholder</option>
-                                @foreach (Team team in teams)
-                                {
+                                @foreach(Team team in teams) {
                                     <option> @team.teamName </option>
                                 }
                             </select>
@@ -68,17 +69,14 @@
             <button id="resultater-btn" @onclick='() => ChangeDisplay("")'>Resultater</button>
         </div>
         <div class="streg"></div>
-        @if (display == "kampe")
-        {
+        @if(display == "kampe") {
             <style>
                 /*#kampe-btn {*/
                 background-color: var(--penta-lilla)
                 }
             </style>
             <MatchList ID="divisionID" search="division" />
-        }
-        else
-        {
+        } else {
             <style>
                 #resultater-btn {
                     background-color: var(--penta-lilla)
@@ -87,7 +85,7 @@
             <ResultList ID="divisionID" search="division" />
         }
     </div>
-    
+
 </body>
 
 
@@ -108,13 +106,11 @@
 
     string display = "kampe";
 
-    public void ChangeDisplay(string d)
-    {
+    public void ChangeDisplay(string d) {
         display = d;
     }
 
-    protected override async Task OnParametersSetAsync()
-    {
+    protected override async Task OnParametersSetAsync() {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
@@ -127,8 +123,7 @@
         Console.WriteLine("På den anden side");
     }
 
-    public void ShowTeam(Team team)
-    {
+    public void ShowTeam(Team team) {
         TeamService.team = team;
         NavigationManager.NavigateTo($"/hold/{team.teamID}");
     }
