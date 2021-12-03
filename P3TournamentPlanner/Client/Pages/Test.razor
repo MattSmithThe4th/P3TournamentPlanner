@@ -13,6 +13,7 @@
 <button @onclick="RevokeAdminTest">Revoke Admin</button>
 <button @onclick="GenerateMatches">Gen Match Test</button>
 <button @onclick="GenerateDivisions">Gen Div Test</button>
+<button @onclick="CommitDivisions">Commit divisions</button>
 <button @onclick="GetLogo">Get Logo</button>
 <button @onclick="PutLogo">Put Logo</button>
 <button @onclick="IsManTest">isMan</button>
@@ -204,9 +205,14 @@
         var res = await Http.PostAsJsonAsync<string>("api/User/changePassword", newPass);
         Console.WriteLine(res);
     }
-    
+
     private async Task ChangePassTest2() {
         var res = await Http.PostAsJsonAsync<string>("api/User/changePassword", newPass2);
+        Console.WriteLine(res);
+    }
+
+    private async Task CommitDivisions() {
+        var res = await Http.PostAsJsonAsync<List<Division>>("api/Division/DivList", GenDivRes);
         Console.WriteLine(res);
     }
 }

@@ -65,13 +65,43 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            SqlCommand command = new SqlCommand("insert into divisionDB(divisionID, leagueID, divisionFormat) " +
+            SqlCommand command = new SqlCommand("insert into DivisionsDB(divisionID, leagueID, divisionFormat) " +
                 "values(@divisionID, @divisionLeagueID, @divisionFormat)");
             command.Parameters.Add(new SqlParameter("divisionID", division.divisionID));
             command.Parameters.Add(new SqlParameter("divisionLeagueID", division.leagueID));
             command.Parameters.Add(new SqlParameter("divisionFormat", division.divisionFormat));
 
             db.InsertToTable(command);
+        }
+
+        [HttpPost("DivList")]
+        public void PostList([FromBody] List<Division> divList) {
+            Console.WriteLine("ENTER DIV LIST POST");
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            foreach(Division d in divList) {
+                
+                //Inset to DivisionsDB
+                SqlCommand command = new SqlCommand("insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) values (@divisionID, @leagueID, @divisionFormat, @archiveFlag)");
+                command.Parameters.Add(new SqlParameter("divisionID", d.divisionID));
+                command.Parameters.Add(new SqlParameter("leagueID", d.leagueID));
+                //HARDCODED TIL ROUND-ROBIN FOR NU!!!!!!!
+                command.Parameters.Add(new SqlParameter("divisionFormat", "round-robin"));
+                command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(d.archiveFlag)));
+                db.InsertToTable(command);
+
+                //Update TeamsDB
+                foreach(Team t in d.teams) {
+                    command = new SqlCommand("update TeamsDB set divisionID = @divisionID where teamID = @teamID");
+                    command.Parameters.Add(new SqlParameter("divisionID", d.divisionID));
+                    command.Parameters.Add(new SqlParameter("teamID", t.teamID));
+                    db.InsertToTable(command);
+                }
+
+            }
+
+            Console.WriteLine("EXIT DIV LIST POST");
+
         }
 
         [Authorize]
@@ -81,7 +111,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            SqlCommand command = new SqlCommand("update DivisionsDB set divisionID = {@divisionleagueID}," +
+            SqlCommand command = new SqlCommand("update DivisionsDB set divisionID = @divisionleagueID," +
                 "divisionFormat = @divisionFormat where divisionID = @divisionID");
             command.Parameters.Add(new SqlParameter("divisionleagueID", division.leagueID));
             command.Parameters.Add(new SqlParameter("divisionFormat", division.divisionFormat));
