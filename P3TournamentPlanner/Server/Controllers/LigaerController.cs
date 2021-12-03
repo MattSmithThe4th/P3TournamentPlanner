@@ -60,6 +60,45 @@ namespace P3TournamentPlanner.Server.Controllers {
             return leagueList;
         }
 
+        [HttpGet("getleague")]
+        public League Get(int LeagueID)
+        {
+            DatabaseQuerys db = new DatabaseQuerys();
+            League league = new League();
+            DataTable dt;
+
+            SqlCommand command = new SqlCommand($"select * from LeagueDB where leagueID = @leagueID");
+            command.Parameters.Add(new SqlParameter("leagueID", LeagueID));
+
+            dt = db.PullTable(command);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                league.leageID = (int)row[0];
+                league.name = row[1].ToString();
+
+                db = new DatabaseQuerys();
+                DataTable dt2;
+
+                command = new SqlCommand($"select * from ContactInfoDB where userID = @userID");
+                command.Parameters.Add(new SqlParameter("userID", row[3].ToString()));
+
+                dt2 = db.PullTable(command);
+
+                league.admin = new SiteAdmin(new Contactinfo(
+                    dt2.Rows[0][0].ToString(),
+                    dt2.Rows[0][1].ToString(),
+                    dt2.Rows[0][2].ToString(),
+                    dt2.Rows[0][3].ToString(),
+                    dt2.Rows[0][4].ToString()
+                ));
+
+                league.archiveFlag = Convert.ToBoolean(row[4]);
+            }
+
+            return league;
+        }
+
         [Authorize]
         [HttpPost]
         public void Post(League liga) {
@@ -71,7 +110,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             
             SqlCommand command = new SqlCommand($"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values(@name, @game, @admin, @flag)");
             command.Parameters.Add(new SqlParameter("name", liga.name));
-            command.Parameters.Add(new SqlParameter("game", liga.game));
+            command.Parameters.Add(new SqlParameter("game", "cs:go"));
             command.Parameters.Add(new SqlParameter("admin", liga.admin));
             command.Parameters.Add(new SqlParameter("flag", liga.archiveFlag));
 
@@ -88,7 +127,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             //string command = $"update LeagueDB set leagueName = {liga.name}, game = {liga.game}, adminID = {liga.admin}, archiveFlag = {liga.archiveFlag} where LeagueID = {leagueID}";
             SqlCommand command = new SqlCommand($"update LeagueDB set leagueName = @name, game = @game, adminID = @admin, archiveFlag = @flag where LeagueID = @leagueID");
             command.Parameters.Add(new SqlParameter("name", liga.name));
-            command.Parameters.Add(new SqlParameter("game", liga.game));
+            command.Parameters.Add(new SqlParameter("game", "cs:go"));
             command.Parameters.Add(new SqlParameter("admin", liga.admin));
             command.Parameters.Add(new SqlParameter("flag", liga.archiveFlag));
             command.Parameters.Add(new SqlParameter("leagueID", leagueID));

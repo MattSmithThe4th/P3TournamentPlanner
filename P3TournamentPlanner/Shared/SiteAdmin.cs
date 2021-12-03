@@ -4,6 +4,7 @@
         public Contactinfo contactinfo { get; set; }
 
         public SiteAdmin() {
+
         }
 
         public SiteAdmin(Contactinfo contactinfo) {

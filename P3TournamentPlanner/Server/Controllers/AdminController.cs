@@ -120,7 +120,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
 
             for(int i = 0; i < divisionAmount; i++) {
-                divisions.Add(new Division(i, new List<Team>()));
+                divisions.Add(new Division(i+1, new List<Team>()));
                 Console.WriteLine("Teams left pre: " + teamsLeft);
                 Console.WriteLine($"Division left pre: {divisionAmount - i}");
                 Console.WriteLine($"There are {Math.Ceiling(((float)teamsLeft / ((float)divisionAmount - i)))} teams in division {i + 1}");

@@ -5,7 +5,7 @@
 @page "/admin/ligaer/{leagueID:int}"
 
 <header>
-    <h1> CS:GO : @league.name </h1>
+    <h1>@league.name</h1>
 </header>
 <section class="main">
     <div class="text-div">
@@ -37,14 +37,7 @@
                 <div id="dato-div" class="item-div">
                     <label>Dato:</label>
                     <input placeholder="Start dato (01/01 - 2021)" />
-                    <input placeholder="Start dato (31/012 - 2021)" />
-                </div>
-                <div class="item-div">
-                    <label>Spil:</label>
-                    <InputSelect @bind-Value="game.name" TValue="string">
-                        <option value="">Vælg spil</option>
-                        <option value="Select">cs:go</option>
-                    </InputSelect>
+                    <input placeholder="Slut dato (31/12 - 2021)" />
                 </div>
                 <div class="item-div">
                     <button class="btn-primary"> GEM </button>
@@ -61,14 +54,23 @@
                 <tbody>
                     @foreach (Division division in Divisions)
                     {
-                        <tr @onclick="() => ShowDivision(division)">
-                            <td><h3>@division.divisionID. Division</h3></td>
-                        </tr>
+                        @if (division.divisionID == 0)
+                        {
+                            <tr @onclick="() => ShowDivision(division)">
+                                <td><h3>Holding division</h3></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr @onclick="() => ShowDivision(division)">
+                                <td><h3>@division.divisionID. Division</h3></td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
         </div>
-        <button class="btn-primary"> Auto Generer</button>
+        <button class="btn-primary" @onclick="ShowDivisionGenerater">Rediger divisioner</button>
     </div>
 </section>
 
@@ -76,7 +78,6 @@
     [Parameter]
     public int leagueID { get; set; }
 
-    List<League> ligas = new List<League>();
     List<Division> Divisions = new List<Division>();
 
     League league = new League();
@@ -93,16 +94,22 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        ligas = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
+        league = await client.GetFromJsonAsync<League>($"api/Ligaer/getleague?LeagueID={leagueID}");
         Console.WriteLine("På den anden side");
 
         Console.WriteLine("Get Send");
         Divisions = await client.GetFromJsonAsync<List<Division>>($"api/Division?leagueID={leagueID}");
-            Console.WriteLine("På den anden side");
+        Console.WriteLine("På den anden side");
     }
 
     public void ShowDivision(Division division)
     {
         NavigationManager.NavigateTo($"/admin/ligaerDivision/{division.divisionID}");
+    }
+
+    public void ShowDivisionGenerater()
+    {
+        NavigationManager.NavigateTo($"/admin/ligaerDivision/genererdivisoner/{leagueID}");
+
     }
 }

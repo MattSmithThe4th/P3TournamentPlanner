@@ -17,7 +17,7 @@
             @foreach (League liga in ligas)
             {
 
-                <tr @onclick="ShowLiga">
+                <tr @onclick="() => ShowLiga(liga.leageID)">
                     <td>  @liga.name  </td>
                     <td>  @liga.game.name  </td>
                     <td> @liga.teamAmount</td>
@@ -47,8 +47,8 @@
         Console.WriteLine("På den anden side");
     }
 
-    public void ShowLiga()
+    public void ShowLiga(int leagueID)
     {
-        NavigationManager.NavigateTo("/admin/ligaer/1");
+        NavigationManager.NavigateTo($"/admin/ligaer/{leagueID}");
     }
 }
