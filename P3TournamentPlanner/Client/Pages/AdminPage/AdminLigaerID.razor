@@ -1,4 +1,7 @@
 ﻿@using P3TournamentPlanner.Shared
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize(Roles = "Administrator")]
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
@@ -83,13 +86,11 @@
     League league = new League();
     VideoGame game = new VideoGame();
 
-    async Task HandleSubmit()
-    {
+    async Task HandleSubmit() {
 
     }
 
-    protected override async Task OnParametersSetAsync()
-    {
+    protected override async Task OnParametersSetAsync() {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
@@ -102,8 +103,7 @@
         Console.WriteLine("På den anden side");
     }
 
-    public void ShowDivision(Division division)
-    {
+    public void ShowDivision(Division division) {
         NavigationManager.NavigateTo($"/admin/ligaerDivision/{division.divisionID}");
     }
 

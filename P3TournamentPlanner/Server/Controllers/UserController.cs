@@ -9,12 +9,20 @@ using System.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Identity;
+using P3TournamentPlanner.Server.Models;
 
 namespace P3TournamentPlanner.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class UserController : ControllerBase {
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public UserController(UserManager<ApplicationUser> userManager) {
+            this.userManager = userManager;
+        }
+
         //GET
         [HttpGet]
         public Contactinfo Get(string testID) {
@@ -59,6 +67,21 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("discord", ci.discordID));
             command.Parameters.Add(new SqlParameter("email", ci.email));
             db.InsertToTable(command);
+        }
+
+        [HttpPost("changePassword")]
+        public void ChangePassword([FromBody] string newPass) {
+            string id = HttpContext.User.FindFirstValue("sub");
+            Console.WriteLine("id: " + id);
+            Console.WriteLine("pass: " + newPass);
+            updatePasswordDBAsync(id, newPass).Wait();
+        }
+
+        public async Task updatePasswordDBAsync(string id, string newPass) {
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            string token = await userManager.GeneratePasswordResetTokenAsync(user);
+            var res = await userManager.ResetPasswordAsync(user, token, newPass);
+            Console.WriteLine("---->PassRes<---- :" + res);
         }
 
         //PUT

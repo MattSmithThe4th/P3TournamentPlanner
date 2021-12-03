@@ -112,6 +112,9 @@ namespace P3TournamentPlanner.Server.Controllers {
                 teamList.Add(new Team((int)r[0], (int)r[1], 0, leagueID, (string)r[2], (int)r[3], 0, 0, 0, 0, 0, 0, 0, 0, new ClubManager(new Contactinfo((string)r[4], (string)manInfo.Rows[0][0], (string)manInfo.Rows[0][1], (string)manInfo.Rows[0][2], (string)manInfo.Rows[0][3]), (string)r[4]), false));
             }
 
+            //Sorts the teams in decending order, based on the skill rating
+            teamList.Sort((x, y) => x.teamSkillRating.CompareTo(y.teamSkillRating));
+
             //Division Generation
             int teamsLeft = teamList.Count();
 
@@ -120,7 +123,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
 
             for(int i = 0; i < divisionAmount; i++) {
-                divisions.Add(new Division(i+1, new List<Team>()));
+                divisions.Add(new Division(i + 1, new List<Team>(), leagueID, false));
                 Console.WriteLine("Teams left pre: " + teamsLeft);
                 Console.WriteLine($"Division left pre: {divisionAmount - i}");
                 Console.WriteLine($"There are {Math.Ceiling(((float)teamsLeft / ((float)divisionAmount - i)))} teams in division {i + 1}");
@@ -136,6 +139,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return divisions;
         }
 
+        [Authorize(Roles = "SuperAdministrator")]
         [HttpPost("changeRole")]
         public async Task PostRole([FromBody] User user, [FromHeader] bool toBecomeAdmin) {
             Console.WriteLine("PUT ENTERED!!!!!!!");

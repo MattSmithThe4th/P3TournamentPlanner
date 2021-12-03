@@ -1,6 +1,8 @@
 ﻿@using P3TournamentPlanner.Shared;
 @using P3TournamentPlanner.Client.Pages.AdminPage.AdminPartials;
-@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize(Roles = "Administrator")]
 @page "/admin"
 @attribute [Authorize]
 <h1>Administrator</h1>
@@ -23,8 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 3; i++)
-                {
+                @for(int i = 0; i < 3; i++) {
                     <tr>
                         <td>Lasse</td>
                         <td>lasse@dgi.dk</td>
@@ -126,17 +127,14 @@
             <button id="stilling-btn" @onclick='() => ChangeDisplay("ligaer")'>Ligaer</button>
             <button id="kampe-btn" @onclick='() => ChangeDisplay("klubber")'>Klubber</button>
         </div>
-        @if (Display == "ligaer")
-        {
+        @if(Display == "ligaer") {
             <style>
                 #stilling-btn {
                     background-color: var(--penta-lilla)
                 }
             </style>
             <AdminLigaer />
-        }
-        else if (Display == "klubber")
-        {
+        } else if(Display == "klubber") {
             <style>
                 #kampe-btn {
                     background-color: var(--penta-lilla)
@@ -152,14 +150,12 @@
 
     string newAdminDisplay = "none";
 
-    void ShowNewAdmin(string display)
-    {
+    void ShowNewAdmin(string display) {
         newAdminDisplay = display;
         StateHasChanged();
     }
 
-    public void ChangeDisplay(string display)
-    {
+    public void ChangeDisplay(string display) {
         Display = display;
         StateHasChanged();
     }

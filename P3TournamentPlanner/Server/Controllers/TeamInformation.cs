@@ -191,6 +191,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("points", team.points));
             command.Parameters.Add(new SqlParameter("managerID", team.manager.userID));
             command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(team.archiveFlag)));
+            command.Parameters.Add(new SqlParameter("teamRating", team.calculateTeamSkillRating()));
 
             db.InsertToTable(command);
 
@@ -214,6 +215,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             }
         }
 
+        [Authorize]
         [HttpPut]
         public IActionResult Put(Team team)
         {
@@ -245,7 +247,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("divisionID", team.divisionID));
             command.Parameters.Add(new SqlParameter("leagueID", team.leagueID));
             command.Parameters.Add(new SqlParameter("teamName", team.teamName));
-            command.Parameters.Add(new SqlParameter("teamRating", team.teamSkillRating));
+            command.Parameters.Add(new SqlParameter("teamRating", team.calculateTeamSkillRating()));
             command.Parameters.Add(new SqlParameter("placement", team.placement));
             command.Parameters.Add(new SqlParameter("matchPlayed", team.matchesPlayed));
             command.Parameters.Add(new SqlParameter("matchesWon", team.matchesWon));
@@ -257,6 +259,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("managerID", team.manager.userID));
             command.Parameters.Add(new SqlParameter("archiveFlag", team.archiveFlag));
             command.Parameters.Add(new SqlParameter("teamID", team.teamID));
+
 
             db.InsertToTable(command);
 
