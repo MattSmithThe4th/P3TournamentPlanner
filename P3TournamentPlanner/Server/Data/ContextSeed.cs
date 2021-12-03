@@ -10,6 +10,7 @@ namespace P3TournamentPlanner.Server.Data {
         public static async Task SeedRolesAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             await roleManager.CreateAsync(new IdentityRole("Administrator"));
+            await roleManager.CreateAsync(new IdentityRole("SuperAdministrator"));
         }
 
         public static async Task SeedSuperAdminAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
@@ -28,6 +29,7 @@ namespace P3TournamentPlanner.Server.Data {
                 {
                     await userManager.CreateAsync(defaultUser, "123Password");
                     await userManager.AddToRoleAsync(defaultUser, "Administrator");
+                    await userManager.AddToRoleAsync(defaultUser, "SuperAdministrator");
                 }
 
             }
