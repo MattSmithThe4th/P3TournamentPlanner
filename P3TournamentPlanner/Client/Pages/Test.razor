@@ -16,6 +16,8 @@
 <button @onclick="GetLogo">Get Logo</button>
 <button @onclick="PutLogo">Put Logo</button>
 <button @onclick="IsManTest">isMan</button>
+<button @onclick="ChangePassTest">Change curr users password to "123Patter"</button>
+<button @onclick="ChangePassTest2">Change curr users password to "xd"</button>
 
 <img src="data:image/png;base64, @imgSrc">
 
@@ -40,6 +42,9 @@
 
     string imgSrc = "";
     string base64 = null;
+
+    string newPass = "123Patter";
+    string newPass2 = "xd";
 
 
 
@@ -193,5 +198,15 @@
         bool isManager = await client.GetFromJsonAsync<bool>($"api/Authentication/isManager?ID1={dbgClubID[0]}&ID2={dbgClubID[1]}");
 
         Console.WriteLine("is manager " + isManager);
+    }
+
+    private async Task ChangePassTest() {
+        var res = await Http.PostAsJsonAsync<string>("api/User/changePassword", newPass);
+        Console.WriteLine(res);
+    }
+    
+    private async Task ChangePassTest2() {
+        var res = await Http.PostAsJsonAsync<string>("api/User/changePassword", newPass2);
+        Console.WriteLine(res);
     }
 }
