@@ -28,7 +28,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             SqlCommand command;
 
-            command = new SqlCommand("select teamID, clubID, teamName, managerID from TeamsDB where teamID = @teamID");
+            command = new SqlCommand("select * from TeamsDB where teamID = @teamID");
             command.Parameters.Add(new SqlParameter("teamID", teamID));
 
 
@@ -38,9 +38,8 @@ namespace P3TournamentPlanner.Server.Controllers {
             //0teamID, 1clubID, 2divisionID, 3leagueID, 4teamName, 5teamRating, 6placement, 7matchPlayed, 8matchesWon, 9matchesDraw, 10matchesLost, 11roundsWon, 12roundsLost, 13points, 14managerID, 15archiveFlag
             foreach (DataRow r in dt.Rows)
             {
-
                 command = new SqlCommand($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID=@userID");
-                command.Parameters.Add(new SqlParameter("userID", r[3].ToString()));
+                command.Parameters.Add(new SqlParameter("userID", r[14].ToString()));
                 dt2 = db.PullTable(command);
 
                 //DataRow r2 = dt2.Rows[0];
@@ -48,9 +47,13 @@ namespace P3TournamentPlanner.Server.Controllers {
                 //teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (string)r2[0], (int)r[6],
                 //    (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], (string)r[14], (int)r[15]));
 
-                Contactinfo contactInfo = new Contactinfo(r[3].ToString(), (string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
-                ClubManager manager = new ClubManager(contactInfo, r[3].ToString());
-                team = new Team((int)r[0], (int)r[1], r[2].ToString(), manager);
+                Contactinfo contactInfo = new Contactinfo(r[14].ToString(), (string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
+                ClubManager manager = new ClubManager(contactInfo, r[14].ToString());
+                team = new Team(
+                    (int)r[0], (int)r[1], (int)r[2], (int)r[3], r[4].ToString(), (int)r[5],
+                    (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12],
+                    (int)r[13], manager, Convert.ToBoolean(r[15])
+                );
 
                 Console.WriteLine("HEREEE:--->");
             }
@@ -223,15 +226,16 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DataTable dt;
 
-            SqlCommand command = new SqlCommand("select teamName from TeamsDB");
-
+            SqlCommand command = new SqlCommand("select teamName from TeamsDB where teamID != @teamID");
+            command.Parameters.Add(new SqlParameter("teamID", team.teamID));
             dt = db.PullTable(command);
 
             foreach (DataRow r in dt.Rows)
             {
+                Console.WriteLine("Team naem: " + r[0].ToString());
                 if (r[0].ToString() == team.teamName)
                 {
-                    return StatusCode(403);
+                    return BadRequest("Navn allerede taget!");
                 }
             }
 
@@ -260,7 +264,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             db.InsertToTable(command);
 
-            return Ok();
+            return Ok("Gemt");
         }
 
         [HttpDelete]
