@@ -11,7 +11,7 @@
 }
 else
 {
-    <div>,
+    <div>
     <h2>@division.divisionID. divsion</h2>
         <div class="hold" style=" width:100%; ">
             <table>
@@ -38,14 +38,14 @@ else
         </div>
         <div class="tilføjHold">
             <div class="bokse">
-                <form ="/" method="post" class="formBund">
+                <form class="formBund">
                     <div class="flex">
                         <div class="workPLZ">
-                            <select>
-                                <option> Placeholder</option>
-                                @foreach (Team team in division.teams)
+                            <select @onchange="TeamToAdd">
+                                <option>Vælg hold</option>
+                                @foreach (Team team in teamsNotInDivision)
                                 {
-                                    <option> @team.teamName </option>
+                                    <option value="@team.teamName">@team.teamName</option>
                                 }
                             </select>
                         </div>
@@ -63,7 +63,6 @@ else
             <button id="kampe-btn" @onclick='() => ChangeDisplay("kampe")'>Kampe</button>
             <button id="resultater-btn" @onclick='() => ChangeDisplay("")'>Resultater</button>
         </div>
-        <div class="streg"></div>
         @if (display == "kampe")
         {
             <style>
@@ -91,6 +90,10 @@ else
 
     Division division = new Division();
 
+    List<Team> teamsNotInDivision = new List<Team>();
+
+    Team teamToAdd = new Team();
+
     string display = "kampe";
 
     public void ChangeDisplay(string d)
@@ -109,6 +112,51 @@ else
         Console.WriteLine("Get Send");
         division.teams = await client.GetFromJsonAsync<List<Team>>($"api/TeamInformation?divisionID={divisionID}");
         Console.WriteLine("På den anden side");
+
+        await GetTeamsNotInDivision();
+    }
+
+    public async Task GetTeamsNotInDivision()
+    {
+        List<Team> tempList = new List<Team>();
+
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        tempList = await client.GetFromJsonAsync<List<Team>>($"api/TeamInformation?divisionID={0}");
+
+        foreach (Team team in tempList)
+        {
+            if (team.leagueID == division.leagueID)
+            {
+                teamsNotInDivision.Add(team);
+            }
+        }
+    }
+
+    async Task TeamToAdd(ChangeEventArgs eventArgs)
+    {
+        foreach (Team team in teamsNotInDivision)
+        {
+            if (team.teamName == eventArgs.Value.ToString())
+            {
+                teamToAdd = team;
+            }
+        }
+
+        teamToAdd.divisionID = divisionID;
+        await AddTeam();
+
+        await InvokeAsync(OnInitializedAsync);
+        StateHasChanged();
+    }
+
+    async Task AddTeam()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        await client.PutAsJsonAsync<Team>("api/TeamInformation", teamToAdd);
     }
 
     public void ShowTeam(Team team)
