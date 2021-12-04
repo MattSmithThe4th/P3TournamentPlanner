@@ -58,6 +58,29 @@ namespace P3TournamentPlanner.Server.Controllers {
             return divList;
         }
 
+        [HttpGet("getdivision")]
+        public Division Get(int divisionID)
+        {
+            DatabaseQuerys db = new DatabaseQuerys();
+            DataTable dt;
+            Division division = new Division();
+            DivisionFormat df = new DivisionFormat();
+            SqlCommand command; ;
+
+            command = new SqlCommand("select * from DivisionsDB where divisionID = @divisionID");
+            command.Parameters.Add(new SqlParameter("divisionID", divisionID));
+            dt = db.PullTable(command);
+
+            df.format = dt.Rows[0][2].ToString();
+
+            division.divisionID = (int)dt.Rows[0][0];
+            division.leagueID = (int)dt.Rows[0][1];
+            division.divisionFormat = df;
+            division.archiveFlag = Convert.ToBoolean((int)dt.Rows[0][3]);
+
+            return division;
+        }
+
         [Authorize]
         [HttpPost]
         public void Post(Division division) {
