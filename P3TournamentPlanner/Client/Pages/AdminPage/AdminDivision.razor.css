@@ -119,3 +119,13 @@ button {
 }
 
 .navn{ float:left;}
+
+.form-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+}
