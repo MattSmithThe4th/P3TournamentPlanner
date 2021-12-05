@@ -11,141 +11,139 @@
 }
 else
 {
-    <div>
+<div>
     <h2>@division.divisionID. divsion</h2>
-        <div class="hold" style=" width:100%; ">
-            <table>
-                <thead>
-                    <tr style=" width: 100%; ">
-                        <th>Hold</th>
-                        <th>Kontakt person</th>
-                        <th>Email</th>
-                        <th>Antal spillere</th>
+    <div class="hold" style=" width:100%; ">
+        <table>
+            <thead>
+                <tr style=" width: 100%; ">
+                    <th>Hold</th>
+                    <th>Kontakt person</th>
+                    <th>Email</th>
+                    <th>Antal spillere</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Team team in division.teams)
+                {
+                    <tr @onclick="() => ShowTeam(team)">
+                        <td>@team.teamName</td>
+                        <td> navn på kontakt person</td>
+                        <td>@team.manager.contactinfo.tlfNr</td>
+                        <td>@team.divisionID</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (Team team in division.teams)
-                    {
-                        <tr @onclick="() => ShowTeam(team)">
-                            <td>@team.teamName</td>
-                            <td> navn på kontakt person</td>
-                            <td>@team.manager.contactinfo.tlfNr</td>
-                            <td>@team.divisionID</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="tilføjHold">
-            <div class="bokse">
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="tilføjHold">
+        <div class="bokse">
+            <div class="box">
+                <p>Tilføj nyt hold til divisionen</p>
                 <form class="formBund">
-                    <div class="flex">
-                        <div class="workPLZ">
-                            <select @onchange="TeamToAdd">
-                                <option>Vælg hold</option>
-                                @foreach (Team team in teamsNotInDivision)
-                                {
-                                    <option value="@team.teamName">@team.teamName</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
+                    <select @onchange="TeamToAdd">
+                        <option>Vælg hold</option>
+                        @foreach (Team team in teamsNotInDivision)
+                        {
+                            <option value="@team.teamName">@team.teamName</option>
+                        }
+                    </select>
                 </form>
             </div>
-            <div class="bokse">
-                <button id="genererkampe">Generer Kampe</button>
-            </div>
         </div>
-        <div class="table_menu">
-            <button id="kampe-btn" @onclick='() => ChangeDisplay("kampe")'>Kampe</button>
-            <button id="resultater-btn" @onclick='() => ChangeDisplay("")'>Resultater</button>
+        <div class="wrapper">
+            <button class="btn-primary">Generer Kampe</button>
         </div>
-        @if (display == "kampe")
-        {
-            <style>
-                /*#kampe-btn {*/
-                background-color: var(--penta-lilla)
-                }
-            </style>
-            <div>
-                <div>
-                    <h3>Opret ny kamp</h3>
-                </div>
-                <div>
-                    <EditForm Model="match" OnValidSubmit="MatchPost">
-                        <div class="form-div">
-                            <div class="form-item">
-                                <label>Hold 1:</label>
-                                <InputSelect @bind-Value="team1Name">
-                                    <option selected value="">Vælg første hold</option>
-                                    @foreach (Team team in division.teams)
-                                    {
-                                        <option value="@team.teamName">@team.teamName</option>
-                                    }
-                                </InputSelect>
-                            </div>
-
-                            <div class="form-item">
-                                <label>Hold 2:</label>
-                                <InputSelect @bind-Value="team2Name">
-                                    <option value="">Vælg andet hold</option>
-                                    @foreach (Team team in division.teams)
-                                    {
-                                        <option value="@team.teamName">@team.teamName</option>
-                                    }
-                                </InputSelect>
-                            </div>
-
-                            <div class="form-item">
-                                <label>Tidpunkt: (dato : klokkeslæt)</label>
-                                <InputText placeholder="01 / 01 - 2021 : 00:00" @bind-Value="match.startTime"></InputText>
-                            </div>
-
-                            <div class="form-item">
-                                <label>Værtsklub:</label>
-                                <InputSelect @bind-Value="@match.clubHostID">
-                                    <option value=0>Vælg værtsklub</option>
-                                    @foreach (Team team in division.teams)
-                                    {
-                                        <option value="@team.clubID">@team.club.name</option>
-                                    }
-                                </InputSelect>
-                            </div>
-
-                            <div class="form-item">
-                                <label>Map:</label>
-                                <InputSelect @bind-Value="match.map">
-                                    <option value="">Vælg map</option>
-                                    <option value="Ancient">Ancient</option>
-                                    <option value="dust2">Dust 2</option>
-                                    <option value="Inferno">Inferno</option>
-                                    <option value="Mirage">Mirage</option>
-                                    <option value="Nuke">Nuke</option>
-                                    <option value="Overpass">Overpass</option>
-                                    <option value="Vertigo">Vertigo</option>
-                                </InputSelect>
-                            </div>
-
-                            <div class="form-item">
-                                <button type="submit">Opret</button>
-                            </div>
-                        </div>
-                    </EditForm>
-                </div>
-            </div>
-
-            <MatchList ID="divisionID" search="division" />
-        }
-        else
-        {
-            <style>
-                #resultater-btn {
-                    background-color: var(--penta-lilla)
-                }
-            </style>
-            <ResultList ID="divisionID" search="division" />
-        }
     </div>
+    <div class="table_menu">
+        <button id="kampe-btn" @onclick='() => ChangeDisplay("kampe")'>Kampe</button>
+        <button id="resultater-btn" @onclick='() => ChangeDisplay("")'>Resultater</button>
+    </div>
+    @if (display == "kampe")
+    {
+        <style>
+            /*#kampe-btn {*/
+            background-color: var(--penta-lilla)
+            }
+        </style>
+        <MatchList ID="divisionID" search="division" />
+    }
+    else
+    {
+        <style>
+            #resultater-btn {
+                background-color: var(--penta-lilla)
+            }
+        </style>
+        <ResultList ID="divisionID" search="division" />
+    }
+    <div class="new-match-div">
+        <div>
+            <h3>Opret ny kamp</h3>
+        </div>
+        <div>
+            <EditForm Model="match" OnValidSubmit="MatchPost">
+                <div class="form-div">
+                    <div class="form-item">
+                        <label>Hold 1:</label>
+                        <InputSelect @bind-Value="team1Name">
+                            <option selected value="">Vælg første hold</option>
+                            @foreach (Team team in division.teams)
+                                {
+                                <option value="@team.teamName">@team.teamName</option>
+                                }
+                        </InputSelect>
+                    </div>
+
+                    <div class="form-item">
+                        <label>Hold 2:</label>
+                        <InputSelect @bind-Value="team2Name">
+                            <option value="">Vælg andet hold</option>
+                            @foreach (Team team in division.teams)
+                                {
+                                <option value="@team.teamName">@team.teamName</option>
+                                }
+                        </InputSelect>
+                    </div>
+
+                    <div class="form-item">
+                        <label>Tidpunkt: (dato : klokkeslæt)</label>
+                        <InputText placeholder="01 / 01 - 2021 : 00:00" @bind-Value="match.startTime"></InputText>
+                    </div>
+
+                    <div class="form-item">
+                        <label>Værtsklub:</label>
+                        <InputSelect @bind-Value="@match.clubHostID">
+                            <option value=0>Vælg værtsklub</option>
+                            @foreach (Team team in division.teams)
+                                {
+                                <option value="@team.clubID">@team.club.name</option>
+                                }
+                        </InputSelect>
+                    </div>
+
+                    <div class="form-item">
+                        <label>Map:</label>
+                        <InputSelect @bind-Value="match.map">
+                            <option value="">Vælg map</option>
+                            <option value="Ancient">Ancient</option>
+                            <option value="dust2">Dust 2</option>
+                            <option value="Inferno">Inferno</option>
+                            <option value="Mirage">Mirage</option>
+                            <option value="Nuke">Nuke</option>
+                            <option value="Overpass">Overpass</option>
+                            <option value="Vertigo">Vertigo</option>
+                        </InputSelect>
+                    </div>
+
+                    <div class="form-item wrapper">
+                        <button class="btn-primary" type="submit">Opret</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
 }
 
 @code{
@@ -200,7 +198,7 @@ else
 
         tempList = await client.GetFromJsonAsync<List<Team>>($"api/TeamInformation?divisionID={0}");
 
-        foreach (Team team in tempList)s
+        foreach (Team team in tempList)
         {
             if (team.leagueID == division.leagueID)
             {
@@ -219,12 +217,20 @@ else
 
     public async Task MatchPost()
     {
-        division.teams.Add(AddMatchTeam(team1Name));
-        division.teams.Add(AddMatchTeam(team2Name));
+        match.teams = new List<Team>();
+        match.teams.Add(AddMatchTeam(team1Name));
+        match.teams.Add(AddMatchTeam(team2Name));
 
+        match.divisionID = divisionID;
+        match.leagueID = division.leagueID;
+        match.team1Score = 0;
+        match.team2Score = 0;
+        match.playedFlag = false;
+        match.serverIP = "DetteErServer";
 
+        //await Http.PostAsJsonAsync<Match>("api/Match", match);
 
-        if (division.teams[0].teamName == division.teams[1].teamName)
+        if (match.teams[0].teamName != match.teams[1].teamName)
         {
             await Http.PostAsJsonAsync<Match>("api/Match", match);
         }
