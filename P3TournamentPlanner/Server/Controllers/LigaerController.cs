@@ -74,7 +74,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             foreach (DataRow row in dt.Rows)
             {
-                league.leageID = (int)row[0];
+                league.leagueID = (int)row[0];
                 league.name = row[1].ToString();
 
                 db = new DatabaseQuerys();
