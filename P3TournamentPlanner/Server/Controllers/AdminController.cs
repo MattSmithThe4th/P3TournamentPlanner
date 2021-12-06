@@ -43,51 +43,38 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpGet("genMatches")]
-        public List<Division> GenerateMatches(int leagueID) {
+        public List<Match> GenerateMatches(int leagueID, int divisionID) {
             Random rand = new Random();
-            DivisionController dc = new DivisionController();
-            List<Division> divisions = dc.Get(leagueID);
+            Division division = new Division(new List<Team>(), new List<Match>());
 
             DatabaseQuerys db = new DatabaseQuerys();
-            DataTable divTable;
             DataTable teamTable;
 
-            SqlCommand command = new SqlCommand("select * from DivisionsDB where leagueID = @leagueID");
+            SqlCommand command = new SqlCommand("select * from TeamsDB where leagueID = @leagueID and divisionID = @divisionID");
             command.Parameters.Add(new SqlParameter("leagueID", leagueID));
-            divTable = db.PullTable(command);
-
-            foreach(DataRow r in divTable.Rows) {
-                divisions.Add(new Division());
-            }
-
-            command = new SqlCommand("select * from TeamsDB where leagueID = @leagueID");
-            command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+            command.Parameters.Add(new SqlParameter("divisionID", divisionID));
             teamTable = db.PullTable(command);
 
-
-            // LAV DET HER SHIT FÆRDIG :))))
             foreach(DataRow r in teamTable.Rows) {
                 command = new SqlCommand("select * from ContactInfoDB where userID = @userID");
-                command.Parameters.Add(new SqlParameter("userID", (int)r[14]));
+                command.Parameters.Add(new SqlParameter("userID", (string)r[14]));
                 DataTable ciTable = db.PullTable(command);
 
-                divisions[(int)r[2] - 1].teams.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], new ClubManager(new Contactinfo((string)ciTable.Rows[0][0], (string)ciTable.Rows[0][1], (string)ciTable.Rows[0][2], (string)ciTable.Rows[0][3], (string)ciTable.Rows[0][4]))));
+                division.teams.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], new ClubManager(new Contactinfo((string)ciTable.Rows[0][0], (string)ciTable.Rows[0][1], (string)ciTable.Rows[0][2], (string)ciTable.Rows[0][3], (string)ciTable.Rows[0][4]))));
             }
 
             //Logic
-            foreach(Division division in divisions) {
-                for(int i = 0; i < division.teams.Count - 1; i++) {
-                    for(int j = i + 1; j < division.teams.Count; j++) {
-                        List<Team> teamsInMatch = new List<Team>();
-                        teamsInMatch.Add(division.teams[i]);
-                        teamsInMatch.Add(division.teams[j]);
+            for(int i = 0; i < division.teams.Count - 1; i++) {
+                for(int j = i + 1; j < division.teams.Count; j++) {
+                    List<Team> teamsInMatch = new List<Team>();
+                    teamsInMatch.Add(division.teams[i]);
+                    teamsInMatch.Add(division.teams[j]);
 
-                        division.matches.Add(new Match(teamsInMatch, "This is the start time", false, teamsInMatch[rand.Next(0, 2)].clubID, "This is the ServerIP", "This is the map", 0, 0));
-                    }
+                    division.matches.Add(new Match(teamsInMatch, "This is the start time", false, teamsInMatch[rand.Next(0, 2)].clubID, "This is the ServerIP", "This is the map", 0, 0));
                 }
             }
 
-            return divisions;
+            return division.matches;
         }
 
         [HttpGet("genDivisions")]
