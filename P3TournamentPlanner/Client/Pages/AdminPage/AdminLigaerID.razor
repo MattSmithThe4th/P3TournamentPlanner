@@ -1,7 +1,7 @@
 ﻿@using P3TournamentPlanner.Shared
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@attribute [Authorize(Roles = "Administrator")]
+@attribute [Authorize]
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject NavigationManager NavigationManager
@@ -31,7 +31,7 @@
         <div class="header-div">
             <h2>Liga</h2>
         </div>
-        <EditForm Model="league" OnSubmit="HandleSubmit">
+        <EditForm Model="league">
             <div>
                 <div class="item-div">
                     <label>Navn:</label>
@@ -86,10 +86,6 @@
     League league = new League();
     VideoGame game = new VideoGame();
 
-    async Task HandleSubmit() {
-
-    }
-
     protected override async Task OnParametersSetAsync() {
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
@@ -104,7 +100,7 @@
     }
 
     public void ShowDivision(Division division) {
-        NavigationManager.NavigateTo($"/admin/ligaerDivision/{division.divisionID}");
+        NavigationManager.NavigateTo($"/admin/ligaer/{leagueID}/division/{division.divisionID}");
     }
 
     public void ShowDivisionGenerater()

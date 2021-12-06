@@ -59,16 +59,26 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [HttpGet("getdivision")]
-        public Division Get(int divisionID)
+        public Division Get(int? divisionID, int? leagueID)
         {
             DatabaseQuerys db = new DatabaseQuerys();
             DataTable dt;
             Division division = new Division();
             DivisionFormat df = new DivisionFormat();
-            SqlCommand command; ;
+            SqlCommand command = new SqlCommand();
 
-            command = new SqlCommand("select * from DivisionsDB where divisionID = @divisionID");
-            command.Parameters.Add(new SqlParameter("divisionID", divisionID));
+            if (divisionID != null)
+            {
+                command = new SqlCommand("select * from DivisionsDB where divisionID = @divisionID");
+                command.Parameters.Add(new SqlParameter("divisionID", divisionID));
+            }
+            else if (leagueID != null)
+            {
+                command = new SqlCommand("select * from DivisionsDB where leagueID = @leagueID and divisionID = @divisionID");
+                command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+                command.Parameters.Add(new SqlParameter("divisionID", divisionID));
+            }
+
             dt = db.PullTable(command);
 
             df.format = dt.Rows[0][2].ToString();
