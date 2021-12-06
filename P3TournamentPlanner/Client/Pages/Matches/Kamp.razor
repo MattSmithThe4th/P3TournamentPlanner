@@ -190,6 +190,7 @@ else
     async Task PutMatch()
     {
         Console.WriteLine(match.map);
+        Console.WriteLine(match.divisionID);
         match.playedFlag = true;
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");

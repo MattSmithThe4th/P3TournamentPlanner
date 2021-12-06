@@ -79,7 +79,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                 clubList.Add(new Club((int)r[0], r[1].ToString(), r[2].ToString(), r[3].ToString()));
             }
 
-            Console.WriteLine(clubList);
+            Console.WriteLine(clubList + "---------HER!!!!!!");
 
             return clubList;
         }

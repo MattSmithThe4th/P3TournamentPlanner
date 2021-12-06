@@ -97,7 +97,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             teams.Add(new Team((int)dt.Rows[0][4], (int)teamTable.Rows[0][0], teamTable.Rows[0][1].ToString()));
 
-            match = new Match((int)dt.Rows[0][1], (int)dt.Rows[0][2], (int)dt.Rows[0][0], teams, dt.Rows[0][7].ToString(), Convert.ToBoolean(dt.Rows[0][8]), (int)dt.Rows[0][5], (int)dt.Rows[0][6], (int)dt.Rows[0][9], dt.Rows[0][10].ToString(), dt.Rows[0][11].ToString());
+            match = new Match((int)dt.Rows[0][2], (int)dt.Rows[0][1], (int)dt.Rows[0][0], teams, dt.Rows[0][7].ToString(), Convert.ToBoolean(dt.Rows[0][8]), (int)dt.Rows[0][5], (int)dt.Rows[0][6], (int)dt.Rows[0][9], dt.Rows[0][10].ToString(), dt.Rows[0][11].ToString());
 
             Console.WriteLine(match.teams[0].teamName);
 
@@ -157,8 +157,8 @@ namespace P3TournamentPlanner.Server.Controllers {
         [Authorize]
         [HttpPut]
         public void Put(Match match) {
-            Console.WriteLine("Put Recieved!");
-
+            Console.WriteLine("Put Recieved! Match");
+            Console.WriteLine(match.divisionID);
             DatabaseQuerys db = new DatabaseQuerys();
 
             SqlCommand command = new SqlCommand("select playedFlag from matchDB where matchID = @matchID");
