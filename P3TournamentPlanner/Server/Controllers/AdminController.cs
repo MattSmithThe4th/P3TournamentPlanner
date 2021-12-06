@@ -45,7 +45,8 @@ namespace P3TournamentPlanner.Server.Controllers {
         [HttpGet("genMatches")]
         public List<Division> GenerateMatches(int leagueID) {
             Random rand = new Random();
-            List<Division> divisions = new List<Division>();
+            DivisionController dc = new DivisionController();
+            List<Division> divisions = dc.Get(leagueID);
 
             DatabaseQuerys db = new DatabaseQuerys();
             DataTable divTable;

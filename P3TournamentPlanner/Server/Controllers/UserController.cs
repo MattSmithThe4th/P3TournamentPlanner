@@ -25,21 +25,21 @@ namespace P3TournamentPlanner.Server.Controllers {
 
         //GET
         [HttpGet]
-        public Contactinfo Get(string testID) {
+        public Contactinfo Get(string userID) {
             string id;
             DatabaseQuerys db = new DatabaseQuerys();
             DataTable dt;
 
-            if (testID == null) {
+            if (userID == null) {
                 //Production
                 Console.WriteLine("Production Code");
                 Console.WriteLine(HttpContext.User.FindFirstValue("sub"));
                 id = HttpContext.User.FindFirstValue("sub");
 
             } else {
-                //Med testID
+                //Med userID
                 Console.WriteLine("Test Code");
-                id = testID;
+                id = userID;
             }
 
             Console.WriteLine($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID = '{id}'");
