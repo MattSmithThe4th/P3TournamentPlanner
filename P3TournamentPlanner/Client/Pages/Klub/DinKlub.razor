@@ -219,6 +219,7 @@
             Console.WriteLine("Get Send");
             club = await Http.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + id);
             Console.WriteLine("På den anden side");
+            if(club.clubID == 0) NavigationManager.NavigateTo($"/");
             Console.WriteLine(club);
 
             await GetTeams();

@@ -35,6 +35,9 @@ namespace P3TournamentPlanner.Server.Controllers {
         [HttpGet("isManager")]
         public bool GetManBool(string ID1, string ID2) {
             //Jeg sværger.. Det er ikk scuffed
+            ClaimsPrincipal principal = HttpContext.User as ClaimsPrincipal;
+            if(principal.IsInRole("Administrator")) return true;
+
             List<string> clubIDList = new List<string>();
             clubIDList.Add(ID1);
             clubIDList.Add(ID2);
