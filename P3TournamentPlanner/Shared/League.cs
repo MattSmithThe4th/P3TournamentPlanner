@@ -26,11 +26,6 @@ namespace P3TournamentPlanner.Shared {
             this.admin = admin;
         }
 
-        public League(string name, VideoGame game) {
-            this.name = name;
-            this.game = game;
-        }
-
         public League(string name, SiteAdmin admin, VideoGame game, int leagueID, bool archiveFlag, int teamAmount) : this(name) {
             this.admin = admin;
             this.game = game;

@@ -20,10 +20,6 @@ namespace P3TournamentPlanner.Shared {
         public Club() {
         }
 
-        public Club(string name) {
-            this.name = name;
-        }
-
         public Club(int clubID, string name, string address, string base64Logo) {
             this.clubID = clubID;
             this.name = name;
