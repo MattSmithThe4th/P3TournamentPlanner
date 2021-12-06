@@ -183,7 +183,6 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("divisionID", team.divisionID));
             command.Parameters.Add(new SqlParameter("leagueID", team.leagueID));
             command.Parameters.Add(new SqlParameter("teamName", team.teamName));
-            command.Parameters.Add(new SqlParameter("teamRating", team.teamSkillRating));
             command.Parameters.Add(new SqlParameter("placement", team.placement));
             command.Parameters.Add(new SqlParameter("matchPlayed", team.matchesPlayed));
             command.Parameters.Add(new SqlParameter("matchesWon", team.matchesWon));

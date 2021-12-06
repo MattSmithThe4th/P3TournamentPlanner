@@ -14,7 +14,6 @@ namespace P3TournamentPlanner.Server.Controllers {
     [ApiController]
     public class KlubController : ControllerBase {
 
-        [Authorize]
         [HttpGet("klub")]
         public Club Get(int clubID)
         {
@@ -26,17 +25,26 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DataTable dt;
 
-            SqlCommand command = new SqlCommand($"select clubID from ClubManagerDB where userID = @userID");
-            command.Parameters.Add(new SqlParameter("userID", HttpContext.User.FindFirstValue("sub")));
+            string userID = HttpContext.User.FindFirstValue("sub");
+            SqlCommand command;
 
-            dt = db.PullTable(command);
+            if(userID != null) {
+                command = new SqlCommand($"select clubID from ClubManagerDB where userID = @userID");
+                command.Parameters.Add(new SqlParameter("userID", userID));
 
-            Club zeroClub = new Club(0);
-            try {
-                if((int)dt.Rows[0][0] != clubID) return zeroClub;
-            } catch {
-                Console.WriteLine("Det må godt være scuffed");
+                dt = db.PullTable(command);
+
+                Club zeroClub = new Club(0);
+                try {
+                    if((int)dt.Rows[0][0] != clubID) return zeroClub;
+                } catch {
+                    Console.WriteLine("Det må godt være scuffed");
+                }
             }
+
+            
+
+            
             command = new SqlCommand($"select clubID, clubName, clubAddress, clubLogo from ClubDB where clubID = @clubID");
             command.Parameters.Add(new SqlParameter("clubID", clubID));
             dt = db.PullTable(command);

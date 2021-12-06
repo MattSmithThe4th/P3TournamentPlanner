@@ -29,17 +29,19 @@
     protected override async Task OnInitializedAsync() {
         try {
             club = await Http.GetFromJsonAsync<Club>("api/Authentication/navbar");
+
+            if(club.clubID == 0) {
+                path = "/admin/";
+                title = "Admin Side";
+            } else {
+                path = ("/dinklub/" + club.clubID);
+                title = club.name;
+            }
+
         } catch(Exception exception) {
             Console.WriteLine(exception.Message);
         }
 
-        if(club.clubID == 0) {
-            path = "/admin/";
-            title = "Admin Side";
-        } else {
-            path = ("/dinklub/" + club.clubID);
-            title = club.name;
-        }
 
     }
 
