@@ -117,7 +117,11 @@
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
+        Divisions.RemoveAt(0);
+
         await client.PostAsJsonAsync<List<Division>>("api/Division/DivList", Divisions);
+
+        NavigationManager.NavigateTo($"/admin/ligaer/{leagueID}");
     }
 
     void MoveDivision(int OlddivID, Division div, Team team) {

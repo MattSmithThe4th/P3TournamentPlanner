@@ -60,7 +60,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
                 teams.Add(new Team((int)r[4], (int)teamTable.Rows[0][0], teamTable.Rows[0][1].ToString()));
 
-                matches.Add(new Match((int)r[0], teams, r[7].ToString(), Convert.ToBoolean(r[8]), (int)r[5], (int)r[6], (int)r[9], r[10].ToString(), r[11].ToString()));
+                matches.Add(new Match((int)r[0], (int)r[2], teams, r[7].ToString(), Convert.ToBoolean(r[8]), (int)r[5], (int)r[6], (int)r[9], r[10].ToString(), r[11].ToString()));
             }
             return matches;
         }
