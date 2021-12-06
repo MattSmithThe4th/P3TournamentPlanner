@@ -4,6 +4,8 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @page "/admin"
 @attribute [Authorize]
+@inject HttpClient Http
+@inject IHttpClientFactory ClientFactory
 <h1>Administrator</h1>
 
 <section class="klub-section">
@@ -148,6 +150,28 @@
     string Display = "ligaer";
 
     string newAdminDisplay = "none";
+
+    bool isAuth = false;
+    string roleRequirement = "Administrator";
+
+
+    protected override async Task OnInitializedAsync() {
+
+        try {
+            isAuth = await Http.GetFromJsonAsync<bool>($"api/authentication?role={roleRequirement}");
+        }
+        catch(AccessTokenNotAvailableException exception) {
+            //idfk... Redirect eller sådan noget xd
+            Console.WriteLine("Exeption Hit!");
+        }
+
+
+        if(isAuth) {
+            Console.WriteLine("lesgo!");
+        } else {
+            Console.WriteLine("Sadge");
+        }
+    }
 
     void ShowNewAdmin(string display) {
         newAdminDisplay = display;
