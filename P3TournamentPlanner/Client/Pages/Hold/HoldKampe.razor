@@ -48,6 +48,16 @@ else
                         <input type="text" @bind-value="team.teamName" />
                     </div>
                     <div>
+                        @if (team.leagueID == 0)
+                        {
+                            <select @bind="team.leagueID">
+                                <option value=0>Tilføj til liga</option>
+                                @foreach (League league in leagues)
+                                {
+                                    <option value=@league.leageID>@league.name</option>
+                                }
+                            </select>
+                        }
                         <button class="btn-primary" type="submit">Gem Hold</button>
                         <button class="btn-primary" @onclick="DeleteTeam">Slet hold</button>
                     </div>
@@ -216,17 +226,24 @@ else
                         </tbody>
                     </table>
                 </EditForm>
-                        </div>
+            </div>
             <NySpiller clubID="team.club.clubID" teamID="teamID" display="@playerDisplay" />
         </section>
     }
+    <div id="@messageStyle" style="display: @messageDisplay">
+        @message
+        <a @onclick="reloadPage" class="reload">Reload</a>
+        <a class="dismiss" @onclick='() => showMessage("none", "")'>🗙</a>
+    </div>
 }
 
 @code {
     [Parameter]
-    public Nullable<int> teamID { get; set; }
+    public int teamID { get; set; }
 
     public Player p = new Player();
+
+    private List<League> leagues = new List<League>();
 
     public bool IsManager { get; set; }
 
@@ -237,6 +254,13 @@ else
     string display = "info";
 
     string playerDisplay = "none";
+
+    string messageDisplay = "none";
+    string messageStyle;
+
+    string message { get; set; }
+
+    private static System.Timers.Timer aTimer;
 
     Team team = new Team(new ClubManager(new Contactinfo()), new Club(), new List<Player>());
 
@@ -277,6 +301,11 @@ else
                 Console.WriteLine(exception.Message);
                 IsManager = false;
             }
+
+            if (IsManager == true)
+            {
+                await GetLeagues();
+            }
         }
     }
 
@@ -297,10 +326,9 @@ else
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        team.club = await client.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + team.club.clubID);
+        team.club = await client.GetFromJsonAsync<Club>("api/Klub/klub?clubID=" + team.clubID);
         Console.WriteLine("På den anden side");
         Console.WriteLine(team.club);
-        team.clubID = team.club.clubID;
     }
 
     async Task GetPlayers()
@@ -313,6 +341,14 @@ else
         Console.WriteLine("På den anden side");
         Console.WriteLine(team.players);
         StateHasChanged();
+    }
+
+    async Task GetLeagues()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        leagues = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
     }
 
     async Task HandlePlayerPut()
@@ -345,14 +381,17 @@ else
 
     async void PutTeam()
     {
+        team.teamID = teamID;
+
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         var result = await client.PutAsJsonAsync<Team>("api/TeamInformation", team);
 
-        if (result.StatusCode == HttpStatusCode.Forbidden)
+        if (result.StatusCode == HttpStatusCode.BadRequest)
         {
-            Console.WriteLine("Navn allerede taget");
+            message = result.Content.ReadAsStringAsync().Result;
+            showMessage("block", "blazor-fejl-ui");
         }
         else
             NavigationManager.NavigateTo($"/hold/{teamID}", forceLoad: true);
@@ -397,5 +436,29 @@ else
         {
             playerDisplay = "none";
         }
+    }
+
+    void reloadPage()
+    {
+        NavigationManager.NavigateTo($"/hold/{teamID}", forceLoad: true);
+    }
+
+    void showMessage(string message, string style)
+    {
+        messageDisplay = message;
+        messageStyle = style;
+        Console.WriteLine(messageDisplay);
+        StateHasChanged();
+
+        aTimer = new System.Timers.Timer(6000);
+        aTimer.Enabled = true;
+        aTimer.Elapsed += CountDownTimer;
+    }
+
+    public void CountDownTimer(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        messageDisplay = "none";
+        aTimer.Enabled = false;
+        StateHasChanged();
     }
 }

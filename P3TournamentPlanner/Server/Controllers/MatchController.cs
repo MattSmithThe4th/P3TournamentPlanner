@@ -46,6 +46,8 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             foreach (DataRow r in dt.Rows)
             {
+                teams = new List<Team>();
+
                 command = new SqlCommand("select clubID, teamName from TeamsDB where teamID = @teamID");
                 command.Parameters.Add(new SqlParameter("teamID", (int)r[3]));
                 teamTable = db.PullTable(command);
@@ -53,7 +55,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                 teams.Add(new Team((int)r[3], (int)teamTable.Rows[0][0], teamTable.Rows[0][1].ToString()));
 
                 command = new SqlCommand("select clubID, teamName from TeamsDB where teamID = @teamID");
-                command.Parameters.Add(new SqlParameter("teamID", (int)dt.Rows[0][4]));
+                command.Parameters.Add(new SqlParameter("teamID", (int)r[4]));
                 teamTable = db.PullTable(command);
 
                 teams.Add(new Team((int)r[4], (int)teamTable.Rows[0][0], teamTable.Rows[0][1].ToString()));
@@ -114,8 +116,8 @@ namespace P3TournamentPlanner.Server.Controllers {
                 "@playedFlag, @hostClubID, @serverIP)");
             command.Parameters.Add(new SqlParameter("matchDivisionID", match.divisionID));
             command.Parameters.Add(new SqlParameter("leagueID", match.leagueID));
-            command.Parameters.Add(new SqlParameter("team1ID", match.teams[0]));
-            command.Parameters.Add(new SqlParameter("team2ID", match.teams[1]));
+            command.Parameters.Add(new SqlParameter("team1ID", match.teams[0].teamID));
+            command.Parameters.Add(new SqlParameter("team2ID", match.teams[1].teamID));
             command.Parameters.Add(new SqlParameter("team1Score", match.team1Score));
             command.Parameters.Add(new SqlParameter("team2Score", match.team2Score));
             command.Parameters.Add(new SqlParameter("startTime", match.startTime));
