@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace P3TournamentPlanner.Server.Controllers {
@@ -13,7 +14,7 @@ namespace P3TournamentPlanner.Server.Controllers {
     [ApiController]
     public class KlubController : ControllerBase {
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("klub")]
         public Club Get(int clubID)
         {
@@ -25,7 +26,18 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DataTable dt;
 
-            SqlCommand command = new SqlCommand($"select clubID, clubName, clubAddress, clubLogo from ClubDB where clubID = @clubID");
+            SqlCommand command = new SqlCommand($"select clubID from ClubManagerDB where userID = @userID");
+            command.Parameters.Add(new SqlParameter("userID", HttpContext.User.FindFirstValue("sub")));
+
+            dt = db.PullTable(command);
+
+            Club zeroClub = new Club(0);
+            try {
+                if((int)dt.Rows[0][0] != clubID) return zeroClub;
+            } catch {
+                Console.WriteLine("Det må godt være scuffed");
+            }
+            command = new SqlCommand($"select clubID, clubName, clubAddress, clubLogo from ClubDB where clubID = @clubID");
             command.Parameters.Add(new SqlParameter("clubID", clubID));
             dt = db.PullTable(command);
 
