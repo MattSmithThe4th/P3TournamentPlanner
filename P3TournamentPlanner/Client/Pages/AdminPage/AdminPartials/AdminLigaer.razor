@@ -60,7 +60,7 @@
                     <select @onchange="SetAdmin">
                         <option value="">Vælg admin</option>
                         @foreach (SiteAdmin admin in admins) {
-                            <option value="@admin.contactinfo.userID "> @admin.contactinfo.name </option>
+                            <option value="@admin.contactinfo.userID"> @admin.contactinfo.name </option>
                         }
 
                     </select>
@@ -118,7 +118,9 @@
     }
 
     async Task PostLiga() {
-        
+
+        Console.WriteLine(liga.admin.contactinfo.name);
+        Console.WriteLine(liga.admin.contactinfo.userID);
 
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
@@ -151,13 +153,10 @@
         users = await client.GetFromJsonAsync<List<User>>("api/Admin/users");
         Console.WriteLine("På den anden side");
 
-
-
         foreach (User user in users) if (user.roles.Contains("Administrator")) {
-                contactinfo = new Contactinfo(user.ID);
-                await GetContactInfo(contactinfo.userID);
-                admins.Add(new SiteAdmin(contactinfo));
-            }
+                contactinfo = new Contactinfo();
+                await GetContactInfo(user.ID);
+        }
 
         StateHasChanged();
     }
@@ -168,11 +167,21 @@
 
         Console.WriteLine("Get Send");
         contactinfo = await client.GetFromJsonAsync<Contactinfo>("api/User");
+        Console.WriteLine("Heeeer" + contactinfo.name);
         Console.WriteLine("På den anden side");
+        admins.Add(new SiteAdmin(contactinfo));
     }
 
     public void SetAdmin(ChangeEventArgs e) {
         liga.admin.contactinfo.userID = e.Value.ToString();
+
+        foreach (SiteAdmin siteAdmin in admins)
+        {
+            if (liga.admin.contactinfo.userID == siteAdmin.contactinfo.userID)
+            {
+                liga.admin.contactinfo = siteAdmin.contactinfo;
+            }
+        }
     }
 
 
