@@ -32,9 +32,10 @@ namespace P3TournamentPlanner.Shared {
             this.team2Score = team2Score;
         }
 
-        public Match(int matchID, List<Team> teams, string startTime, bool playedFlag, int team1Score, int team2Score, int clubHostID, string serverIP, string map)
+        public Match(int matchID, int leagueID, List<Team> teams, string startTime, bool playedFlag, int team1Score, int team2Score, int clubHostID, string serverIP, string map)
         {
             this.matchID = matchID;
+            this.leagueID = leagueID;
             this.teams = teams;
             this.startTime = startTime;
             this.playedFlag = playedFlag;
@@ -45,8 +46,10 @@ namespace P3TournamentPlanner.Shared {
             this.map = map;
         }
 
-        public Match(List<Team> teams, string startTime, bool playedFlag, int clubHostID, string serverIP, string map, int team1Score, int team2Score) {
+        public Match(List<Team> teams, int divisionID, int leagueID, string startTime, bool playedFlag, int clubHostID, string serverIP, string map, int team1Score, int team2Score) {
             this.teams = teams;
+            this.divisionID = divisionID;
+            this.leagueID = leagueID;
             this.startTime = startTime;
             this.playedFlag = playedFlag;
             this.clubHostID = clubHostID;

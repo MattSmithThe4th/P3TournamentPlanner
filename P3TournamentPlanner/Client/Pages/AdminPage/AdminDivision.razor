@@ -55,7 +55,7 @@ else
             </div>
         </div>
         <div class="wrapper">
-            <button class="btn-primary">Generer Kampe</button>
+            <button class="btn-primary" @onclick="GenerateMatches">Generer Kampe</button>
         </div>
     </div>
     <div class="table_menu">
@@ -69,7 +69,7 @@ else
             background-color: var(--penta-lilla)
             }
         </style>
-        <MatchList ID="divisionID" search="division" />
+        <MatchList ID="divisionID" leagueID="leagueID" search="division"></MatchList>
     }
     else
     {
@@ -78,7 +78,7 @@ else
                 background-color: var(--penta-lilla)
             }
         </style>
-        <ResultList ID="divisionID" search="division" />
+        <ResultList ID="divisionID" leagueID="leagueID" search="division" />
     }
     <div class="new-match-div">
         <div>
@@ -158,6 +158,8 @@ else
 
     Division division = new Division();
 
+    List<Match> matches = new List<Match>();
+
     List<Team> tempList = new List<Team>();
 
     List<Team> teamsNotInDivision = new List<Team>();
@@ -198,7 +200,6 @@ else
             Console.WriteLine("Sadge");
         }
 
-
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
@@ -224,6 +225,22 @@ else
         {
             await GetTeamClubs(team);
         }
+    }
+
+    private async Task GenerateMatches()
+    {
+        HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
+        client.BaseAddress = new Uri("https://localhost:44341/");
+
+        matches = await client.GetFromJsonAsync<List<Match>>($"api/Admin/genMatches?leagueID={leagueID}&divisionID={divisionID}");
+
+        await PostMatches();
+        StateHasChanged();
+    }
+
+    private async Task PostMatches()
+    {
+        await Http.PostAsJsonAsync<List<Match>>("api/Match/postMatchList", matches);
     }
 
     public async Task GetTeamsNotInDivision()
