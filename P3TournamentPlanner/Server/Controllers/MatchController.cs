@@ -129,6 +129,32 @@ namespace P3TournamentPlanner.Server.Controllers {
         }
 
         [Authorize]
+        [HttpPost("postMatchList")]
+        public void PostList(List<Match> matchList) {
+            Console.WriteLine("Post Recieved!");
+
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            foreach(Match match in matchList) {
+                SqlCommand command = new SqlCommand("insert into MatchDB(divisionID, leagueID, team1ID, team2ID, team1Score, team2Score, startTime, playedFlag, hostClubID, serverIP) " +
+                    "values(@matchDivisionID, @leagueID, @team1ID, @team2ID, @team1Score, @team2Score, @startTime, " +
+                    "@playedFlag, @hostClubID, @serverIP)");
+                command.Parameters.Add(new SqlParameter("matchDivisionID", match.divisionID));
+                command.Parameters.Add(new SqlParameter("leagueID", match.leagueID));
+                command.Parameters.Add(new SqlParameter("team1ID", match.teams[0].teamID));
+                command.Parameters.Add(new SqlParameter("team2ID", match.teams[1].teamID));
+                command.Parameters.Add(new SqlParameter("team1Score", match.team1Score));
+                command.Parameters.Add(new SqlParameter("team2Score", match.team2Score));
+                command.Parameters.Add(new SqlParameter("startTime", match.startTime));
+                command.Parameters.Add(new SqlParameter("playedFlag", Convert.ToInt32(match.playedFlag)));
+                command.Parameters.Add(new SqlParameter("hostClubID", match.clubHostID));
+                command.Parameters.Add(new SqlParameter("serverIP", match.serverIP));
+
+                db.InsertToTable(command);
+            }
+        }
+
+        [Authorize]
         [HttpPut]
         public void Put(Match match) {
             Console.WriteLine("Put Recieved!");
