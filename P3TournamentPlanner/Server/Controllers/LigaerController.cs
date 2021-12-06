@@ -108,6 +108,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             //string command = $"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values('{liga.name}, {liga.game}, {liga.admin}, {liga.archiveFlag}')";
             
+            //Create League
             SqlCommand command = new SqlCommand($"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values(@name, @game, @admin, @flag)");
             command.Parameters.Add(new SqlParameter("name", liga.name));
             command.Parameters.Add(new SqlParameter("game", liga.game.name));
@@ -115,6 +116,24 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("flag", liga.archiveFlag));
 
             db.InsertToTable(command);
+
+            //Det her er omegascuffed og fucking ulovligt
+            command = new SqlCommand("select leagueID from LeagueDB where leagueName = @leagueName and game = @game and adminID = @adminID and archiveFlag = @archiveFlag");
+            command.Parameters.Add(new SqlParameter("leagueName", liga.name));
+            command.Parameters.Add(new SqlParameter("game", liga.game.name));
+            command.Parameters.Add(new SqlParameter("adminID", liga.admin.contactinfo.userID));
+            command.Parameters.Add(new SqlParameter("archiveFlag", liga.archiveFlag));
+
+            DataTable dt = db.PullTable(command);
+
+            //Create Holding Division
+            command = new SqlCommand("insert into DivisionDB(divisionID, leagueID, divisionFormat, archiveFlag) values(@divisionID, @leagueID, @divisionFormat, @archiveFlag)");
+            command.Parameters.Add(new SqlParameter("divisionID", 0));
+            command.Parameters.Add(new SqlParameter("leagueID", dt.Rows[0][0]));
+            command.Parameters.Add(new SqlParameter("divisionFormat", "holdingDivision"));
+            command.Parameters.Add(new SqlParameter("archiveFlag", 0));
+
+
         }
 
         [Authorize]
