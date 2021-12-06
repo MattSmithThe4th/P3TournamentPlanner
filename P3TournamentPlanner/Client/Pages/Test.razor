@@ -47,12 +47,23 @@
     string newPass = "123Patter";
     string newPass2 = "xd";
 
+    string roleRequirement = "Administrator";
+    bool isAuth = false;
+
 
 
     protected override async Task OnInitializedAsync() {
 
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
+
+        isAuth = await Http.GetFromJsonAsync<bool>($"api/authentication?role={roleRequirement}");
+
+        if(isAuth) {
+            Console.WriteLine("lesgo!");
+        } else {
+            Console.WriteLine("Sadge");
+        }
 
         //client.DefaultRequestHeaders.Add("teamID", "69");
         //client.DefaultRequestHeaders.Add("clubID", "420");
