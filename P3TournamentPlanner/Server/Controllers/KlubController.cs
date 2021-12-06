@@ -133,13 +133,27 @@ namespace P3TournamentPlanner.Server.Controllers {
         {
             DatabaseQuerys db = new DatabaseQuerys();
 
-            //SqlCommand command = new SqlCommand($"use GeneralDatabase insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ({userIDString}, {ci.name}, {ci.tlfNr}, {ci.discordID}, {ci.email})");
-            SqlCommand command = new SqlCommand($"use GeneralDatabase insert into ClubDB(clubName, clubAddress, clubDescription, clubLogo) values (@clubName, @clubAddress, @clubDescription, @clubLogo)");
-            command.Parameters.Add(new SqlParameter("clubName", club.name));
-            command.Parameters.Add(new SqlParameter("clubAddress", club.address));
-            command.Parameters.Add(new SqlParameter("clubDescription", "Dette er en beskrivelse"));
-            command.Parameters.Add(new SqlParameter("clubLogo", club.base64Logo));
-            db.InsertToTable(command);
+
+            if(club.base64Logo == null || club.base64Logo == "") {
+                //SqlCommand command = new SqlCommand($"use GeneralDatabase insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ({userIDString}, {ci.name}, {ci.tlfNr}, {ci.discordID}, {ci.email})");
+                SqlCommand command = new SqlCommand($"use GeneralDatabase insert into ClubDB(clubName, clubAddress, clubDescription) values (@clubName, @clubAddress, @clubDescription)");
+                command.Parameters.Add(new SqlParameter("clubName", club.name));
+                command.Parameters.Add(new SqlParameter("clubAddress", club.address));
+                command.Parameters.Add(new SqlParameter("clubDescription", "Dette er en beskrivelse"));
+                db.InsertToTable(command);
+            } else {
+                //SqlCommand command = new SqlCommand($"use GeneralDatabase insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values ({userIDString}, {ci.name}, {ci.tlfNr}, {ci.discordID}, {ci.email})");
+                SqlCommand command = new SqlCommand($"use GeneralDatabase insert into ClubDB(clubName, clubAddress, clubDescription, clubLogo) values (@clubName, @clubAddress, @clubDescription, @clubLogo)");
+                command.Parameters.Add(new SqlParameter("clubName", club.name));
+                command.Parameters.Add(new SqlParameter("clubAddress", club.address));
+                command.Parameters.Add(new SqlParameter("clubDescription", "Dette er en beskrivelse"));
+                command.Parameters.Add(new SqlParameter("clubLogo", club.base64Logo));
+                db.InsertToTable(command);
+            }
+
+
+
+            
         }
     }
 }

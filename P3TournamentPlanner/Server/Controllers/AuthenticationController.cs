@@ -72,8 +72,14 @@ namespace P3TournamentPlanner.Server.Controllers {
 
         [Authorize]
         [HttpGet("navbar")]
-        public ClubManager GetClubManager()
+        public Club GetClubManager()
         {
+            Club club = new Club();
+            club.clubID = 0;
+
+            ClaimsPrincipal principal = HttpContext.User as ClaimsPrincipal;
+            if(principal.IsInRole("Administrator")) return club;
+
             string curUserID;
             curUserID = HttpContext.User.FindFirstValue("sub");
 
@@ -84,10 +90,16 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("userID", curUserID));
 
             dt = db.PullTable(command);
-
             ClubManager clubManager = new ClubManager((int)dt.Rows[0][0], curUserID);
 
-            return clubManager;
+            command = new SqlCommand($"select clubName from ClubDB where clubID = @clubID");
+            command.Parameters.Add(new SqlParameter("clubID", clubManager.ClubID));
+
+            dt = db.PullTable(command);
+            club.clubID = clubManager.ClubID;
+            club.name = dt.Rows[0][0].ToString();
+
+            return club;
         }
     }
 }

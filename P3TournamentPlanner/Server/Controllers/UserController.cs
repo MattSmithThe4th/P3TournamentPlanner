@@ -47,7 +47,12 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("userID", id));
             dt = db.PullTable(command);
 
-            return new Contactinfo(id, dt.Rows[0][0].ToString(), dt.Rows[0][1].ToString(), dt.Rows[0][2].ToString(), dt.Rows[0][3].ToString());
+            try {
+                return new Contactinfo(id, dt.Rows[0][0].ToString(), dt.Rows[0][1].ToString(), dt.Rows[0][2].ToString(), dt.Rows[0][3].ToString());
+            } catch {
+                Console.WriteLine("No contact info found for user: " + id);
+                return new Contactinfo();
+            }
         }
 
         //POST

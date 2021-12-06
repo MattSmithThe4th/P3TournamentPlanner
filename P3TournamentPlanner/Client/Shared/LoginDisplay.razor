@@ -12,7 +12,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <a href="/dinklub/1">Din klub</a>
+        <a href=@path>@title</a>
         <button class="nav-link btn btn-link" id="logout" @onclick="BeginSignOut">Log ud</button>
     </Authorized>
     <NotAuthorized>
@@ -21,23 +21,30 @@
 </AuthorizeView>
 
 @code{
-    //private ClubManager clubManager = new ClubManager();
+    private string path;
+    private string title;
+    private Club club;
+    private ClubManager clubManager;
 
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    try
-    //    {
-    //        clubManager = await Http.GetFromJsonAsync<ClubManager>("api/Authentication/navbar");
-    //    }
-    //    catch (Exception exception)
-    //    {
-    //        Console.WriteLine(exception.Message);
-    //    }
+    protected override async Task OnInitializedAsync() {
+        try {
+            club = await Http.GetFromJsonAsync<Club>("api/Authentication/navbar");
+        } catch(Exception exception) {
+            Console.WriteLine(exception.Message);
+        }
 
-    //}
+        if(club.clubID == 0) {
+            path = "/admin/";
+            title = "Admin Side";
+        } else {
+            path = ("/dinklub/" + club.clubID);
+            title = club.name;
+        }
+
+    }
 
     private async Task BeginSignOut(MouseEventArgs args)
-    {
+{
         await SignOutManager.SetSignOutState();
         Navigation.NavigateTo("authentication/logout");
     }
