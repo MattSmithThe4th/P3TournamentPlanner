@@ -238,15 +238,7 @@ else
     }
 
     private async Task RemoveFromDivision(Team team) {
-        Console.WriteLine($"TeamSkillRating: {team.teamSkillRating}");
-
         team.divisionID = 0;
-
-        foreach(Player p in team.players) {
-            Console.WriteLine(p.IRLName);
-        }
-
-        Console.WriteLine("POst for each");
 
         var res = await Http.PutAsJsonAsync<Team>("api/TeamInformation", team);
     }
