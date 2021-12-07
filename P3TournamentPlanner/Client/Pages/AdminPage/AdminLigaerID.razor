@@ -60,7 +60,7 @@
                         @if (division.divisionID == 0)
                         {
                             <tr @onclick="() => ShowDivision(division)">
-                                <td><h3>Holding division</h3></td>
+                                <td><h3>Venteliste</h3></td>
                             </tr>
                         }
                         else
@@ -73,7 +73,10 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn-primary" @onclick="ShowDivisionGenerater">Rediger divisioner</button>
+        @if (Divisions.Count == 1)
+        {
+            <button class="btn-primary" @onclick="ShowDivisionGenerater">Rediger divisioner</button>
+        }
     </div>
 </section>
 
