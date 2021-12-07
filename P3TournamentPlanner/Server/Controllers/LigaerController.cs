@@ -153,6 +153,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
+        [Authorize("Administrator")]
         [HttpPut("archive")]
         public void ArchiveLeague([FromBody] League league, [FromHeader] bool archive) {
             DatabaseQuerys db = new DatabaseQuerys();

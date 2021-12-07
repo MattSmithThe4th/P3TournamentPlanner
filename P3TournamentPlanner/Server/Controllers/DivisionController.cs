@@ -153,6 +153,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             db.InsertToTable(command);
         }
 
+        [Authorize("Administrator")]
         [HttpPut("archive")]
         public void ArchiveDivision([FromBody] Division division, [FromHeader] bool archive) {
             Console.WriteLine("Arch Hit");

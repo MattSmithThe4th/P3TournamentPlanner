@@ -269,6 +269,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             return Ok("Gemt");
         }
 
+        [Authorize("Administrator")]
         [HttpPut("archive")]
         public void ArchiveTeam([FromBody] Team team, [FromHeader] bool archive) {
             Console.WriteLine("ARCHIVE HIT!");
