@@ -145,7 +145,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("contactName", contactinfo.name));
             command.Parameters.Add(new SqlParameter("tlfNumber", contactinfo.tlfNr));
             command.Parameters.Add(new SqlParameter("discordID", contactinfo.discordID));
-            command.Parameters.Add(new SqlParameter("email", contactinfo.discordID));
+            command.Parameters.Add(new SqlParameter("email", contactinfo.email));
             db.InsertToTable(command);
 
             //Console.WriteLine("PUT ENTERED!!!!!!!");
