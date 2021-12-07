@@ -155,6 +155,7 @@
 
         await client.PostAsJsonAsync<Team>("api/TeamInformation", team);
 
+        NavigationManager.NavigateTo($"/dinklub/{clubID}");
     }
 
     public async Task GetManagers()

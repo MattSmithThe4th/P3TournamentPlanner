@@ -127,13 +127,13 @@ namespace P3TournamentPlanner.Server.Controllers {
             DataTable dt = db.PullTable(command);
 
             //Create Holding Division
-            command = new SqlCommand("insert into DivisionDB(divisionID, leagueID, divisionFormat, archiveFlag) values(@divisionID, @leagueID, @divisionFormat, @archiveFlag)");
-            command.Parameters.Add(new SqlParameter("divisionID", 0));
-            command.Parameters.Add(new SqlParameter("leagueID", dt.Rows[0][0]));
+            command = new SqlCommand("insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) values(@divisionID, @leagueID, @divisionFormat, @archiveFlag)");
+            command.Parameters.Add(new SqlParameter("divisionID", Convert.ToInt64(0)));
+            command.Parameters.Add(new SqlParameter("leagueID", (int)dt.Rows[0][0]));
             command.Parameters.Add(new SqlParameter("divisionFormat", "holdingDivision"));
-            command.Parameters.Add(new SqlParameter("archiveFlag", 0));
+            command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(0)));
 
-
+            db.InsertToTable(command);
         }
 
         [Authorize]

@@ -280,7 +280,9 @@
 
         await client.PutAsJsonAsync<ClubManager>("api/ClubManager", cm);
 
-        ShowMananger(cm);
+
+        await GetManagers();
+        //ShowMananger(cm);
     }
 
     async Task HandleManagerPost()
@@ -292,26 +294,26 @@
 
         await Http.PostAsJsonAsync<ClubManager>("api/ClubManager", cm);
 
-        ShowNewManager();
+
+        await GetManagers();
+        //ShowNewManager();
     }
 
-    void ShowMananger(ClubManager clubManager)
-    {
-        if (clubManager.userID == userID)
-        {
+
+
+    void ShowMananger(ClubManager clubManager) {
+        if(clubManager.userID == userID) {
             userID = "";
             cm = new ClubManager(new Contactinfo());
             InvokeAsync(GetManagers);
-        }
-        else
-        {
+        } else {
             cm = clubManager;
             userID = clubManager.userID;
         }
     }
 
     void ShowNewManager()
-    {
+{
         if (display == "none")
         {
             display = "block";
