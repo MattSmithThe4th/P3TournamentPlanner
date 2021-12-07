@@ -129,20 +129,38 @@ namespace P3TournamentPlanner.Server.Controllers {
 
         [Authorize(Roles = "SuperAdministrator")]
         [HttpPost("changeRole")]
-        public async Task PostRole([FromBody] User user, [FromHeader] bool toBecomeAdmin) {
-            Console.WriteLine("PUT ENTERED!!!!!!!");
+        public async Task PostRole([FromBody] Contactinfo contactinfo) {
+            Console.WriteLine("changeRole PUT");
+            DatabaseQuerys db = new DatabaseQuerys();
 
-            Console.WriteLine("bool: " + toBecomeAdmin);
+            ApplicationUser newUser = new ApplicationUser();
+            newUser.Email = contactinfo.email;
+            newUser.UserName = contactinfo.email;
 
-            Console.WriteLine("USERID!!!: " + user.ID);
-            
-            ApplicationUser appUser = await userManager.FindByIdAsync(user.ID);
+            await userManager.CreateAsync(newUser, "123Password");
+            await userManager.AddToRoleAsync(newUser, "Administrator");
 
-            if(toBecomeAdmin) {
-                await userManager.AddToRoleAsync(appUser, "Administrator");
-            } else {
-                await userManager.RemoveFromRoleAsync(appUser, "Administrator");
-            }
+            SqlCommand command = new SqlCommand($"insert into ContactInfoDB(userID, contactName, tlfNumber, discordID, email) values (@userId, @contactName, @tlfNumber, @discordID, @email)");
+            command.Parameters.Add(new SqlParameter("userID", newUser.Id));
+            command.Parameters.Add(new SqlParameter("contactName", contactinfo.name));
+            command.Parameters.Add(new SqlParameter("tlfNumber", contactinfo.tlfNr));
+            command.Parameters.Add(new SqlParameter("discordID", contactinfo.discordID));
+            command.Parameters.Add(new SqlParameter("email", contactinfo.discordID));
+            db.InsertToTable(command);
+
+            //Console.WriteLine("PUT ENTERED!!!!!!!");
+
+            //Console.WriteLine("bool: " + toBecomeAdmin);
+
+            //Console.WriteLine("USERID!!!: " + user.ID);
+
+            //ApplicationUser appUser = await userManager.FindByIdAsync(user.ID);
+
+            //if(toBecomeAdmin) {
+            //    await userManager.AddToRoleAsync(appUser, "Administrator");
+            //} else {
+            //    await userManager.RemoveFromRoleAsync(appUser, "Administrator");
+            //}
         }
 
         public async Task UpdateUserListAsync() {

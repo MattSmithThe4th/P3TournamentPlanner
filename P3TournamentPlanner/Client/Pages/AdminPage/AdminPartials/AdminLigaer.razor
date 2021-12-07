@@ -106,7 +106,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        ligas = await client.GetFromJsonAsync<List<League>>("api/Ligaer");
+        ligas = await Http.GetFromJsonAsync<List<League>>("api/Ligaer");
         Console.WriteLine("På den anden side");
 
         await GetAdmin();
@@ -149,14 +149,16 @@
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
+        admins = new List<SiteAdmin>();
+
         Console.WriteLine("Get Send");
-        users = await client.GetFromJsonAsync<List<User>>("api/Admin/users");
+        users = await Http.GetFromJsonAsync<List<User>>("api/Admin/users");
         Console.WriteLine("På den anden side");
 
         foreach (User user in users) if (user.roles.Contains("Administrator")) {
                 contactinfo = new Contactinfo();
                 await GetContactInfo(user.ID);
-        }
+            }
 
         StateHasChanged();
     }
@@ -166,7 +168,7 @@
         client.BaseAddress = new Uri("https://localhost:44341/");
 
         Console.WriteLine("Get Send");
-        contactinfo = await client.GetFromJsonAsync<Contactinfo>("api/User");
+        contactinfo = await Http.GetFromJsonAsync<Contactinfo>("api/User?userID=" + UserID);
         Console.WriteLine("Heeeer" + contactinfo.name);
         Console.WriteLine("På den anden side");
         admins.Add(new SiteAdmin(contactinfo));
