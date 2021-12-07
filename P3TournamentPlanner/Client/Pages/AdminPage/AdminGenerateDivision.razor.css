@@ -14,3 +14,12 @@
 .team-div h3 {
     margin: 0;
 }
+
+.div-name-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.move-btn {
+    margin-left: 5px;
+}

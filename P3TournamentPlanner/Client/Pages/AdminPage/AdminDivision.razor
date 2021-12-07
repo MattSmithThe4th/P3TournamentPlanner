@@ -15,7 +15,14 @@
 else
 {
 <div>
-    <h2>@division.divisionID. divsion</h2>
+    @if (divisionID == 0)
+    {
+        <h2>Venteliste</h2>
+    }
+    else
+    {
+        <h2>@division.divisionID. divsion</h2>
+    }
     <div class="hold" style=" width:100%; ">
         <table>
             <thead>
@@ -39,113 +46,116 @@ else
             </tbody>
         </table>
     </div>
-    <div class="tilføjHold">
-        <div class="bokse">
-            <div class="box">
-                <p>Tilføj nyt hold til divisionen</p>
-                <form class="formBund">
-                    <select @onchange="TeamToAdd">
-                        <option>Vælg hold</option>
-                        @foreach (Team team in teamsNotInDivision)
-                        {
-                            <option value="@team.teamName">@team.teamName</option>
-                        }
-                    </select>
-                </form>
+    @if (divisionID != 0)
+    {
+        <div class="tilføjHold">
+            <div class="bokse">
+                <div class="box">
+                    <p>Tilføj nyt hold til divisionen</p>
+                    <form class="formBund">
+                        <select @onchange="TeamToAdd">
+                            <option>Vælg hold</option>
+                            @foreach (Team team in teamsNotInDivision)
+                            {
+                                <option value="@team.teamName">@team.teamName</option>
+                            }
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="wrapper">
+                <button class="btn-primary" @onclick="GenerateMatches">Generer Kampe</button>
             </div>
         </div>
-        <div class="wrapper">
-            <button class="btn-primary" @onclick="GenerateMatches">Generer Kampe</button>
+        <div class="table_menu">
+            <button id="kampe-btn" @onclick='() => ChangeDisplay("kampe")'>Kampe</button>
+            <button id="resultater-btn" @onclick='() => ChangeDisplay("")'>Resultater</button>
         </div>
-    </div>
-    <div class="table_menu">
-        <button id="kampe-btn" @onclick='() => ChangeDisplay("kampe")'>Kampe</button>
-        <button id="resultater-btn" @onclick='() => ChangeDisplay("")'>Resultater</button>
-    </div>
-    @if (display == "kampe")
-    {
-        <style>
-            /*#kampe-btn {*/
-            background-color: var(--penta-lilla)
-            }
-        </style>
-        <MatchList ID="divisionID" leagueID="leagueID" search="division"></MatchList>
-    }
-    else
-    {
-        <style>
-            #resultater-btn {
+        @if (display == "kampe")
+        {
+            <style>
+                /*#kampe-btn {*/
                 background-color: var(--penta-lilla)
-            }
-        </style>
-        <ResultList ID="divisionID" leagueID="leagueID" search="division" />
+                }
+            </style>
+            <MatchList ID="divisionID" leagueID="leagueID" search="division"></MatchList>
+        }
+        else
+        {
+            <style>
+                #resultater-btn {
+                    background-color: var(--penta-lilla)
+                }
+            </style>
+            <ResultList ID="divisionID" leagueID="leagueID" search="division" />
+        }
+        <div class="new-match-div">
+            <div>
+                <h3>Opret ny kamp</h3>
+            </div>
+            <div>
+                <EditForm Model="match" OnValidSubmit="MatchPost">
+                    <div class="form-div">
+                        <div class="form-item">
+                            <label>Hold 1:</label>
+                            <InputSelect @bind-Value="team1Name">
+                                <option selected value="">Vælg første hold</option>
+                                @foreach (Team team in division.teams)
+                                        {
+                                    <option value="@team.teamName">@team.teamName</option>
+                                        }
+                            </InputSelect>
+                        </div>
+
+                        <div class="form-item">
+                            <label>Hold 2:</label>
+                            <InputSelect @bind-Value="team2Name">
+                                <option value="">Vælg andet hold</option>
+                                @foreach (Team team in division.teams)
+                                        {
+                                    <option value="@team.teamName">@team.teamName</option>
+                                        }
+                            </InputSelect>
+                        </div>
+
+                        <div class="form-item">
+                            <label>Tidpunkt: (dato : klokkeslæt)</label>
+                            <InputText placeholder="01 / 01 - 2021 : 00:00" @bind-Value="match.startTime"></InputText>
+                        </div>
+
+                        <div class="form-item">
+                            <label>Værtsklub:</label>
+                            <InputSelect @bind-Value="@match.clubHostID">
+                                <option value=0>Vælg værtsklub</option>
+                                @foreach (Team team in division.teams)
+                                        {
+                                    <option value="@team.clubID">@team.club.name</option>
+                                        }
+                            </InputSelect>
+                        </div>
+
+                        <div class="form-item">
+                            <label>Map:</label>
+                            <InputSelect @bind-Value="match.map">
+                                <option value="">Vælg map</option>
+                                <option value="Ancient">Ancient</option>
+                                <option value="dust2">Dust 2</option>
+                                <option value="Inferno">Inferno</option>
+                                <option value="Mirage">Mirage</option>
+                                <option value="Nuke">Nuke</option>
+                                <option value="Overpass">Overpass</option>
+                                <option value="Vertigo">Vertigo</option>
+                            </InputSelect>
+                        </div>
+
+                        <div class="form-item wrapper">
+                            <button class="btn-primary" type="submit">Opret</button>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
     }
-    <div class="new-match-div">
-        <div>
-            <h3>Opret ny kamp</h3>
-        </div>
-        <div>
-            <EditForm Model="match" OnValidSubmit="MatchPost">
-                <div class="form-div">
-                    <div class="form-item">
-                        <label>Hold 1:</label>
-                        <InputSelect @bind-Value="team1Name">
-                            <option selected value="">Vælg første hold</option>
-                            @foreach (Team team in division.teams)
-                                {
-                                <option value="@team.teamName">@team.teamName</option>
-                                }
-                        </InputSelect>
-                    </div>
-
-                    <div class="form-item">
-                        <label>Hold 2:</label>
-                        <InputSelect @bind-Value="team2Name">
-                            <option value="">Vælg andet hold</option>
-                            @foreach (Team team in division.teams)
-                                {
-                                <option value="@team.teamName">@team.teamName</option>
-                                }
-                        </InputSelect>
-                    </div>
-
-                    <div class="form-item">
-                        <label>Tidpunkt: (dato : klokkeslæt)</label>
-                        <InputText placeholder="01 / 01 - 2021 : 00:00" @bind-Value="match.startTime"></InputText>
-                    </div>
-
-                    <div class="form-item">
-                        <label>Værtsklub:</label>
-                        <InputSelect @bind-Value="@match.clubHostID">
-                            <option value=0>Vælg værtsklub</option>
-                            @foreach (Team team in division.teams)
-                                {
-                                <option value="@team.clubID">@team.club.name</option>
-                                }
-                        </InputSelect>
-                    </div>
-
-                    <div class="form-item">
-                        <label>Map:</label>
-                        <InputSelect @bind-Value="match.map">
-                            <option value="">Vælg map</option>
-                            <option value="Ancient">Ancient</option>
-                            <option value="dust2">Dust 2</option>
-                            <option value="Inferno">Inferno</option>
-                            <option value="Mirage">Mirage</option>
-                            <option value="Nuke">Nuke</option>
-                            <option value="Overpass">Overpass</option>
-                            <option value="Vertigo">Vertigo</option>
-                        </InputSelect>
-                    </div>
-
-                    <div class="form-item wrapper">
-                        <button class="btn-primary" type="submit">Opret</button>
-                    </div>
-                </div>
-            </EditForm>
-        </div>
-    </div>
 </div>
 }
 
