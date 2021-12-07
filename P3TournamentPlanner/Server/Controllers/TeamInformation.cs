@@ -269,6 +269,18 @@ namespace P3TournamentPlanner.Server.Controllers {
             return Ok("Gemt");
         }
 
+        [HttpPut("archive")]
+        public void ArchiveTeam([FromBody] Team team, [FromHeader] bool archive) {
+            Console.WriteLine("ARCHIVE HIT!");
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            SqlCommand command = new SqlCommand("update TeamsDB set archiveFlag = @archiveFlag where teamID = @teamID");
+            command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(archive)));
+            command.Parameters.Add(new SqlParameter("teamID", team.teamID));
+
+            db.InsertToTable(command);
+        }
+
         [HttpDelete]
         [Route("Delete/{teamID}")]
         public void Delete(int teamID)

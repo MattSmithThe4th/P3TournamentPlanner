@@ -133,7 +133,6 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("divisionFormat", "holdingDivision"));
             command.Parameters.Add(new SqlParameter("archiveFlag", 0));
 
-
         }
 
         [Authorize]
@@ -150,6 +149,32 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("admin", liga.admin));
             command.Parameters.Add(new SqlParameter("flag", liga.archiveFlag));
             command.Parameters.Add(new SqlParameter("leagueID", leagueID));
+
+            db.InsertToTable(command);
+        }
+
+        [HttpPut("archive")]
+        public void ArchiveLeague([FromBody] League league, [FromHeader] bool archive) {
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            //Update LeagueDB
+            SqlCommand command = new SqlCommand($"update LeagueDB set archiveFlag = @archiveFlag where leagueID = @leagueID");
+            command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(archive)));
+            command.Parameters.Add(new SqlParameter("leagueID", league.leagueID));
+
+            db.InsertToTable(command);
+
+            //Update DivisionsDB
+            command = new SqlCommand("update DivisionsDB set archiveFlag = @archiveFlag where leagueID = @leagueID");
+            command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(archive)));
+            command.Parameters.Add(new SqlParameter("leagueID", league.leagueID));
+
+            db.InsertToTable(command);
+
+            //Update TeamsDB
+            command = new SqlCommand("update TeamsDB set archiveFlag = @archiveFlag where leagueID = @leagueID");
+            command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(archive)));
+            command.Parameters.Add(new SqlParameter("leagueID", league.leagueID));
 
             db.InsertToTable(command);
         }

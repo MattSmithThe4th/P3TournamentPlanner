@@ -152,5 +152,28 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             db.InsertToTable(command);
         }
+
+        [HttpPut("archive")]
+        public void ArchiveDivision([FromBody] Division division, [FromHeader] bool archive) {
+            Console.WriteLine("Arch Hit");
+            DatabaseQuerys db = new DatabaseQuerys();
+
+            //Update DivisionsDB
+            SqlCommand command = new SqlCommand("update DivisionsDB set archiveFlag = @archiveFlag where divisionID = @divisionID and leagueID = @leagueID");
+            command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(archive)));
+            command.Parameters.Add(new SqlParameter("divisionID", division.divisionID));
+            command.Parameters.Add(new SqlParameter("leagueID", division.leagueID));
+
+            db.InsertToTable(command);
+
+            //Update TeamsDB
+            command = new SqlCommand("update TeamsDB set archiveFlag = @archiveFlag where divisionID = @divisionID and leagueID = @leagueID");
+            command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(archive)));
+            command.Parameters.Add(new SqlParameter("divisionID", division.divisionID));
+            command.Parameters.Add(new SqlParameter("leagueID", division.leagueID));
+
+            db.InsertToTable(command);
+
+        }
     }
 }
