@@ -252,7 +252,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                 Console.WriteLine("Team naem: " + r[0].ToString());
                 if (r[0].ToString() == team.teamName)
                 {
-                    //return BadRequest("Navn allerede taget!");
+                    return BadRequest("Navn allerede taget!");
                 }
             }
 
