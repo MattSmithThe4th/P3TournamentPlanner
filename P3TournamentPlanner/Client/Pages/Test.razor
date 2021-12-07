@@ -20,6 +20,9 @@
 <button @onclick="IsManTest">isMan</button>
 <button @onclick="ChangePassTest">Change curr users password to "123Patter"</button>
 <button @onclick="ChangePassTest2">Change curr users password to "xd"</button>
+<button @onclick="TeamArchTest">Archive team 1</button>
+<button @onclick="DivArchTest">Archive Div 1 in League 1</button>
+<button @onclick="LeagueArchTest">Archive League 2</button>
 
 <img src="data:image/png;base64, @imgSrc">
 
@@ -51,6 +54,19 @@
     string roleRequirement = "Administrator";
     bool isAuth = false;
 
+    Team archTeam = new Team() {
+        teamID = 1,
+        teamName = "din mor"
+    };
+
+    Division archDiv = new Division() {
+        divisionID = 1,
+        leagueID = 1,
+    };
+
+    League archLeague = new League() {
+        leagueID = 2
+    };
 
 
     protected override async Task OnInitializedAsync() {
@@ -232,6 +248,27 @@
 
     private async Task CommitDivisions() {
         var res = await Http.PostAsJsonAsync<List<Division>>("api/Division/DivList", GenDivRes);
+        Console.WriteLine(res);
+    }
+
+    private async Task TeamArchTest() {
+        Http.DefaultRequestHeaders.Add("archive", "True");
+
+        var res = await Http.PutAsJsonAsync<Team>("api/TeamInformation/archive", archTeam);
+        Console.WriteLine(res);
+    }
+
+    private async Task DivArchTest() {
+        Http.DefaultRequestHeaders.Add("archive", "True");
+
+        var res = await Http.PutAsJsonAsync<Division>("api/Division/archive", archDiv);
+        Console.WriteLine(res);
+    }
+
+    private async Task LeagueArchTest() {
+        Http.DefaultRequestHeaders.Add("archive", "True");
+
+        var res = await Http.PutAsJsonAsync<League>("api/Ligaer/archive", archLeague);
         Console.WriteLine(res);
     }
 }
