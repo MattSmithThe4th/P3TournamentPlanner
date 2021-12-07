@@ -16,7 +16,7 @@ namespace P3TournamentPlanner.Shared {
         public int teamSkillRating { get; set; }
         public ClubManager manager { get; set; }
         public Club club { get; set; }
-        public List<Player> players = new List<Player>();
+        public List<Player> players { get; set; } = new List<Player>();
         public int roundsWon { get; set; }
         public int roundsLost { get; set; }
         public bool archiveFlag { get; set; }
@@ -144,6 +144,23 @@ namespace P3TournamentPlanner.Shared {
             this.teamName = teamName;
             this.teamSkillRating = teamSkillRating;
             this.manager = manager;
+        }
+
+        public Team(int teamID, int clubID, string teamName, ClubManager manager, List<Player> players) : this(teamID, clubID, teamName, manager) {
+            this.players = players;
+        }
+
+        public Team(int teamID, int clubID, int divisionID, int leagueID, string teamName, int teamSkillRating, ClubManager manager, List<Player> players, int roundsWon, int roundsLost, bool archiveFlag, int placement, int matchesPlayed, int matchesWon, int matchesDraw, int matchesLost, int points) : this(teamID, clubID, divisionID, leagueID, teamName, teamSkillRating, manager) {
+            this.players = players;
+            this.roundsWon = roundsWon;
+            this.roundsLost = roundsLost;
+            this.archiveFlag = archiveFlag;
+            this.placement = placement;
+            this.matchesPlayed = matchesPlayed;
+            this.matchesWon = matchesWon;
+            this.matchesDraw = matchesDraw;
+            this.matchesLost = matchesLost;
+            this.points = points;
         }
 
         //den nemme løsning. hvis vi vil være fancy kan vi lave et weighted system

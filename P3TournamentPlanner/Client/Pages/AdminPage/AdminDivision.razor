@@ -34,14 +34,14 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (Team team in division.teams)
-                {
+                @foreach(Team team in division.teams) {
                     <tr @onclick="() => ShowTeam(team)">
                         <td>@team.teamName</td>
                         <td> navn på kontakt person</td>
                         <td>@team.manager.contactinfo.tlfNr</td>
                         <td>@team.divisionID</td>
                     </tr>
+                    <button class="btn-primary" @onclick="() => RemoveFromDivision(team)">Fjern hold fra division</button>
                 }
             </tbody>
         </table>
@@ -235,6 +235,20 @@ else
         {
             await GetTeamClubs(team);
         }
+    }
+
+    private async Task RemoveFromDivision(Team team) {
+        Console.WriteLine($"TeamSkillRating: {team.teamSkillRating}");
+
+        team.divisionID = 0;
+
+        foreach(Player p in team.players) {
+            Console.WriteLine(p.IRLName);
+        }
+
+        Console.WriteLine("POst for each");
+
+        var res = await Http.PutAsJsonAsync<Team>("api/TeamInformation", team);
     }
 
     private async Task GenerateMatches()

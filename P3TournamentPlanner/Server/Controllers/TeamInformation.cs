@@ -71,6 +71,7 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             DataTable dt;
             DataTable dt2;
+            DataTable playerDt;
 
             SqlCommand command = new SqlCommand();
 
@@ -99,6 +100,17 @@ namespace P3TournamentPlanner.Server.Controllers {
                 command.Parameters.Add(new SqlParameter("userID", r[14].ToString()));
                 dt2 = db.PullTable(command);
 
+                command = new SqlCommand($"select * from PlayerDB where teamID = @teamID");
+                command.Parameters.Add(new SqlParameter("teamID", r[0]));
+
+                playerDt = db.PullTable(command);
+
+                List<Player> playerList = new List<Player>();
+
+                foreach(DataRow pr in playerDt.Rows) {
+                    playerList.Add(new Player((string)pr[3], (string)pr[4], (string)pr[5], (string)pr[6], (int)pr[7]));
+                }
+
                 //DataRow r2 = dt2.Rows[0];
                 //Console.WriteLine((string)r2[0]);
                 //teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (string)r2[0], (int)r[6],
@@ -106,7 +118,9 @@ namespace P3TournamentPlanner.Server.Controllers {
 
                 Contactinfo contactInfo = new Contactinfo((string)r[14], (string)dt2.Rows[0][0], (string)dt2.Rows[0][1], (string)dt2.Rows[0][2], (string)dt2.Rows[0][3]);
                 ClubManager manager = new ClubManager(contactInfo, (string)r[14]);
-                teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], manager, Convert.ToBoolean(r[15])));
+                //teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[11], (int)r[12], (int)r[13], manager, Convert.ToBoolean(r[15])));
+                teamList.Add(new Team((int)r[0], (int)r[1], (int)r[2], (int)r[3], (string)r[4], (int)r[5], manager, playerList, (int)r[11], (int)r[12], Convert.ToBoolean(r[15]), (int)r[6], (int)r[7], (int)r[8], (int)r[9], (int)r[10], (int)r[13]));
+
 
                 Console.WriteLine("HEREEE:--->" + (string)r[4]);
             }
@@ -123,8 +137,11 @@ namespace P3TournamentPlanner.Server.Controllers {
 
             List<Team> teamList = new List<Team>();
 
+            List<Player> playerList = new List<Player>();
+
             DataTable dt;
             DataTable dt2;
+            DataTable playerDt;
 
             SqlCommand command = new SqlCommand();
 
@@ -149,7 +166,6 @@ namespace P3TournamentPlanner.Server.Controllers {
             //0teamID, 1clubID, 2divisionID, 3leagueID, 4teamName, 5teamRating, 6placement, 7matchPlayed, 8matchesWon, 9matchesDraw, 10matchesLost, 11roundsWon, 12roundsLost, 13points, 14managerID, 15archiveFlag
             foreach (DataRow r in dt.Rows)
             {
-
                 command = new SqlCommand($"select contactName, tlfNumber, discordID, email from ContactInfoDB where userID=@userID");
                 command.Parameters.Add(new SqlParameter("userID", r[3].ToString()));
                 dt2 = db.PullTable(command);
@@ -236,7 +252,7 @@ namespace P3TournamentPlanner.Server.Controllers {
                 Console.WriteLine("Team naem: " + r[0].ToString());
                 if (r[0].ToString() == team.teamName)
                 {
-                    return BadRequest("Navn allerede taget!");
+                    //return BadRequest("Navn allerede taget!");
                 }
             }
 
@@ -263,6 +279,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("archiveFlag", team.archiveFlag));
             command.Parameters.Add(new SqlParameter("teamID", team.teamID));
 
+            //Console.WriteLine($"TeamSkillRating: {team.teamSkillRating}");
 
             db.InsertToTable(command);
 
