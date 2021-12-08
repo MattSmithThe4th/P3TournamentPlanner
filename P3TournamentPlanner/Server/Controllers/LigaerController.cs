@@ -101,28 +101,15 @@ namespace P3TournamentPlanner.Server.Controllers {
 
         [Authorize]
         [HttpPost]
-        public IActionResult Post(League liga) {
-            Console.WriteLine("Liga Post Enter");
+        public void Post(League liga) {
+            Console.WriteLine("Post Recieved!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            DataTable dt;
-
-            SqlCommand command = new SqlCommand("select leagueName from LeagueDB");
-            dt = db.PullTable(command);
-
-            foreach (DataRow r in dt.Rows)
-            {
-                if (r[0].ToString() == liga.name)
-                {
-                    return BadRequest($"Navn: {liga.name} er allerede taget");
-                }
-            }
-
             //string command = $"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values('{liga.name}, {liga.game}, {liga.admin}, {liga.archiveFlag}')";
-
+            
             //Create League
-            command = new SqlCommand($"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values(@name, @game, @admin, @flag)");
+            SqlCommand command = new SqlCommand($"insert into LeagueDB(leagueName, game, adminID, archiveFlag) values(@name, @game, @admin, @flag)");
             command.Parameters.Add(new SqlParameter("name", liga.name));
             command.Parameters.Add(new SqlParameter("game", liga.game.name));
             command.Parameters.Add(new SqlParameter("admin", liga.admin.contactinfo.userID));
@@ -137,7 +124,7 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("adminID", liga.admin.contactinfo.userID));
             command.Parameters.Add(new SqlParameter("archiveFlag", liga.archiveFlag));
 
-            dt = db.PullTable(command);
+            DataTable dt = db.PullTable(command);
 
             //Create Holding Division
             command = new SqlCommand("insert into DivisionsDB(divisionID, leagueID, divisionFormat, archiveFlag) values(@divisionID, @leagueID, @divisionFormat, @archiveFlag)");
@@ -147,42 +134,24 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("archiveFlag", Convert.ToInt32(0)));
 
             db.InsertToTable(command);
-
-            return Ok($"Liga: {liga.name} gemt");
         }
 
         [Authorize]
         [HttpPut]
-        public IActionResult Put(League liga) {
-            Console.WriteLine("Liga Put Enter");
+        public void Put(League liga, int leagueID) {
+            Console.WriteLine("Put Recieved!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            DataTable dt;
-
-            SqlCommand command = new SqlCommand("select leagueName from LeagueDB where leagueID != @leagueID");
-            command.Parameters.Add(new SqlParameter("leagueID", liga.leagueID));
-            dt = db.PullTable(command);
-
-            foreach (DataRow r in dt.Rows)
-            {
-                if (r[0].ToString() == liga.name)
-                {
-                    return BadRequest($"Navn: {liga.name} er allerede taget");
-                }
-            }
-
             //string command = $"update LeagueDB set leagueName = {liga.name}, game = {liga.game}, adminID = {liga.admin}, archiveFlag = {liga.archiveFlag} where LeagueID = {leagueID}";
-            command = new SqlCommand($"update LeagueDB set leagueName = @name, game = @game, adminID = @admin, archiveFlag = @flag where LeagueID = @leagueID");
+            SqlCommand command = new SqlCommand($"update LeagueDB set leagueName = @name, game = @game, adminID = @admin, archiveFlag = @flag where LeagueID = @leagueID");
             command.Parameters.Add(new SqlParameter("name", liga.name));
             command.Parameters.Add(new SqlParameter("game", "cs:go"));
-            command.Parameters.Add(new SqlParameter("admin", liga.admin.contactinfo.userID));
+            command.Parameters.Add(new SqlParameter("admin", liga.admin));
             command.Parameters.Add(new SqlParameter("flag", liga.archiveFlag));
-            command.Parameters.Add(new SqlParameter("leagueID", liga.leagueID));
+            command.Parameters.Add(new SqlParameter("leagueID", leagueID));
 
             db.InsertToTable(command);
-
-            return Ok($"Liga: {liga.name} gemt");
         }
 
         [Authorize("Administrator")]

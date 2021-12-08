@@ -60,50 +60,25 @@ namespace P3TournamentPlanner.Server.Controllers {
 
         [Authorize]
         [HttpPost]
-        public IActionResult Post(ClubManager cm)
+        public async Task Post(ClubManager cm)
         {
-            Console.WriteLine("Manger Post Enter");
+            Console.WriteLine("ClubManager Controller enter!<---------->!!!!!!!!!!!!!!!!!!!!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            DataTable dt;
-
-            SqlCommand command = new SqlCommand("select contactName, tlfNumber, discordID, email from ContactInfoDB");
-            dt = db.PullTable(command);
-
-            foreach (DataRow r in dt.Rows)
-            {
-                if (r[0].ToString() == cm.contactinfo.name)
-                {
-                    return BadRequest($"Navn: {cm.contactinfo.name} er allerede taget");
-                }
-                if (r[1].ToString() == cm.contactinfo.tlfNr)
-                {
-                    return BadRequest($"Telefon nummer: {cm.contactinfo.tlfNr} er allerede taget");
-                }
-                if (r[2].ToString() == cm.contactinfo.discordID)
-                {
-                    return BadRequest($"Discord id: {cm.contactinfo.discordID} er allerede taget");
-                }
-                if (r[3].ToString() == cm.contactinfo.email)
-                {
-                    return BadRequest($"Email: {cm.contactinfo.email} er allerede taget");
-                }
-            }
-
-            Console.WriteLine("IM GONNA FUCKING PREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-
-            Console.WriteLine("POOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOST shit");
-
-            var newUser = new ApplicationUser
-            {
+            var newUser = new ApplicationUser {
                 UserName = cm.contactinfo.email,
                 Email = cm.contactinfo.email
             };
 
-            CreateUser(newUser);
+            Console.WriteLine("IM GONNA FUCKING PREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 
-            command = new SqlCommand("insert into ClubManagerDB(clubID, userID) values (@clubID, @userID)");
+            await userManager.CreateAsync(newUser, "123Password");
+
+            Console.WriteLine("POOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOST shit");
+
+
+            SqlCommand command = new SqlCommand("insert into ClubManagerDB(clubID, userID) values (@clubID, @userID)");
 
             command.Parameters.Add(new SqlParameter("clubID", cm.ClubID));
             command.Parameters.Add(new SqlParameter("userID", newUser.Id));
@@ -120,45 +95,17 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("userID", newUser.Id));
 
             db.InsertToTable(command);
-
-            return Ok($"Træner {cm.contactinfo.name} gemt");
         }
 
         [Authorize]
         [HttpPut]
-        public IActionResult Put(ClubManager cm)
+        public void Put(ClubManager cm)
         {
-            Console.WriteLine("Manger Post Enter");
+            Console.WriteLine("Put Received!");
 
             DatabaseQuerys db = new DatabaseQuerys();
 
-            DataTable dt;
-
-            SqlCommand command = new SqlCommand("select contactName, tlfNumber, discordID, email from ContactInfoDB where userID != @userID");
-            command.Parameters.Add(new SqlParameter("userID", cm.userID));
-            dt = db.PullTable(command);
-
-            foreach (DataRow r in dt.Rows)
-            {
-                if (r[0].ToString() == cm.contactinfo.name)
-                {
-                    return BadRequest($"Navn: {cm.contactinfo.name} er allerede taget");
-                }
-                if (r[1].ToString() == cm.contactinfo.tlfNr)
-                {
-                    return BadRequest($"Telefon nummer: {cm.contactinfo.tlfNr} er allerede taget");
-                }
-                if (r[2].ToString() == cm.contactinfo.discordID)
-                {
-                    return BadRequest($"Discord id: {cm.contactinfo.discordID} er allerede taget");
-                }
-                if (r[3].ToString() == cm.contactinfo.email)
-                {
-                    return BadRequest($"Email: {cm.contactinfo.email} er allerede taget");
-                }
-            }
-
-            command = new SqlCommand("update ClubManagerDB set clubID = @clubID where userID = @userID");
+            SqlCommand command = new SqlCommand("update ClubManagerDB set clubID = @clubID where userID = @userID");
 
             command.Parameters.Add(new SqlParameter("clubID", cm.ClubID));
             command.Parameters.Add(new SqlParameter("userID", cm.userID));
@@ -179,8 +126,6 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("userID", cm.userID));
 
             db.InsertToTable(command);
-
-            return Ok($"Træner {cm.contactinfo.name} gemt");
         }
 
         [Authorize]
@@ -201,11 +146,6 @@ namespace P3TournamentPlanner.Server.Controllers {
             command.Parameters.Add(new SqlParameter("userID", userID));
 
             db.DeleteRow(command);
-        }
-
-        async void CreateUser(ApplicationUser newUser)
-        {
-            await userManager.CreateAsync(newUser, "123Password");
         }
     }
 }

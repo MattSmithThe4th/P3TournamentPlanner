@@ -8,13 +8,11 @@
 @using System.Net.Http;
 @using System.Net.Http.Json;
 @using System.Threading.Tasks;
-@using P3TournamentPlanner.Client.Services;
 @inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @inject IHttpClientFactory ClientFactory
 @inject IJSRuntime JsRuntime
-@inject MessageService MessageService
 @page "/hold/{teamID:int}"
 
 @if (team == null)
@@ -174,7 +172,7 @@ else
                                     }
                                 </tr>
 
-                                @if (playerID == player.playerID)
+                                @if (p.IGName == player.IGName)
                                 {
                                     <DataAnnotationsValidator />
                                     <ValidationSummary />
@@ -194,7 +192,7 @@ else
                                         <td class="edit">
                                             <label>Rank:</label>
                                             <InputSelect @bind-Value="player.CSGORank">
-                                                <option value="">Kender ikke rank</option>
+                                                <option value="">Vælg rank</option>
                                                 <option value="Silver 1">Silver 1</option>
                                                 <option value="Silver 2">Silver 2</option>
                                                 <option value="Silver 3">Silver 3</option>
@@ -232,10 +230,10 @@ else
             <NySpiller clubID="team.club.clubID" teamID="teamID" display="@playerDisplay" />
         </section>
     }
-    <div id="@MessageService.messageStyle" style="display: @MessageService.messageDisplay">
-        @MessageService.message
+    <div id="@messageStyle" style="display: @messageDisplay">
+        @message
         <a @onclick="reloadPage" class="reload">Reload</a>
-        <a class="dismiss" @onclick='() => MessageService.showMessage("none", "")'>🗙</a>
+        <a class="dismiss" @onclick='() => showMessage("none", "")'>🗙</a>
     </div>
 }
 
@@ -251,11 +249,18 @@ else
 
     public string kontaktperson;
 
-    int playerID;
+    string IGName;
 
     string display = "info";
 
     string playerDisplay = "none";
+
+    string messageDisplay = "none";
+    string messageStyle;
+
+    string message { get; set; }
+
+    private static System.Timers.Timer aTimer;
 
     Team team = new Team(new ClubManager(new Contactinfo()), new Club(), new List<Player>());
 
@@ -279,28 +284,28 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        MessageService.RefreshRequested += Refresh;
-        MessageService.RerenderRequested += Rerender;
-
-        await GetTeam();
-
-        await GetClub();
-
-        await GetPlayers();
-
-        try
+        if (teamID != null)
         {
-            IsManager = await Http.GetFromJsonAsync<bool>($"api/Authentication/isManager?ID1={team.clubID.ToString()}&ID2=0");
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            Console.WriteLine(exception.Message);
-            IsManager = false;
-        }
+            await GetTeam();
 
-        if (IsManager == true)
-        {
-            await GetLeagues();
+            await GetClub();
+
+            await GetPlayers();
+
+            try
+            {
+                IsManager = await Http.GetFromJsonAsync<bool>($"api/Authentication/isManager?ID1={team.clubID.ToString()}&ID2=0");
+            }
+            catch (AccessTokenNotAvailableException exception)
+            {
+                Console.WriteLine(exception.Message);
+                IsManager = false;
+            }
+
+            if (IsManager == true)
+            {
+                await GetLeagues();
+            }
         }
     }
 
@@ -348,28 +353,15 @@ else
 
     async Task HandlePlayerPut()
     {
-        if (p.IGName == "") p.IGName = "Indsæt in-game navn";
-        if (p.steamID == "") p.steamID = "Indsæt STEAM ID";
-        if (p.CSGORank == "") p.CSGORank = "Indsæt rank";
-
         p.teamID = teamID;
         p.clubID = team.clubID;
 
         HttpClient client = ClientFactory.CreateClient("ServerAPI.NoAuthenticationClient");
         client.BaseAddress = new Uri("https://localhost:44341/");
 
-        var result = await client.PutAsJsonAsync<Player>("api/Player", p);
+        await client.PutAsJsonAsync<Player>("api/Player", p);
 
-        if (result.IsSuccessStatusCode)
-        {
-            MessageService.showMessage("blazor-gemt-ui", "Spiller " + result.Content.ReadAsStringAsync().Result);
-            ShowPlayer(p);
-            Rerender();
-        }
-        else
-        {
-            MessageService.showMessage("blazor-fejl-ui", result.Content.ReadAsStringAsync().Result);
-        }
+        ShowPlayer(p);
     }
 
     async void DeleteTeam()
@@ -385,10 +377,6 @@ else
 
             NavigationManager.NavigateTo($"/dinklub/{team.club.clubID}", forceLoad: true);
         }
-        else
-        {
-            Rerender();
-        }
     }
 
     async void PutTeam()
@@ -402,12 +390,11 @@ else
 
         if (result.StatusCode == HttpStatusCode.BadRequest)
         {
-            MessageService.showMessage("blazor-fejl-ui", result.Content.ReadAsStringAsync().Result);
+            message = result.Content.ReadAsStringAsync().Result;
+            showMessage("block", "blazor-fejl-ui");
         }
         else
-        {
-            MessageService.showMessage("blazor-gemt-ui", "Hold gemt");
-        }
+            NavigationManager.NavigateTo($"/hold/{teamID}", forceLoad: true);
     }
 
     async void DeletePlayer(Player player)
@@ -420,27 +407,22 @@ else
             client.BaseAddress = new Uri("https://localhost:44341/");
 
             await client.DeleteAsync("api/Player/Delete/" + player.playerID);
-            MessageService.showMessage("blazor-gemt-ui", "Spiller slettet");
-            Rerender();
-        }
-        else
-        {
-            Rerender();
+            NavigationManager.NavigateTo($"/hold/{teamID}", forceLoad: true);
         }
     }
 
     void ShowPlayer(Player player)
     {
-        if (player.playerID == playerID)
+        if (player.IGName == IGName)
         {
-            playerID = 0;
+            IGName = "";
             p = new Player();
             InvokeAsync(GetPlayers);
         }
         else
         {
             p = player;
-            playerID = player.playerID;
+            IGName = player.IGName;
         }
     }
 
@@ -461,14 +443,22 @@ else
         NavigationManager.NavigateTo($"/hold/{teamID}", forceLoad: true);
     }
 
-    private void Refresh()
+    void showMessage(string message, string style)
     {
+        messageDisplay = message;
+        messageStyle = style;
+        Console.WriteLine(messageDisplay);
         StateHasChanged();
+
+        aTimer = new System.Timers.Timer(6000);
+        aTimer.Enabled = true;
+        aTimer.Elapsed += CountDownTimer;
     }
 
-    private void Rerender()
+    public void CountDownTimer(Object source, System.Timers.ElapsedEventArgs e)
     {
-        InvokeAsync(OnInitializedAsync);
+        messageDisplay = "none";
+        aTimer.Enabled = false;
         StateHasChanged();
     }
 }

@@ -189,7 +189,7 @@ namespace P3TournamentPlanner.Server.Controllers {
         [HttpPost]
         public void Post(Team team)
         {
-            Console.WriteLine("Team Post Received!");
+            Console.WriteLine("Post Received!");
 
             DatabaseQuerys db = new DatabaseQuerys();
             DataTable dt;

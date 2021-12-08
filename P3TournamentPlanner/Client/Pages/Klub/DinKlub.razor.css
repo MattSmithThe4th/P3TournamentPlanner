@@ -62,12 +62,6 @@ tbody tr {
 
 .manager-form {
     display: flex;
-    justify-content: space-between;
-}
-
-.form-item {
-    display: flex;
-    flex-direction: column;
 }
 
 .item-div {
